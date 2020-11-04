@@ -1,5 +1,4 @@
 com\game\model\Interfaces\IRenderable.class
-com\game\views\WindowGame.class
 com\game\model\Handles\HandlerMaster.class
 com\game\model\effects\Explosion.class
 com\game\model\Interfaces\IHittable.class
@@ -13,5 +12,6 @@ com\game\controllers\Mouse.class
 com\game\model\Interfaces\Clickable.class
 com\game\model\Interfaces\IMoveable.class
 com\game\model\Game.class
+com\game\views\MainWindow.class
 com\game\model\Handles\HandlerGameObjects.class
 com\game\model\Character.class
