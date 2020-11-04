@@ -31,8 +31,43 @@ public class GameBoard {
      * @return un array
      * */
     public IHittable[][] getArea(int range, Point from){
-        // Hi Juan :)
-        return null;
+        Point limits = new Point();
+        
+        from.x -= range;
+        from.y -= range;
+        
+        from = setRestrictions(from);
+        
+        limits.x = from.x + 2*range;
+        limits.y = from.y + 2*range;
+        
+        limits = setRestrictions(limits);
+        
+        IHittable[][] area = new IHittable[limits.y - from.y + 1][limits.x - from.x + 1];
+           
+        for(int i = from.y; i < limits.y; i++){
+            for(int j = from.x; j < limits.x; j++){
+                area[i -from.y][j - from.x] = hittableObjects[i][j];
+            }
+        }
+        
+        return area;
+    }
+    
+    /**
+     * <h1></h1>
+     * <p>Retorna el punto restandole el rango. Respeta los limites de 
+     * la matriz</p>
+     * @return un punto
+     * */
+    private Point setRestrictions(Point point){
+        if (point.x < 0) point.x = 0;
+        if (point.y < 0) point.y = 0;
+        
+        if (point.x >= width) point.x = width - 1;
+        if (point.y >= height) point.y = height - 1;
+        
+        return point;
     }
 
     /**

@@ -1,7 +1,6 @@
 package com.game.model;
 
 import com.game.model.Handles.HandlerGameObjects;
-import com.game.views.WindowGame;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -14,7 +13,7 @@ public class Game extends Canvas implements Runnable{
     private HandlerGameObjects handlerGameObjects;
 
     Game(){
-        new WindowGame(WIDTH, HEIGHT, "Clash of clans", this);
+        
     }
 
     public synchronized void start(){
@@ -86,9 +85,4 @@ public class Game extends Canvas implements Runnable{
     private void tick() {
         handlerGameObjects.tick();
     }
-
-    public static void main(String[] args) {
-    //    new Game();
-    }
-
 }

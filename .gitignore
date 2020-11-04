@@ -4,6 +4,7 @@
 
 # Compiled class file
 *.class
+*.netbeans_automatic_build
 
 # Log file
 *.log
