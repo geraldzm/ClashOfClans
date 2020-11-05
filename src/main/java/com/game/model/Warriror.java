@@ -11,6 +11,7 @@ public abstract class Warriror extends Character implements IMoveable {
     private int level;
     private int troops;
     private int appearanceLevel;
+    private Team team; // equipo al que pertenece
 
     public Warriror(double x, double y, int width, int height, ID id) {
         super(x, y, width, height, id);

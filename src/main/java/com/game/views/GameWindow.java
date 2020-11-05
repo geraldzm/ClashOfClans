@@ -1,26 +1,28 @@
 package com.game.views;
 
+import com.game.model.Game;
+import java.awt.BorderLayout;
+
 public class GameWindow extends javax.swing.JFrame {
 
     public GameWindow() {
+        Game game = new Game();
+        add(game, BorderLayout.CENTER); // de momento, luego se le pasan las configs al game por el constructor
         initComponents();
+        game.start();
+        setSize(800, 855);
+        setResizable(false);
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        cvGame = new java.awt.Canvas();
         menuBar = new javax.swing.JMenuBar();
         menuDebug = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(800, 600));
-
-        cvGame.setBackground(new java.awt.Color(0, 0, 0));
-        cvGame.setMinimumSize(new java.awt.Dimension(800, 600));
-        cvGame.setPreferredSize(new java.awt.Dimension(800, 600));
-        getContentPane().add(cvGame, java.awt.BorderLayout.CENTER);
 
         menuBar.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -34,7 +36,6 @@ public class GameWindow extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private java.awt.Canvas cvGame;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuDebug;
     // End of variables declaration//GEN-END:variables

@@ -2,6 +2,7 @@ package com.game.model;
 
 import com.game.model.Handles.HandlerGameObjects;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
@@ -11,8 +12,23 @@ public class Game extends Canvas implements Runnable{
     private Thread thread;
     private boolean running = false;
     private HandlerGameObjects handlerGameObjects;
+    protected ImageIcon background = new ImageIcon(
+            Tools.getIcon.apply("coc_bg.png")
+                    .getScaledInstance(800,800, Image.SCALE_SMOOTH)
+    );
 
-    Game(){
+
+    public Game(){// defalut game configuration, para pruebas
+        handlerGameObjects = new HandlerGameObjects();
+    }
+
+    /**
+     * <h1>Configuración del juego</h1>
+     * <p>Con este constructor configuramos el juego</p>
+     * @param level dependiendo de esto se configura una cantidad de enemigos
+     * @param friends los jugadores seleccionados por el usuario
+     * */
+    public Game(int level, HandlerGameObjects friends){// defalut game configuration
         
     }
 
@@ -73,8 +89,7 @@ public class Game extends Canvas implements Runnable{
         }
         Graphics g = bs.getDrawGraphics();
 
-        g.setColor(Color.BLACK);
-        g.fillRect(0,0, WIDTH, HEIGHT);
+        g.drawImage(background.getImage(), 0, 0, null);
 
         handlerGameObjects.render(g);
 
