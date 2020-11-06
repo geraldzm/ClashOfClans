@@ -3,6 +3,7 @@ package com.game.model;
 import com.game.model.Interfaces.IHittable;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * <h1>Tablero de juego</h1>
@@ -24,6 +25,17 @@ public class GameBoard {
         hittableObjects = new IHittable[this.width][this.height];
     }
 
+    public IHittable[][] getArea(int range, Point from, Team team){
+        return null;
+    }
+
+    public IHittable[][] getArea(int range, Point from, ID id){
+        return null;
+    }
+
+    public IHittable[][] getArea(int range, Point from, Team team, ID id){
+        return null;
+    }
 
     /**
      * <h1></h1>
@@ -88,6 +100,11 @@ public class GameBoard {
         objectsInGame[character.getLocation().x][character.getLocation().y] = character;
         if(character instanceof IHittable)
             hittableObjects[character.getLocation().x][character.getLocation().y] = (IHittable) character;
+    }
+
+    synchronized public void addCharacteres(ArrayList<Character> characteres){
+        for (int i = 0; i < characteres.size(); i++)
+            addCharacter(characteres.get(i));
     }
 
     /**

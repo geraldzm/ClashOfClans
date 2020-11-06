@@ -1,10 +1,13 @@
 package com.game.model;
 
+import com.game.model.Characters.Barbarian;
+import com.game.model.Characters.Wall;
 import com.game.model.Handles.HandlerGameObjects;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
 
 public class Game extends Canvas implements Runnable{
 
@@ -19,7 +22,24 @@ public class Game extends Canvas implements Runnable{
 
 
     public Game(){// defalut game configuration, para pruebas
+
+        ArrayList<Character> characters = new ArrayList<>();
+        GameBoard gameBoard = new GameBoard(20,20);
         handlerGameObjects = new HandlerGameObjects();
+
+
+        characters.add(new Wall(5,5));
+        characters.add(new Wall(10,9));
+        characters.add(new Wall(8,15));
+        characters.add(new Wall(0,7));
+        characters.add(new Wall(6,19));
+        characters.add(new Barbarian(6,13, Team.FRIEND, gameBoard));
+        characters.add(new Barbarian(7,13, Team.ENEMY, gameBoard));
+
+        gameBoard.addCharacteres(characters);
+        handlerGameObjects.addObjectsList(characters);
+        handlerGameObjects.addObjectsList(characters);
+
     }
 
     /**

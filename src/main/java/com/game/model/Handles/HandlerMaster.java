@@ -1,5 +1,7 @@
 package com.game.model.Handles;
 
+import com.game.model.Character;
+
 import java.util.ArrayList;
 
 public abstract class HandlerMaster<Type>{
@@ -29,4 +31,10 @@ public abstract class HandlerMaster<Type>{
     public void setObjectsList(ArrayList<Type> objectsList) {
         this.objectsList = objectsList;
     }
+
+    public <T extends Type> void addObjectsList(ArrayList<T> objectsList) {
+        for (int i = 0; i < objectsList.size(); i++)
+            this.objectsList.add(objectsList.get(i));
+    }
+
 }
