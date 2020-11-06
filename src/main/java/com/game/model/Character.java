@@ -12,9 +12,26 @@ public abstract class Character extends GameObject{
     private String name;
     private Point location; // en matriz lógica
     private ImageIcon imges[]; //atributo apariencia
+    private Team team; // equipo al que pertenece
 
-    public Character(double x, double y, int width, int height, ID id) {
+
+    public Character(double x, double y, int width, int height, ID id, Team team) {
         super(x, y, width, height, id);
+        this.team = team;
+    }
+
+    public Character(int width, int height, ID id) {
+        super(width, height, id);
+    }
+
+    /**
+     * @param x x en la matriz logica
+     * @param y y en la matriz logica
+     * */
+    public Character(int x, int y, int width, int height, ID id, Team team) {
+        super(x*40, y*40, width, height, id);
+        this.location = new Point(x, y);
+        this.team = team;
     }
 
     public Point getLocation() {
@@ -23,5 +40,29 @@ public abstract class Character extends GameObject{
 
     public void setLocation(Point location) {
         this.location = location;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public ImageIcon[] getImges() {
+        return imges;
+    }
+
+    public void setImges(ImageIcon[] imges) {
+        this.imges = imges;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }

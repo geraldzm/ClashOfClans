@@ -24,11 +24,13 @@ public abstract class GameObject implements ITick, IRenderable {
     public GameObject(double x, double y, int width, int height, ID id) {
         this.id = id;
         hitBox = new Rectangle2D.Double(x, y, width, height);
+        img = new ImageIcon();
     }
 
     public GameObject(int width, int height, ID id) {
         this.id = id;
         hitBox = new Rectangle2D.Double(0, 0, width, height);
+        img = new ImageIcon();
     }
 
     public abstract void tick();
