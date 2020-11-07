@@ -1,9 +1,12 @@
 package com.game.model;
 
+import com.game.utils.Node;
 import com.game.model.Interfaces.IHittable;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * <h1>Tablero de juego</h1>
@@ -24,55 +27,61 @@ public class GameBoard {
         objectsInGame = new Character[this.width][this.height];
         hittableObjects = new IHittable[this.width][this.height];
     }
+    
+    /**
+     * <h1></h1>
+     * <p>Retorna un area de la matriz a partir de un punto, un rango y un equipo</p>
+     * @return un array
+     * */
+    public Character[][] getArea(int range, Point from, Team team){
+        boolean characterExists;
+        Point limits = new Point();
+        Point player = new Point(from.x, from.y);
+        
+        Character[][] area = getHittableBase(from, limits, range);
 
-    public IHittable[][] getArea(int range, Point from, Team team){
-        return null;
-    }
-
-    public IHittable[][] getArea(int range, Point from, ID id){
-        return null;
-    }
-
-    public IHittable[][] getArea(int range, Point from, Team team, ID id){
-        return null;
+        for(int i = from.x; i < limits.x; i++){
+            for(int j = from.y; j < limits.y; j++){
+                if (i == player.x && j == player.y) continue;
+                
+                characterExists = hittableObjects[i][j] != null 
+                        && objectsInGame[i][j] != null;
+                
+                if (characterExists && objectsInGame[i][j].getTeam() != team){
+                    area[i -from.x][j - from.y] = objectsInGame[i][j];  
+                    
+                }
+            }
+        }
+        return area;
     }
 
     /**
      * <h1></h1>
-     * <p>Retorna un area de la matriz a partir de un punto y un rango</p>
+     * <p>Retorna la base de la matrix para el getArea</p>
      * @return un array
      * */
-    public IHittable[][] getArea(int range, Point from){
-        Point limits = new Point();
-        
-        from.x -= range;
+    private Character[][] getHittableBase(Point from, Point limits, int range){
+        from.x -= range;    
         from.y -= range;
         
         from = setRestrictions(from);
         
-        limits.x = from.x + 2*range;
-        limits.y = from.y + 2*range;
+        limits.x = from.x + 2*range + 1;
+        limits.y = from.y + 2*range + 1;
         
         limits = setRestrictions(limits);
         
-        IHittable[][] area = new IHittable[limits.y - from.y + 1][limits.x - from.x + 1];
-           
-        for(int i = from.y; i < limits.y; i++){
-            for(int j = from.x; j < limits.x; j++){
-                area[i -from.y][j - from.x] = hittableObjects[i][j];
-            }
-        }
-        
-        return area;
+        return new Character[limits.y - from.y][limits.x - from.x];
     }
     
     /**
      * <h1></h1>
-     * <p>Retorna el punto restandole el rango. Respeta los limites de 
+     * <p>Retorna el punto ajustando los limites de 
      * la matriz</p>
      * @return un punto
      * */
-    private Point setRestrictions(Point point){
+    public Point setRestrictions(Point point){
         if (point.x < 0) point.x = 0;
         if (point.y < 0) point.y = 0;
         
@@ -86,6 +95,7 @@ public class GameBoard {
      * @return true si esta ocupada
      * */
     public boolean isPositionOccupied(Point point){
+        if(point.x < 0 || point.y < 0 || point.x >= objectsInGame.length || point.y >= objectsInGame.length) return true;
         return objectsInGame[point.x][point.y] != null;
     }
 

@@ -39,6 +39,9 @@ public abstract class Character extends GameObject{
     }
 
     public void setLocation(Point location) {
+        super.setX(location.x*40);
+        super.setY(location.y*40);
+        
         this.location = location;
     }
 

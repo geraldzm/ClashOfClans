@@ -6,7 +6,7 @@ import java.awt.*;
  * <h1>Todos los personajes que pueden atacar</h1>
  * <p>Es el que contiene las igualdades entre los soldados y las Defensas</p>
  * */
-public abstract class Fighter extends Character{
+public abstract class Fighter extends Character {
 
     protected int range; // rango en el que puede atacar (en cuadros de matriz lógica)
     private int strokePerTime; // cuantos golpes pega por segundo (osea va golpear por frame: strokePerTime/60)
@@ -34,5 +34,6 @@ public abstract class Fighter extends Character{
     public void setTarget(Fighter target) {
         this.target = target;
     }
-
+    
+    public abstract void findTarget();
 }

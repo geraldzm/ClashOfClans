@@ -1,6 +1,6 @@
 package com.game.model;
 
-import com.game.model.Characters.Barbarian;
+import com.game.model.Characters.ContactWarrior;
 import com.game.model.Characters.Wall;
 import com.game.model.Handles.HandlerGameObjects;
 
@@ -33,8 +33,8 @@ public class Game extends Canvas implements Runnable{
         characters.add(new Wall(8,15));
         characters.add(new Wall(0,7));
         characters.add(new Wall(6,19));
-        characters.add(new Barbarian(6,13, Team.FRIEND, gameBoard));
-        characters.add(new Barbarian(7,13, Team.ENEMY, gameBoard));
+        characters.add(new ContactWarrior(6,2, "Barbarian.png", Team.FRIEND, gameBoard));
+        characters.add(new ContactWarrior(6,10, "Barbarian.png", Team.ENEMY, gameBoard));
 
         gameBoard.addCharacteres(characters);
         handlerGameObjects.addObjectsList(characters);
@@ -94,7 +94,6 @@ public class Game extends Canvas implements Runnable{
 
             if(System.currentTimeMillis() - timer >= 1000) {
                 timer += 1000;
-                //System.out.println("FPS: "+ frames);
                 frames = 0;
             }
         }
