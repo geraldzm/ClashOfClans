@@ -34,7 +34,7 @@ public class Game extends Canvas implements Runnable{
         characters.add(new Wall(0,7));
         characters.add(new Wall(6,19));
         characters.add(new ContactWarrior(6,2, "Barbarian.png", Team.FRIEND, gameBoard));
-        characters.add(new ContactWarrior(6,10, "Barbarian.png", Team.ENEMY, gameBoard));
+        characters.add(new ContactWarrior(9,10, "Barbarian.png", Team.ENEMY, gameBoard));
 
         gameBoard.addCharacteres(characters);
         handlerGameObjects.addObjectsList(characters);

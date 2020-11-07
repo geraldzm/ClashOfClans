@@ -12,11 +12,16 @@ public class ContactWarrior extends Warrior{
     
     public ContactWarrior(int x, int y, String imgPath, Team team, GameBoard gameBoard) {
         super(x, y, 40, 40, ID.BARBARIAN, team, gameBoard);
-        
         range = 1;
-        
         setImage(Tools.getIcon.apply(imgPath)
                 .getScaledInstance(40,40, Image.SCALE_SMOOTH));
+    }
+    
+
+    @Override
+    public void render(Graphics g) {
+        super.render(g);
+        super.displayHelthBar(g);
     }
     
     @Override
@@ -26,10 +31,12 @@ public class ContactWarrior extends Warrior{
     
     @Override
     public void tick() {
+        // Esto lo puse para probar que el path sirve
+        // Es solo para test xD
         if(movement == 60){
             if (target == null)
                 findTarget();
-            else if (target.getLocation().distance(getLocation()) <= range + 1)
+            else if (target.getLocation().distance(getLocation()) <= range)
                 attack();
             else
                 move();
@@ -42,16 +49,20 @@ public class ContactWarrior extends Warrior{
 
     @Override
     public void move() {
+        // Esto lo puse para probar que el path sirve
+        // Es solo para test xD
+        // Lo que le preguntaba era donde ubicar la heuristica?
+        // De momento el algoritmo de Shortest path esta en Utils con lo del Nodo
         if (targetLocation != target.getLocation() || currentPath == null){
             currentPath = new ShortestPath().
                      getShortestPath(gameBoard.getObjectsInGame(), getLocation(), target.getLocation());
                 
             targetLocation = target.getLocation();
             currentPath.remove(0);
+            
         } else if (currentPath != null){
             Point p = currentPath.get(0).toPoint();
-            System.out.println("P(" + p.x + ", " + p.y+ ")");
-            System.out.println(gameBoard.isPositionOccupied(p));
+            
             if(!gameBoard.isPositionOccupied(p)){
                 gameBoard.moveCharacter(getLocation(), p);
                 setLocation(p);
