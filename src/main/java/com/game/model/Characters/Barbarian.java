@@ -19,6 +19,12 @@ public class Barbarian extends Warrior {
     }
 
     @Override
+    public void render(Graphics g) {
+        super.render(g);
+        super.displayHelthBar(g);
+    }
+
+    @Override
     public void tick() {
         if(movement == 60){
             move();
