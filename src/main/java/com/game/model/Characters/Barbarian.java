@@ -20,12 +20,24 @@ public class Barbarian extends Warrior {
 
     @Override
     public void tick() {
-        if (target == null || !target.getLocation().equals(targetLocation))
+        if(movement == 60){
             move();
-        else if(target.getLocation().distance(getLocation()) <= range)
-            attack();
+            movement = 0;
+        }else{
+            movement++;
+        }
     }
 
     @Override
-    public void move() {}
+    public void move() {
+        int xv = Math.random() > 0.5 ? -1: 1;
+        int yv = Math.random() > 0.5 ? -1: 1;
+
+        Point p = new Point(getLocation().x + xv, getLocation().y + yv);
+
+        if(!gameBoard.isPositionOccupied(p)){
+            gameBoard.moveCharacter(getLocation(), p);
+            setLocation(p);
+        }
+    }
 }

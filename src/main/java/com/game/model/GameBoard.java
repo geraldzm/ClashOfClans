@@ -86,6 +86,7 @@ public class GameBoard {
      * @return true si esta ocupada
      * */
     public boolean isPositionOccupied(Point point){
+        if(point.x < 0 || point.y < 0 || point.x >= objectsInGame.length || point.y >= objectsInGame.length)return true;
         return objectsInGame[point.x][point.y] != null;
     }
 

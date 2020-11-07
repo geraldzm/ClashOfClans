@@ -11,6 +11,7 @@ public abstract class Warrior extends Fighter implements IMoveable {
     private int health;
     private int troops;
     private int appearanceLevel;
+    protected int movement = 0;
 
     public Warrior(double x, double y, int width, int height, ID id, Team team, GameBoard gameBoard) {
         super(x, y, width, height, id, team, gameBoard);
