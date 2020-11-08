@@ -47,7 +47,7 @@ public class GameBoard {
                 characterExists = hittableObjects[i][j] != null 
                         && objectsInGame[i][j] != null;
                 
-                if (characterExists && objectsInGame[i][j].getTeam() != team){
+                if (characterExists && objectsInGame[i][j].getTeam() == team.getEnemy()){
                     area[i -from.x][j - from.y] = objectsInGame[i][j];  
                     
                 }

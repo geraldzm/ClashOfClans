@@ -38,7 +38,6 @@ public class Game extends Canvas implements Runnable{
 
         gameBoard.addCharacteres(characters);
         handlerGameObjects.addObjectsList(characters);
-        handlerGameObjects.addObjectsList(characters);
 
     }
 

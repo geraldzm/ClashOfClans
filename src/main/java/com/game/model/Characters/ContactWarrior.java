@@ -8,11 +8,11 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class ContactWarrior extends Warrior{
-    private ArrayList<Node> currentPath;
-    
+
     public ContactWarrior(int x, int y, String imgPath, Team team, GameBoard gameBoard) {
         super(x, y, 40, 40, ID.BARBARIAN, team, gameBoard);
         range = 1;
+        strokePerTime = 5;
         setImage(Tools.getIcon.apply(imgPath)
                 .getScaledInstance(40,40, Image.SCALE_SMOOTH));
     }
@@ -31,16 +31,13 @@ public class ContactWarrior extends Warrior{
     
     @Override
     public void tick() {
-        // Esto lo puse para probar que el path sirve
-        // Es solo para test xD
-        if(movement == 60){
-            if (target == null)
-                findTarget();
-            else if (target.getLocation().distance(getLocation()) <= range)
-                attack();
-            else
+
+        if(movement == 30){
+            if (target == null || target.getLocation().distance(getLocation()) > range)
                 move();
-            
+            else
+                attack();
+
             movement = 0;
         }else{
             movement++;
@@ -49,18 +46,12 @@ public class ContactWarrior extends Warrior{
 
     @Override
     public void move() {
-        // Esto lo puse para probar que el path sirve
-        // Es solo para test xD
-        // Lo que le preguntaba era donde ubicar la heuristica?
-        // De momento el algoritmo de Shortest path esta en Utils con lo del Nodo
-        if (targetLocation != target.getLocation() || currentPath == null){
-            currentPath = new ShortestPath().
-                     getShortestPath(gameBoard.getObjectsInGame(), getLocation(), target.getLocation());
-                
-            targetLocation = target.getLocation();
-            currentPath.remove(0);
-            
-        } else if (currentPath != null){
+
+        if(target == null) findTarget();
+
+        if (targetLocation != target.getLocation() || currentPath == null)
+            heuristic();
+        else {
             Point p = currentPath.get(0).toPoint();
             
             if(!gameBoard.isPositionOccupied(p)){
@@ -68,49 +59,30 @@ public class ContactWarrior extends Warrior{
                 setLocation(p);
                 
                 currentPath.remove(0);
-            }else{
-                currentPath = new ShortestPath().
-                         getShortestPath(gameBoard.getObjectsInGame(), getLocation(), target.getLocation());
-
-                targetLocation = target.getLocation();
-            }
+            }else
+                heuristic();
         }
+
     }
 
-    @Override
-    public void findTarget() {
-        Character[][] area = gameBoard.getArea(range, new Point(getLocation().x, getLocation().y), getTeam());
-        
-        for (int i = 0; i < area.length; i++) {
-            for (int j = 0; j < area.length; j++) {
-                if (area[i][j] != null) {
-                    setTarget((Fighter) area[i][j]);
-                    targetLocation = target.getLocation();
-                    return;
-                }
-            }
-        }
-        
-        for (int i = 0; i < gameBoard.getWidth(); i++){
-            for (int j = 0; j < gameBoard.getHeight(); j++){
-                if (getLocation().x == i && getLocation().y == j) continue;
-                
-                if (gameBoard.getHittableObjects()[i][j] != null) {
-                    setTarget((Fighter) gameBoard.getObjectsInGame()[i][j]);
-                    targetLocation = target.getLocation();
-                    return;
-                }
-            }
-        }
-    }
 
     @Override
-    public void hit(int damage) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void hit(int damage) { // la razon de esta redundancia de metodos es que si se quiere poner recistencia de ataque por ejemplo, eso se har[ia aqui en hit
+        reduceHealth(damage);
     }
 
     @Override
     public void die() {
         System.out.println("Morido");
+    }
+
+    @Override
+    public ArrayList<Node> heuristic() {
+        currentPath = ShortestPath.
+                getShortestPath(gameBoard.getObjectsInGame(), getLocation(), target.getLocation());
+
+        targetLocation = target.getLocation();
+        currentPath.remove(0);
+        return currentPath;
     }
 }

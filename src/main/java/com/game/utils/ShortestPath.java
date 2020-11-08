@@ -10,17 +10,14 @@ import java.util.Queue;
 import com.game.model.Character;
 
 public class ShortestPath {
-    
-    private boolean matrix[][];
 
-    
     /**
      * <h1>Calcular Ruta</h1>
      * <p>Dados dos puntos, calcula la ruta mas optima de un punto A a uno B </p>
      * @return Una lista con la ruta
      * */
     // This will return the path in a ArrayList sorted
-    public ArrayList<Node> getShortestPath(Character[][] board, Point from, Point to){
+    public static ArrayList<Node> getShortestPath(Character[][] board, Point from, Point to){
         ArrayList<Node> list = new ArrayList<>();
         Node node = calcRout(board, from, to);
         
@@ -34,9 +31,9 @@ public class ShortestPath {
         
         return list;
     }
-    private Node calcRout(Character[][] board, Point from, Point to){
-        matrix = new boolean[board.length][board.length];
-        convertMatrix(board, to);
+
+    private static Node calcRout(Character[][] board, Point from, Point to){
+        boolean matrix[][] = convertMatrix(board, to);
         
         Node source = new Node(from.x, from.y, null);
         Node poped;
@@ -59,13 +56,15 @@ public class ShortestPath {
         return null;
     }
     
-    private void convertMatrix(Character[][] board, Point to){
+    private static boolean [][] convertMatrix(Character[][] board, Point to){
+        boolean matrix[][] = new boolean[board.length][board.length];
         for (int i = 0; i < board.length; i++){
             for (int j = 0; j < board.length; j++){
                 if (i != to.x && j != to.y)
                     matrix[i][j] = board[i][j] != null;
             }
         }
+        return matrix;
     }
     
     // This just return the neighbours
