@@ -21,7 +21,7 @@ public class ContactWarrior extends Warrior{
     @Override
     public void render(Graphics g) {
         super.render(g);
-        super.displayHelthBar(g);
+        super.displayHealthBar(g);
     }
     
     @Override
@@ -107,5 +107,10 @@ public class ContactWarrior extends Warrior{
     @Override
     public void hit(int damage) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void die() {
+        System.out.println("Morido");
     }
 }

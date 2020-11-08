@@ -1,7 +1,6 @@
 package com.game.model;
 
 
-import com.game.model.Interfaces.IHittable;
 import com.game.model.Interfaces.IMoveable;
 
 import java.awt.*;
@@ -10,7 +9,7 @@ import java.awt.geom.Rectangle2D;
 /**
  * <h1>Todos los personajes que van a estar en un bando</h1>
  * */
-public abstract class Warrior extends Fighter implements IMoveable, IHittable{
+public abstract class Warrior extends Fighter implements IMoveable{
 
     private int health;
     private int troops;
@@ -35,7 +34,7 @@ public abstract class Warrior extends Fighter implements IMoveable, IHittable{
         System.out.println("Atacando");
     }
 
-   protected void displayHelthBar(Graphics g){
+   protected void displayHealthBar(Graphics g){
         double x = hitBox.getX(), y = hitBox.getY();
 
         g.setColor(getTeam() == Team.FRIEND ? Color.cyan: Color.YELLOW);
@@ -44,6 +43,8 @@ public abstract class Warrior extends Fighter implements IMoveable, IHittable{
         g.fillRoundRect((int)(x+2), (int)y, width, 5, 1,1);
    }
 
+    public abstract void hit(int damage);
 
+    public abstract void die();
 
 }

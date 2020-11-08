@@ -1,7 +1,7 @@
 package com.game.model;
 
+import com.game.model.Characters.ContactWarrior;
 import com.game.utils.Node;
-import com.game.model.Interfaces.IHittable;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ public class GameBoard {
 
     private final int width, height;
     private Character[][] objectsInGame; // todos los objetos que tienen un campo en la matriz
-    private IHittable[][] hittableObjects; // todos los objetos que pueden ser golpeados
+    private Warrior[][] hittableObjects; // todos los objetos que pueden ser golpeados
 
     /**
      * Dimensiones de la matriz
@@ -25,7 +25,7 @@ public class GameBoard {
         this.width = width;
         this.height = height;
         objectsInGame = new Character[this.width][this.height];
-        hittableObjects = new IHittable[this.width][this.height];
+        hittableObjects = new Warrior[this.width][this.height];
     }
     
     /**
@@ -108,8 +108,8 @@ public class GameBoard {
      * */
     synchronized public void addCharacter(Character character){
         objectsInGame[character.getLocation().x][character.getLocation().y] = character;
-        if(character instanceof IHittable)
-            hittableObjects[character.getLocation().x][character.getLocation().y] = (IHittable) character;
+        if(character instanceof Warrior)
+            hittableObjects[character.getLocation().x][character.getLocation().y] = (Warrior) character;
     }
 
     synchronized public void addCharacteres(ArrayList<Character> characteres){
@@ -125,7 +125,7 @@ public class GameBoard {
      * */
     synchronized public void removeCharacter(Character character){
         objectsInGame[character.getLocation().x][character.getLocation().y] = null;
-        if(character instanceof IHittable)
+        if(character instanceof Warrior)
             hittableObjects[character.getLocation().x][character.getLocation().y] = null;
     }
 
@@ -161,11 +161,11 @@ public class GameBoard {
         this.objectsInGame = objectsInGame;
     }
 
-    public IHittable[][] getHittableObjects() {
+    public Warrior[][] getHittableObjects() {
         return hittableObjects;
     }
 
-    public void setHittableObjects(IHittable[][] hittableObjects) {
+    public void setHittableObjects(Warrior[][] hittableObjects) {
         this.hittableObjects = hittableObjects;
     }
 }
