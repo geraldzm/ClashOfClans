@@ -1,6 +1,7 @@
 package com.game.model;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * <h1>Todos los personajes que pueden atacar</h1>
@@ -45,22 +46,21 @@ public abstract class Fighter extends Character {
     }
 
     public void findTarget() {
+        ArrayList<Warrior> area = gameBoard.getArea(range, new Point(getLocation().x, getLocation().y), getTeam());
 
-        Character[][] area = gameBoard.getArea(range, new Point(getLocation().x, getLocation().y), getTeam());
-
-        for (int i = 0; i < area.length; i++) {
-            for (int j = 0; j < area[i].length; j++) {
-                if (area[i][j] != null) {
-                    setTarget((Warrior) area[i][j]);
-                    targetLocation = target.getLocation();
-                    return;
-                }
+        for (int i = 0; i < area.size(); i++) {
+            if (area.get(i) != null) {
+                setTarget(area.get(i));
+                targetLocation = target.getLocation();
+                return;
             }
         }
 
+        // No hay nadie en el area
         for (int i = 0; i < gameBoard.getWidth(); i++){
             for (int j = 0; j < gameBoard.getHeight(); j++){
                 if (getLocation().x == i && getLocation().y == j) continue;
+                
                 if (gameBoard.getHittableObjects()[i][j] != null) {
                     System.out.println("Se envia: " +i +" "+ j);
                     setTarget((Warrior) gameBoard.getObjectsInGame()[i][j]);

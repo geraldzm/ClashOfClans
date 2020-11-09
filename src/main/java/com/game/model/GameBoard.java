@@ -33,12 +33,14 @@ public class GameBoard {
      * <p>Retorna un area de la matriz a partir de un punto, un rango y un equipo</p>
      * @return un array
      * */
-    public Character[][] getArea(int range, Point from, Team team){
+    public ArrayList<Warrior> getArea(int range, Point from, Team team){
         boolean characterExists;
         Point limits = new Point();
         Point player = new Point(from.x, from.y);
         
-        Character[][] area = getHittableBase(from, limits, range);
+        limitArea(from, limits, range);
+        
+        ArrayList<Warrior> area = new ArrayList<>();
 
         for(int i = from.x; i < limits.x; i++){
             for(int j = from.y; j < limits.y; j++){
@@ -48,7 +50,7 @@ public class GameBoard {
                         && objectsInGame[i][j] != null;
                 
                 if (characterExists && objectsInGame[i][j].getTeam() == team.getEnemy()){
-                    area[i -from.x][j - from.y] = objectsInGame[i][j];  
+                   area.add((Warrior) objectsInGame[i][j]);  
                     
                 }
             }
@@ -58,10 +60,9 @@ public class GameBoard {
 
     /**
      * <h1></h1>
-     * <p>Retorna la base de la matrix para el getArea</p>
-     * @return un array
+     * <p>Limita el area de donde buscar hittables</p>
      * */
-    private Character[][] getHittableBase(Point from, Point limits, int range){
+    private void limitArea(Point from, Point limits, int range){
         from.x -= range;    
         from.y -= range;
         
@@ -71,8 +72,6 @@ public class GameBoard {
         limits.y = from.y + 2*range + 1;
         
         limits = setRestrictions(limits);
-        
-        return new Character[limits.y - from.y][limits.x - from.x];
     }
     
     /**
