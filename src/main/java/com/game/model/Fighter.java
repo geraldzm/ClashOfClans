@@ -40,15 +40,16 @@ public abstract class Fighter extends Character {
      * <p>En este metodo se encapsula a quíen atacar y todo lo que conlleva</p>
      * */
     public void attack(){
-        System.out.println("Atacando a"+target.getName()+" del equipo "+target.getTeam());
+       // System.out.println("Atacando a"+target.getName()+" del equipo "+target.getTeam());
         target.hit(strokePerTime);
     }
 
     public void findTarget() {
+
         Character[][] area = gameBoard.getArea(range, new Point(getLocation().x, getLocation().y), getTeam());
 
         for (int i = 0; i < area.length; i++) {
-            for (int j = 0; j < area.length; j++) {
+            for (int j = 0; j < area[i].length; j++) {
                 if (area[i][j] != null) {
                     setTarget((Warrior) area[i][j]);
                     targetLocation = target.getLocation();
@@ -60,8 +61,8 @@ public abstract class Fighter extends Character {
         for (int i = 0; i < gameBoard.getWidth(); i++){
             for (int j = 0; j < gameBoard.getHeight(); j++){
                 if (getLocation().x == i && getLocation().y == j) continue;
-
                 if (gameBoard.getHittableObjects()[i][j] != null) {
+                    System.out.println("Se envia: " +i +" "+ j);
                     setTarget((Warrior) gameBoard.getObjectsInGame()[i][j]);
                     targetLocation = target.getLocation();
                     return;

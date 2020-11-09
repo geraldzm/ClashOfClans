@@ -40,11 +40,12 @@ public class ShortestPath {
         
         Queue<Node> queue = new LinkedList<>();
         queue.add(source);
-        
+        int con = 0;
         while(!queue.isEmpty()){
             poped = queue.poll();
             
             if (poped.getX() == to.x && poped.getY() == to.y){
+                System.out.println(con);
                 return poped;
             }else{
                 matrix[poped.getX()][poped.getY()] = true;
@@ -52,7 +53,9 @@ public class ShortestPath {
                 List<Node> neighbours = addNeighbours(poped, matrix);
                 queue.addAll(neighbours);
             }
-        } 
+            con++;
+        }
+        System.out.println(con);
         return null;
     }
     

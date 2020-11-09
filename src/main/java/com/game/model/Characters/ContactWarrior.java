@@ -1,7 +1,6 @@
 package com.game.model.Characters;
 
 import com.game.model.*;
-import com.game.model.Character;
 import com.game.utils.*;
 
 import java.awt.*;
@@ -12,7 +11,7 @@ public class ContactWarrior extends Warrior{
     public ContactWarrior(int x, int y, String imgPath, Team team, GameBoard gameBoard) {
         super(x, y, 40, 40, ID.BARBARIAN, team, gameBoard);
         range = 1;
-        strokePerTime = 5;
+        strokePerTime = 2;
         setImage(Tools.getIcon.apply(imgPath)
                 .getScaledInstance(40,40, Image.SCALE_SMOOTH));
     }
@@ -32,36 +31,37 @@ public class ContactWarrior extends Warrior{
     @Override
     public void tick() {
 
-        if(movement == 30){
-            if (target == null || target.getLocation().distance(getLocation()) > range)
-                move();
-            else
-                attack();
+        if(framesTimer == frames){
 
-            movement = 0;
+            if(target == null)findTarget();
+            if(target == null)return; // no hay nadie
+
+            if (target.getLocation().distance(getLocation()) > range) move();
+            else attack();
+
+            framesTimer = 0;
         }else{
-            movement++;
+            framesTimer++;
         }
     }
 
     @Override
     public void move() {
+        // tiene target
 
-        if(target == null) findTarget();
+        if (targetLocation != target.getLocation() || currentPath == null) heuristic();
 
-        if (targetLocation != target.getLocation() || currentPath == null)
+        if(currentPath == null)return;
+
+        Point p = currentPath.get(0).toPoint();
+
+        if(!gameBoard.isPositionOccupied(p)){
+            gameBoard.moveCharacter(getLocation(), p);
+            setLocation(p);
+
+            currentPath.remove(0);
+        }else
             heuristic();
-        else {
-            Point p = currentPath.get(0).toPoint();
-            
-            if(!gameBoard.isPositionOccupied(p)){
-                gameBoard.moveCharacter(getLocation(), p);
-                setLocation(p);
-                
-                currentPath.remove(0);
-            }else
-                heuristic();
-        }
 
     }
 
@@ -83,6 +83,9 @@ public class ContactWarrior extends Warrior{
 
         targetLocation = target.getLocation();
         currentPath.remove(0);
+
+        System.out.println(getLocation());
+
         return currentPath;
     }
 }

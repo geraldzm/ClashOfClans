@@ -138,10 +138,10 @@ public class GameBoard {
      * </p>
      * */
     synchronized public void moveCharacter(Point from, Point to){
-        objectsInGame[from.x][from.y] = objectsInGame[to.x][to.y];
+        objectsInGame[to.x][to.y] = objectsInGame[from.x][from.y];
         objectsInGame[from.x][from.y] = null;
 
-        hittableObjects[from.x][from.y] = hittableObjects[to.x][to.y];
+        hittableObjects[to.x][to.y] = hittableObjects[from.x][from.y];
         hittableObjects[from.x][from.y] = null;
     }
 

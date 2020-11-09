@@ -24,4 +24,12 @@ public class Node {
     public Point toPoint(){
         return new Point(x, y);
     }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }

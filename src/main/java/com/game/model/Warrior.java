@@ -16,7 +16,8 @@ public abstract class Warrior extends Fighter implements IMoveable{
     private int health;
     private int troops;
     private int appearanceLevel;
-    protected int movement = 0;
+    protected final int frames = 30;//cada 30 frames se mueve o intenta atacar
+    protected int framesTimer=0;
     protected ArrayList<Node> currentPath;
 
     public Warrior(double x, double y, int width, int height, ID id, Team team, GameBoard gameBoard) {
