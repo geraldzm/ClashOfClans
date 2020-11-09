@@ -2,6 +2,7 @@ package com.game.model;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * <h1>Todos los personajes que pueden atacar</h1>
@@ -15,6 +16,7 @@ public abstract class Fighter extends Character {
     protected Warrior target; // cosa a la que estamos ataconado/yendo
     protected Point targetLocation; // la locacion del target cuando lo apuntamos
     protected GameBoard gameBoard;
+    private static Random random = new Random();
 
     public abstract void upgrade(); // aumenta de nivel, mejora da;o, rango, etc
 
@@ -41,33 +43,36 @@ public abstract class Fighter extends Character {
      * <p>En este metodo se encapsula a quíen atacar y todo lo que conlleva</p>
      * */
     public void attack(){
-       // System.out.println("Atacando a"+target.getName()+" del equipo "+target.getTeam());
         target.hit(strokePerTime);
     }
 
     public void findTarget() {
         ArrayList<Warrior> area = gameBoard.getArea(range, new Point(getLocation().x, getLocation().y), getTeam());
 
-        for (int i = 0; i < area.size(); i++) {
-            if (area.get(i) != null) {
-                setTarget(area.get(i));
-                targetLocation = target.getLocation();
-                return;
+        if(!area.isEmpty()){
+            target = area.get(0);
+            return;
+        }
+
+        // seguimos si no había nadie en el area
+
+        switch (getTeam()){
+            case ENEMY -> target = getRandom(gameBoard.getFriends());
+            case FRIEND -> target = getRandom(gameBoard.getEnemies());
+            case DEFENSE -> { // para ser justos y no atacar solo a un team, tiramos un random para saber a cual atacamos
+                if(random.nextInt(100) >= 50) {
+                    target = getRandom(gameBoard.getFriends());
+                    if(target != null) return; // si no encontro ninguno vamos a intentar con el otro equipo
+                }
+                target = getRandom(gameBoard.getFriends());
             }
         }
 
-        // No hay nadie en el area
-        for (int i = 0; i < gameBoard.getWidth(); i++){
-            for (int j = 0; j < gameBoard.getHeight(); j++){
-                if (getLocation().x == i && getLocation().y == j) continue;
-                
-                if (gameBoard.getHittableObjects()[i][j] != null) {
-                    System.out.println("Se envia: " +i +" "+ j);
-                    setTarget((Warrior) gameBoard.getObjectsInGame()[i][j]);
-                    targetLocation = target.getLocation();
-                    return;
-                }
-            }
-        }
+    }
+
+    // retorna un random de la lista, si esta vacia entonces null
+    private Warrior getRandom(ArrayList<Warrior> warriors){
+        if(warriors.isEmpty()) return null; // no hay nadie
+        return warriors.get(random.nextInt(warriors.size())); // sacamos un enemigo random
     }
 }

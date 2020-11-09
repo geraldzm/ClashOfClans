@@ -17,6 +17,7 @@ public class GameBoard {
     private final int width, height;
     private Character[][] objectsInGame; // todos los objetos que tienen un campo en la matriz
     private Warrior[][] hittableObjects; // todos los objetos que pueden ser golpeados
+    private ArrayList<Warrior> friends, enemies;
 
     /**
      * Dimensiones de la matriz
@@ -26,6 +27,8 @@ public class GameBoard {
         this.height = height;
         objectsInGame = new Character[this.width][this.height];
         hittableObjects = new Warrior[this.width][this.height];
+        friends = new ArrayList<>();
+        enemies = new ArrayList<>();
     }
     
     /**
@@ -107,8 +110,17 @@ public class GameBoard {
      * */
     synchronized public void addCharacter(Character character){
         objectsInGame[character.getLocation().x][character.getLocation().y] = character;
-        if(character instanceof Warrior)
+
+        if(character instanceof Warrior){
             hittableObjects[character.getLocation().x][character.getLocation().y] = (Warrior) character;
+
+            switch (character.getTeam()){
+                case ENEMY -> enemies.add((Warrior)character);
+                case FRIEND -> friends.add((Warrior)character);
+            }
+
+        }
+
     }
 
     synchronized public void addCharacteres(ArrayList<Character> characteres){
@@ -124,8 +136,15 @@ public class GameBoard {
      * */
     synchronized public void removeCharacter(Character character){
         objectsInGame[character.getLocation().x][character.getLocation().y] = null;
-        if(character instanceof Warrior)
+        if(character instanceof Warrior){
             hittableObjects[character.getLocation().x][character.getLocation().y] = null;
+
+            switch (character.getTeam()){
+                case ENEMY -> enemies.remove(character);
+                case FRIEND -> friends.remove(character);
+            }
+
+        }
     }
 
     /**
@@ -166,5 +185,21 @@ public class GameBoard {
 
     public void setHittableObjects(Warrior[][] hittableObjects) {
         this.hittableObjects = hittableObjects;
+    }
+
+    public ArrayList<Warrior> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(ArrayList<Warrior> friends) {
+        this.friends = friends;
+    }
+
+    public ArrayList<Warrior> getEnemies() {
+        return enemies;
+    }
+
+    public void setEnemies(ArrayList<Warrior> enemies) {
+        this.enemies = enemies;
     }
 }
