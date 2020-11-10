@@ -15,7 +15,12 @@ public class ContactWarrior extends Warrior{
         setImage(Tools.getIcon.apply(imgPath)
                 .getScaledInstance(40,40, Image.SCALE_SMOOTH));
     }
-    
+
+    public ContactWarrior(int x, int y, Team team, GameBoard gameBoard) {
+        super(x, y, 40, 40, ID.BARBARIAN, team, gameBoard);
+        range = 1;
+        strokePerTime = 2;
+     }
 
     @Override
     public void render(Graphics g) {
@@ -80,6 +85,8 @@ public class ContactWarrior extends Warrior{
     public ArrayList<Node> heuristic() {
         currentPath = ShortestPath.
                 getShortestPath(gameBoard.getObjectsInGame(), getLocation(), target.getLocation());
+
+        if(currentPath == null) return null; // si no hay camino
 
         targetLocation = target.getLocation();
         currentPath.remove(0);
