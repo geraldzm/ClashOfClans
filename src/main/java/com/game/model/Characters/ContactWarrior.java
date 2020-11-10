@@ -1,26 +1,21 @@
 package com.game.model.Characters;
 
 import com.game.model.*;
+import com.game.model.Handles.HandlerGameObjects;
 import com.game.utils.*;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public class ContactWarrior extends Warrior{
 
-    public ContactWarrior(int x, int y, String imgPath, Team team, GameBoard gameBoard) {
-        super(x, y, 40, 40, ID.BARBARIAN, team, gameBoard);
+    public ContactWarrior(int x, int y, String imgPath, Team team, GameBoard gameBoard, HandlerGameObjects handlerGameObjects) {
+        super(x, y, 40, 40, ID.BARBARIAN, team, gameBoard, handlerGameObjects);
         range = 1;
         strokePerTime = 2;
         setImage(Tools.getIcon.apply(imgPath)
                 .getScaledInstance(40,40, Image.SCALE_SMOOTH));
     }
 
-    public ContactWarrior(int x, int y, Team team, GameBoard gameBoard) {
-        super(x, y, 40, 40, ID.BARBARIAN, team, gameBoard);
-        range = 1;
-        strokePerTime = 2;
-     }
 
     @Override
     public void render(Graphics g) {
@@ -38,7 +33,7 @@ public class ContactWarrior extends Warrior{
 
         if(framesTimer == frames){
 
-            if(target == null)findTarget();
+            if(target == null || target.isDead())findTarget();
             if(target == null)return; // no hay nadie
 
             if (target.getLocation().distance(getLocation()) > range) move();
@@ -58,40 +53,42 @@ public class ContactWarrior extends Warrior{
 
         if(currentPath == null)return;
 
-        Point p = currentPath.get(0).toPoint();
+        Point p = currentPath.toPoint();
 
         if(!gameBoard.isPositionOccupied(p)){
             gameBoard.moveCharacter(getLocation(), p);
             setLocation(p);
 
-            currentPath.remove(0);
-        }else
+            currentPath = currentPath.getChild();
+        }else{
             heuristic();
-
+            System.out.println("Ocupada por" + getLocation() + " a "+ p);
+            System.out.println("Hay: " + gameBoard.getObjectsInGame()[p.y][p.x]);
+        }
     }
 
 
     @Override
     public void hit(int damage) { // la razon de esta redundancia de metodos es que si se quiere poner recistencia de ataque por ejemplo, eso se har[ia aqui en hit
         reduceHealth(damage);
+        if(isDead())die();
     }
 
     @Override
     public void die() {
-        System.out.println("Morido");
+        gameBoard.removeCharacter(this);
+        handlerGameObjects.removeObject(this);
     }
 
     @Override
-    public ArrayList<Node> heuristic() {
+    public Node heuristic() {
         currentPath = ShortestPath.
-                getShortestPath(gameBoard.getObjectsInGame(), getLocation(), target.getLocation());
+                getPath(gameBoard.getObjectsInGame(), getLocation(), target.getLocation(), range);
 
         if(currentPath == null) return null; // si no hay camino
 
         targetLocation = target.getLocation();
-        currentPath.remove(0);
-
-        System.out.println(getLocation());
+        currentPath = currentPath.getChild();
 
         return currentPath;
     }

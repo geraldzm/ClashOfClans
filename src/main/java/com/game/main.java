@@ -16,9 +16,9 @@ public class main {
     public static void main(String args[]) {
         // Esta va a ser la ventana principal but we have to wait
         //new MainWindow().setVisible(true);
-       // new GameWindow().setVisible(true);
+        new GameWindow().setVisible(true);
 
-        Character[][] board = new Character[20][20];
+       /* Character[][] board = new Character[20][20];
 
         board [0][5] = new ContactWarrior(0,0, Team.FRIEND, null);
         board [1][5] = new ContactWarrior(0,0, Team.FRIEND, null);
@@ -38,12 +38,9 @@ public class main {
         int distance = 1;
 
         Node n = ShortestPath.getPath(board, from, to, distance);
-
-        System.out.println(ShortestPath.iterations);
-        printNodes(n);
-        printMatrix(board, from, to);
+*/
     }
-
+/*
     public static void printNodes(Node n){
         if(n == null) return;
         System.out.println(n);
@@ -65,4 +62,5 @@ public class main {
         System.out.println(stringBuilder.toString());
 
     }
+    */
 }
