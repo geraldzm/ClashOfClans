@@ -65,6 +65,9 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         btnPlay.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnPlayMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnPlayMouseEntered(evt);
             }
@@ -138,6 +141,17 @@ public class MainWindow extends javax.swing.JFrame {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnLoadMouseExited
+    
+    // Eventos
+    private void btnPlayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlayMouseClicked
+        try {
+            new TroopsWindow().setVisible(true);
+            
+            this.setVisible(false);
+        } catch (IOException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnPlayMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
