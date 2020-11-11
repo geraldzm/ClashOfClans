@@ -14,7 +14,7 @@ import java.util.Random;
 
 public class main {
     public static void main(String args[]) {
-        new MainWindow().setVisible(true);
-       // new GameWindow().setVisible(true);
+        //new MainWindow().setVisible(true);
+        new GameWindow().setVisible(true);
     }
 }
