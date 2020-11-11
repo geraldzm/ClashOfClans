@@ -98,7 +98,7 @@ public class GameBoard {
      * */
     public boolean isPositionOccupied(Point point){
         if(point.x < 0 || point.y < 0 || point.x >= objectsInGame.length || point.y >= objectsInGame.length)return true;
-        return objectsInGame[point.x][point.y] != null;
+        return objectsInGame[point.y][point.x] != null;
     }
 
     /**
@@ -109,10 +109,10 @@ public class GameBoard {
      * </p>
      * */
     synchronized public void addCharacter(Character character){
-        objectsInGame[character.getLocation().x][character.getLocation().y] = character;
+        objectsInGame[character.getLocation().y][character.getLocation().x] = character;
 
         if(character instanceof Warrior){
-            hittableObjects[character.getLocation().x][character.getLocation().y] = (Warrior) character;
+            hittableObjects[character.getLocation().y][character.getLocation().x] = (Warrior) character;
 
             switch (character.getTeam()){
                 case ENEMY -> enemies.add((Warrior)character);
@@ -135,9 +135,9 @@ public class GameBoard {
      * </p>
      * */
     synchronized public void removeCharacter(Character character){
-        objectsInGame[character.getLocation().x][character.getLocation().y] = null;
+        objectsInGame[character.getLocation().y][character.getLocation().x] = null;
         if(character instanceof Warrior){
-            hittableObjects[character.getLocation().x][character.getLocation().y] = null;
+            hittableObjects[character.getLocation().y][character.getLocation().x] = null;
 
             switch (character.getTeam()){
                 case ENEMY -> enemies.remove(character);
@@ -156,11 +156,11 @@ public class GameBoard {
      * </p>
      * */
     synchronized public void moveCharacter(Point from, Point to){
-        objectsInGame[to.x][to.y] = objectsInGame[from.x][from.y];
-        objectsInGame[from.x][from.y] = null;
+        objectsInGame[to.y][to.x] = objectsInGame[from.y][from.x];
+        objectsInGame[from.y][from.x] = null;
 
-        hittableObjects[to.x][to.y] = hittableObjects[from.x][from.y];
-        hittableObjects[from.x][from.y] = null;
+        hittableObjects[to.y][to.x] = hittableObjects[from.y][from.x];
+        hittableObjects[from.y][from.x] = null;
     }
 
     public int getWidth() {

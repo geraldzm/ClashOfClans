@@ -1,8 +1,12 @@
 package com.game.model;
 
+import com.game.model.Handles.HandlerGameObjects;
+
+import javax.imageio.plugins.tiff.TIFFImageReadParam;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
 
 /**
  * <h1>Todos los personajes que pueden atacar</h1>
@@ -12,22 +16,29 @@ public abstract class Fighter extends Character {
 
     protected int range; // rango en el que puede atacar (en cuadros de matriz lógica)
     protected int strokePerTime; // cuantos golpes pega por segundo (osea va golpear por frame: strokePerTime/60)
+    protected boolean canAttack = true; //para medir los tiempos de cada cuanto puede atacar
     private int level;
     protected Warrior target; // cosa a la que estamos ataconado/yendo
     protected Point targetLocation; // la locacion del target cuando lo apuntamos
     protected GameBoard gameBoard;
+    protected HandlerGameObjects handlerGameObjects;
     private static Random random = new Random();
 
     public abstract void upgrade(); // aumenta de nivel, mejora da;o, rango, etc
 
-    public Fighter(double x, double y, int width, int height, ID id, Team team, GameBoard gameBoard) {
+    public Fighter(double x, double y, int width, int height, ID id, Team team, GameBoard gameBoard, HandlerGameObjects handlerGameObjects) {
         super(x, y, width, height, id, team);
         this.gameBoard = gameBoard;
+        this.handlerGameObjects = handlerGameObjects;
     }
 
-    public Fighter(int x, int y, int width, int height, ID id, Team team, GameBoard gameBoard) {
+    public Fighter(int x, int y, int width, int height, ID id, Team team, GameBoard gameBoard, HandlerGameObjects handlerGameObjects) {
         super(x, y, width, height, id, team);
         this.gameBoard = gameBoard;
+        this.handlerGameObjects = handlerGameObjects;
+
+        //new Timer().schedule();
+
     }
 
     public void setGameBoard(GameBoard gameBoard) {
