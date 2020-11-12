@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 public abstract class Character extends GameObject{
 
     private String name;
-    private Point location; // en matriz lógica
+    protected Point location; // en matriz lógica
     private ImageIcon imges[]; //atributo apariencia
     private Team team; // equipo al que pertenece
 

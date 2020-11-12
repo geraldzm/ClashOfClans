@@ -2,7 +2,6 @@ package com.game.model.Characters;
 
 import com.game.model.*;
 import com.game.model.Handles.HandlerGameObjects;
-import com.game.utils.*;
 
 import java.awt.*;
 
@@ -33,11 +32,8 @@ public class ContactWarrior extends Warrior{
 
         if(framesTimer == frames){
 
-            if(target == null || target.isDead())findTarget();
-            if(target == null)return; // no hay nadie
-
-            if (target.getLocation().distance(getLocation()) > range) move();
-            else attack();
+            if(isSomeoneInRange())attack();
+            else move();
 
             framesTimer = 0;
         }else{
@@ -47,23 +43,18 @@ public class ContactWarrior extends Warrior{
 
     @Override
     public void move() {
-        // tiene target
+        int tries = 8;
 
-        if (targetLocation != target.getLocation() || currentPath == null) heuristic();
+        while (tries-- >0) {
+            int x = getMovement();
+            int y = getMovement();
+            nextMove = new Point(x + location.x, y + location.y);
 
-        if(currentPath == null)return;
-
-        Point p = currentPath.toPoint();
-
-        if(!gameBoard.isPositionOccupied(p)){
-            gameBoard.moveCharacter(getLocation(), p);
-            setLocation(p);
-
-            currentPath = currentPath.getChild();
-        }else{
-            heuristic();
-            System.out.println("Ocupada por" + getLocation() + " a "+ p);
-            System.out.println("Hay: " + gameBoard.getObjectsInGame()[p.y][p.x]);
+            if (!gameBoard.isPositionOccupied(nextMove)) {
+                gameBoard.moveCharacter(getLocation(), nextMove);
+                setLocation(nextMove);
+                return;
+            }
         }
     }
 
@@ -71,7 +62,6 @@ public class ContactWarrior extends Warrior{
     @Override
     public void hit(int damage) { // la razon de esta redundancia de metodos es que si se quiere poner recistencia de ataque por ejemplo, eso se har[ia aqui en hit
         reduceHealth(damage);
-        if(isDead())die();
     }
 
     @Override
@@ -81,15 +71,7 @@ public class ContactWarrior extends Warrior{
     }
 
     @Override
-    public Node heuristic() {
-        currentPath = ShortestPath.
-                getPath(gameBoard.getObjectsInGame(), getLocation(), target.getLocation(), range);
-
-        if(currentPath == null) return null; // si no hay camino
-
-        targetLocation = target.getLocation();
-        currentPath = currentPath.getChild();
-
-        return currentPath;
+    public Point heuristic() {
+        return null;
     }
 }
