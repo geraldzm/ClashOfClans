@@ -7,7 +7,7 @@ import com.game.model.Team;
 
 public class Beast extends Distance {
     public Beast(int x, int y, String imgPath, Team team, GameBoard gameBoard, HandlerGameObjects handlerGameObjects) {
-        super(x, y, imgPath, ID.BEAST, team, gameBoard, handlerGameObjects);
+        super(x, y, ID.BEAST, imgPath, team, gameBoard, handlerGameObjects);
     }
 
     @Override

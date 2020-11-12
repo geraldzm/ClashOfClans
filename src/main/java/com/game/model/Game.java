@@ -1,6 +1,7 @@
 package com.game.model;
 
 import com.game.controllers.Mouse;
+import com.game.model.Characters.Beast;
 import com.game.model.Characters.ContactWarrior;
 import com.game.model.Characters.Distance;
 import com.game.model.Characters.Wall;
@@ -12,6 +13,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Game extends Canvas implements Runnable, Clickable {
 
@@ -20,6 +22,10 @@ public class Game extends Canvas implements Runnable, Clickable {
     private boolean running = false, pause = false;
     private HandlerGameObjects handlerGameObjects;
     private GameBoard gameBoard;
+    
+    private String bgSound = "combat_music.wav";
+    private Date sinceBGSoundPlayed;
+    
     protected ImageIcon background = new ImageIcon(
             Tools.getIcon.apply("coc_bg.png")
                     .getScaledInstance(800,800, Image.SCALE_SMOOTH)
@@ -27,7 +33,9 @@ public class Game extends Canvas implements Runnable, Clickable {
 
 
     public Game(){// defalut game configuration, para pruebas
-
+        sinceBGSoundPlayed = new Date();
+        Tools.playSound(bgSound);
+        
         ArrayList<Character> characters = new ArrayList<>();
         gameBoard = new GameBoard(20,20);
         handlerGameObjects = new HandlerGameObjects();
@@ -35,19 +43,15 @@ public class Game extends Canvas implements Runnable, Clickable {
         Mouse mouse = new Mouse(this);
         this.addMouseListener(mouse);
 
-
-        characters.add(new ContactWarrior(0,0, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(1,0, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(0,1, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(1,1, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(2,0, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(2,1, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
-
+        characters.add(new Distance(0,0, "Archer.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        characters.add(new ContactWarrior(12,0, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        
         characters.add(new Distance(6,1, "Archer.png", Team.FRIEND, gameBoard, handlerGameObjects));
         characters.add(new Distance(6,2, "Archer.png", Team.FRIEND, gameBoard, handlerGameObjects));
         characters.add(new Distance(6,3, "Archer.png", Team.FRIEND, gameBoard, handlerGameObjects));
         characters.add(new Distance(6,4, "Archer.png", Team.FRIEND, gameBoard, handlerGameObjects));
         
+        characters.add(new Beast(6,6, "PEKKA.png", Team.FRIEND, gameBoard, handlerGameObjects));
         
         characters.add(new Wall(9,12));
         characters.add(new Wall(9,11));
@@ -65,15 +69,12 @@ public class Game extends Canvas implements Runnable, Clickable {
         characters.add(new Distance(12,3, "Archer.png", Team.ENEMY, gameBoard, handlerGameObjects));
         characters.add(new Distance(12,4, "Archer.png", Team.ENEMY, gameBoard, handlerGameObjects));
         characters.add(new Distance(12,5, "Archer.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        characters.add(new Beast(12,5, "Archer.png", Team.ENEMY, gameBoard, handlerGameObjects));
+        
+        characters.add(new Beast(12,6, "PEKKA.png", Team.ENEMY, gameBoard, handlerGameObjects));
+        characters.add(new Beast(12,7, "PEKKA.png", Team.ENEMY, gameBoard, handlerGameObjects));
 
-        characters.add(new ContactWarrior(19,19, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(19,18, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(18,19, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(18,18, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(17,18, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(17,19, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
-
+        
+        characters.add(new ContactWarrior(0,19, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
 
         gameBoard.addCharacteres(characters);
         handlerGameObjects.addObjectsList(characters);
@@ -106,7 +107,7 @@ public class Game extends Canvas implements Runnable, Clickable {
     }
 
     @Override
-    public void run(){
+    public void run(){ 
         long lastTime = System.nanoTime();
         double amountOfTicks = 60.0D;
         double ns = 1000000000D / amountOfTicks;
@@ -134,8 +135,17 @@ public class Game extends Canvas implements Runnable, Clickable {
                 timer += 1000;
                 frames = 0;
             }
+            playBGSound();
         }
         stop();
+    }
+    
+    private void playBGSound(){
+        if (sinceBGSoundPlayed.getTime() - new Date().getTime() >= 175000){
+            Tools.playSound(bgSound);
+            sinceBGSoundPlayed = new Date();
+        }
+            
     }
 
     private void render() {
