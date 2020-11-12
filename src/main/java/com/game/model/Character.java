@@ -14,7 +14,6 @@ public abstract class Character extends GameObject{
     private ImageIcon imges[]; //atributo apariencia
     private Team team; // equipo al que pertenece
 
-
     public Character(double x, double y, int width, int height, ID id, Team team) {
         super(x, y, width, height, id);
         this.team = team;

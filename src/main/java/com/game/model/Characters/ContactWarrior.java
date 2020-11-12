@@ -29,7 +29,6 @@ public class ContactWarrior extends Warrior{
     
     @Override
     public void tick() {
-
         if(framesTimer == frames){
 
             if(isSomeoneInRange())attack();

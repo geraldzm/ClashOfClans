@@ -2,6 +2,7 @@ package com.game.model;
 
 import com.game.controllers.Mouse;
 import com.game.model.Characters.ContactWarrior;
+import com.game.model.Characters.Distance;
 import com.game.model.Characters.Wall;
 import com.game.model.Handles.HandlerGameObjects;
 import com.game.model.Interfaces.Clickable;
@@ -42,6 +43,12 @@ public class Game extends Canvas implements Runnable, Clickable {
         characters.add(new ContactWarrior(2,0, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
         characters.add(new ContactWarrior(2,1, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
 
+        characters.add(new Distance(6,1, "Archer.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        characters.add(new Distance(6,2, "Archer.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        characters.add(new Distance(6,3, "Archer.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        characters.add(new Distance(6,4, "Archer.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        
+        
         characters.add(new Wall(9,12));
         characters.add(new Wall(9,11));
         characters.add(new Wall(9,10));
@@ -52,6 +59,13 @@ public class Game extends Canvas implements Runnable, Clickable {
         characters.add(new Wall(9,5));
         characters.add(new Wall(9,4));
         characters.add(new Wall(9,2));
+        
+        characters.add(new Distance(12,1, "Archer.png", Team.ENEMY, gameBoard, handlerGameObjects));
+        characters.add(new Distance(12,2, "Archer.png", Team.ENEMY, gameBoard, handlerGameObjects));
+        characters.add(new Distance(12,3, "Archer.png", Team.ENEMY, gameBoard, handlerGameObjects));
+        characters.add(new Distance(12,4, "Archer.png", Team.ENEMY, gameBoard, handlerGameObjects));
+        characters.add(new Distance(12,5, "Archer.png", Team.ENEMY, gameBoard, handlerGameObjects));
+        characters.add(new Beast(12,5, "Archer.png", Team.ENEMY, gameBoard, handlerGameObjects));
 
         characters.add(new ContactWarrior(19,19, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
         characters.add(new ContactWarrior(19,18, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
