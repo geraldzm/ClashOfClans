@@ -8,8 +8,10 @@ import com.game.model.Warrior;
 import com.game.utils.Node;
 
 public class Distance extends Warrior {
-    public Distance(int x, int y, int width, int height, ID id, Team team, GameBoard gameBoard, HandlerGameObjects handlerGameObjects) {
+    public Distance(int x, int y, String imgPath, int width, int height, ID id, Team team, GameBoard gameBoard, HandlerGameObjects handlerGameObjects) {
         super(x, y, width, height, id, team, gameBoard, handlerGameObjects);
+        range = 3;
+        strokePerTime = 1;
     }
 
     @Override
