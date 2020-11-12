@@ -11,6 +11,7 @@ public class MainWindow extends javax.swing.JFrame {
         initComponents();
         try {
             background.setIcon(Tools.getComponentIcon("res/bg.png", background.getWidth(), background.getHeight()));
+            Logo.setIcon(Tools.getComponentIcon("res/logo.png", Logo.getWidth(), Logo.getHeight()));
 
             btnPlay.setIcon(Tools.getComponentIcon("res/play_button.png", btnPlay.getWidth(), btnPlay.getHeight()));
             btnLoad.setIcon(Tools.getComponentIcon("res/load_button.png", btnPlay.getWidth(), btnPlay.getHeight()));
@@ -25,14 +26,19 @@ public class MainWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        Logo = new javax.swing.JLabel();
         btnLoad = new javax.swing.JLabel();
         btnConfig = new javax.swing.JLabel();
         btnPlay = new javax.swing.JLabel();
         background = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(800, 500));
         setPreferredSize(new java.awt.Dimension(800, 500));
+        setSize(new java.awt.Dimension(800, 500));
         getContentPane().setLayout(null);
+        getContentPane().add(Logo);
+        Logo.setBounds(240, 40, 320, 180);
 
         btnLoad.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnLoad.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -44,7 +50,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnLoad);
-        btnLoad.setBounds(500, 190, 130, 80);
+        btnLoad.setBounds(490, 280, 150, 80);
 
         btnConfig.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnConfig.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -56,7 +62,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnConfig);
-        btnConfig.setBounds(130, 190, 170, 80);
+        btnConfig.setBounds(110, 280, 170, 80);
 
         btnPlay.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnPlay.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -76,7 +82,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnPlay);
-        btnPlay.setBounds(320, 190, 130, 80);
+        btnPlay.setBounds(310, 280, 140, 80);
         getContentPane().add(background);
         background.setBounds(0, 0, 810, 510);
 
@@ -155,6 +161,7 @@ public class MainWindow extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Logo;
     private javax.swing.JLabel background;
     private javax.swing.JLabel btnConfig;
     private javax.swing.JLabel btnLoad;
