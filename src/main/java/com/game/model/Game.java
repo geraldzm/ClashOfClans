@@ -18,6 +18,7 @@ public class Game extends Canvas implements Runnable, Clickable {
     private Thread thread;
     private boolean running = false, pause = false;
     private HandlerGameObjects handlerGameObjects;
+    private GameBoard gameBoard;
     protected ImageIcon background = new ImageIcon(
             Tools.getIcon.apply("coc_bg.png")
                     .getScaledInstance(800,800, Image.SCALE_SMOOTH)
@@ -27,18 +28,19 @@ public class Game extends Canvas implements Runnable, Clickable {
     public Game(){// defalut game configuration, para pruebas
 
         ArrayList<Character> characters = new ArrayList<>();
-        GameBoard gameBoard = new GameBoard(20,20);
+        gameBoard = new GameBoard(20,20);
         handlerGameObjects = new HandlerGameObjects();
 
         Mouse mouse = new Mouse(this);
         this.addMouseListener(mouse);
 
 
+        characters.add(new ContactWarrior(0,0, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        characters.add(new ContactWarrior(1,0, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
         characters.add(new ContactWarrior(0,1, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(0,2, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(0,3, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(0,4, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(0,5, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        characters.add(new ContactWarrior(1,1, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        characters.add(new ContactWarrior(2,0, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        characters.add(new ContactWarrior(2,1, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
 
         characters.add(new Wall(9,12));
         characters.add(new Wall(9,11));
@@ -51,12 +53,12 @@ public class Game extends Canvas implements Runnable, Clickable {
         characters.add(new Wall(9,4));
         characters.add(new Wall(9,2));
 
-        characters.add(new ContactWarrior(19,1, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(19,2, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(19,3, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(19,4, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(19,5, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
-
+        characters.add(new ContactWarrior(19,19, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
+        characters.add(new ContactWarrior(19,18, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
+        characters.add(new ContactWarrior(18,19, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
+        characters.add(new ContactWarrior(18,18, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
+        characters.add(new ContactWarrior(17,18, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
+        characters.add(new ContactWarrior(17,19, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
 
 
         gameBoard.addCharacteres(characters);
@@ -147,7 +149,26 @@ public class Game extends Canvas implements Runnable, Clickable {
     }
 
     @Override
-    public void clicked(MouseEvent e) {}
+    public void clicked(MouseEvent e) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (int i = 0; i < gameBoard.getObjectsInGame().length; i++) {
+            for (int j = 0; j < gameBoard.getObjectsInGame()[i].length; j++) {
+
+                if(gameBoard.getObjectsInGame()[i][j] != null){
+                    if(gameBoard.getObjectsInGame()[i][j] instanceof Warrior){
+                        if(((Warrior)gameBoard.getObjectsInGame()[i][j]).getTeam()== Team.FRIEND)
+                            stringBuilder.append(" F ");
+                        else stringBuilder.append(" E ");
+                    }else stringBuilder.append(" * ");
+                }else
+                    stringBuilder.append(" _ ");
+            }
+            stringBuilder.append("\n");
+        }
+
+        System.out.println(stringBuilder.toString());
+    }
 
     @Override
     public void clickReleased(MouseEvent e) {

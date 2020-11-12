@@ -1,12 +1,7 @@
 package com.game.model;
 
-import com.game.model.Characters.ContactWarrior;
-import com.game.utils.Node;
-
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
 
 /**
  * <h1>Tablero de juego</h1>
@@ -30,36 +25,7 @@ public class GameBoard {
         friends = new ArrayList<>();
         enemies = new ArrayList<>();
     }
-    
-    /**
-     * <h1></h1>
-     * <p>Retorna un area de la matriz a partir de un punto, un rango y un equipo</p>
-     * @return un array
-     * */
-    public ArrayList<Warrior> getArea(int range, Point from, Team team){
-        boolean characterExists;
-        Point limits = new Point();
-        Point player = new Point(from.x, from.y);
-        
-        limitArea(from, limits, range);
-        
-        ArrayList<Warrior> area = new ArrayList<>();
 
-        for(int i = from.x; i < limits.x; i++){
-            for(int j = from.y; j < limits.y; j++){
-                if (i == player.x && j == player.y) continue;
-                
-                characterExists = hittableObjects[i][j] != null 
-                        && objectsInGame[i][j] != null;
-                
-                if (characterExists && objectsInGame[i][j].getTeam() == team.getEnemy()){
-                   area.add((Warrior) objectsInGame[i][j]);  
-                    
-                }
-            }
-        }
-        return area;
-    }
 
     /**
      * <h1></h1>
@@ -97,8 +63,11 @@ public class GameBoard {
      * @return true si esta ocupada
      * */
     public boolean isPositionOccupied(Point point){
-        if(point.x < 0 || point.y < 0 || point.x >= objectsInGame.length || point.y >= objectsInGame.length)return true;
-        return objectsInGame[point.y][point.x] != null;
+        return isPointOutOFBoard(point) || objectsInGame[point.y][point.x] != null;
+    }
+
+    public boolean isPointOutOFBoard(Point point){
+        return point.x < 0 || point.y < 0 || point.x >= objectsInGame.length || point.y >= objectsInGame.length;
     }
 
     /**
@@ -124,6 +93,7 @@ public class GameBoard {
     }
 
     synchronized public void addCharacteres(ArrayList<Character> characteres){
+        System.out.println("Se agregan: " + characteres.size());
         for (int i = 0; i < characteres.size(); i++)
             addCharacter(characteres.get(i));
     }
@@ -155,12 +125,26 @@ public class GameBoard {
      *     <i>no valida lo que mueve, solo lo mueve</i>
      * </p>
      * */
-    synchronized public void moveCharacter(Point from, Point to){
+    synchronized public boolean moveCharacter(Point from, Point to){
+        if(isPositionOccupied(to)) return false;
+       if(objectsInGame[from.y][from.x] == null){
+           System.out.println("Se va a pasar "+ objectsInGame[from.y][from.x]);
+           System.out.println("Se va a pasar "+ from.y+ " " +from.x);
+           System.out.println("Se va a pasar a "+objectsInGame[to.y][to.x]);
+           System.out.println("Se va a pasar a "+ to.y+ " " +to.x);
+           System.out.println(" ");
+           return false;
+       }
+       if(objectsInGame[to.y][to.x] != null){
+           System.out.println("se sobre escribio "+objectsInGame[to.y][to.x]);
+           System.out.println(" ");
+       }
         objectsInGame[to.y][to.x] = objectsInGame[from.y][from.x];
         objectsInGame[from.y][from.x] = null;
 
         hittableObjects[to.y][to.x] = hittableObjects[from.y][from.x];
         hittableObjects[from.y][from.x] = null;
+        return true;
     }
 
     public int getWidth() {

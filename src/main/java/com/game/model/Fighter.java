@@ -18,17 +18,13 @@ public abstract class Fighter extends Character {
     protected int strokePerTime; // cuantos golpes pega por segundo (osea va golpear por frame: strokePerTime/60)
     protected long cooldown = 1000; // Constante de tiempo en milisegundos del cooldown
     protected Date timer; // Fecha que usa para calcular la diferencia de milisegundos
-    
-    protected boolean canAttack = true; //para medir los tiempos de cada cuanto puede atacar
-    
     private int level;
     
     protected Warrior target; // cosa a la que estamos ataconado/yendo
-    protected Point targetLocation; // la locacion del target cuando lo apuntamos
     protected GameBoard gameBoard;
     protected HandlerGameObjects handlerGameObjects;
-    
-    private static Random random = new Random();
+
+    protected static Random random = new Random();
     
     public abstract void upgrade(); // aumenta de nivel, mejora da;o, rango, etc
 
@@ -61,41 +57,47 @@ public abstract class Fighter extends Character {
      * <p>En este metodo se encapsula a quíen atacar y todo lo que conlleva</p>
      * */
     public void attack(){
+        if(target == null) System.out.println("wtf");
         if (new Date().getTime() - timer.getTime() >= cooldown){
             target.hit(strokePerTime);
-            canAttack = false;
-            
+           // System.out.println("de: " +getLocation());
+
             timer = new Date();
         }
     }
 
-    public void findTarget() {
-        ArrayList<Warrior> area = gameBoard.getArea(range, new Point(getLocation().x, getLocation().y), getTeam());
+    public boolean isSomeoneInRange() {
+        if(target != null && !target.isDead() && isInRange(target.getLocation())) return true;
 
-        if(!area.isEmpty()){
-            target = area.get(0);
-            return;
-        }
+        ArrayList<Warrior> warriors = switch (getTeam()) {
+            case FRIEND -> gameBoard.getEnemies();
+            case ENEMY -> gameBoard.getFriends();
+            default -> random.nextInt(100) >= 50 ? gameBoard.getEnemies() : gameBoard.getFriends();
+        };
 
-        // seguimos si no había nadie en el area
+        if(warriors == null || warriors.isEmpty())return false;
 
-        switch (getTeam()){
-            case ENEMY -> target = getRandom(gameBoard.getFriends());
-            case FRIEND -> target = getRandom(gameBoard.getEnemies());
-            case DEFENSE -> { // para ser justos y no atacar solo a un team, tiramos un random para saber a cual atacamos
-                if(random.nextInt(100) >= 50) {
-                    target = getRandom(gameBoard.getFriends());
-                    if(target != null) return; // si no encontro ninguno vamos a intentar con el otro equipo
-                }
-                target = getRandom(gameBoard.getFriends());
+        for (int i = 0; i < warriors.size(); i++) { // buscamos el mas cercano
+            if(isInRange(warriors.get(i).getLocation())){
+                target = warriors.get(i);
+                return true;
             }
         }
-
+        target = null; // no hab[ia nadie en el rango
+        return false;
     }
 
     // retorna un random de la lista, si esta vacia entonces null
     private Warrior getRandom(ArrayList<Warrior> warriors){
         if(warriors.isEmpty()) return null; // no hay nadie
         return warriors.get(random.nextInt(warriors.size())); // sacamos un enemigo random
+    }
+
+
+    /**
+     * <h1>Si esta en rango para atacar</h1>
+     * */
+    public boolean isInRange(Point p) {
+        return Math.abs(p.x - location.x) <= range && Math.abs(p.y - location.y) <= range ;
     }
 }

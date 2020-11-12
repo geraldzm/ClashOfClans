@@ -5,7 +5,8 @@ import com.game.model.Handles.HandlerGameObjects;
 import com.game.model.ID;
 import com.game.model.Team;
 import com.game.model.Warrior;
-import com.game.utils.Node;
+
+import java.awt.*;
 
 public class Distance extends Warrior {
     public Distance(int x, int y, int width, int height, ID id, Team team, GameBoard gameBoard, HandlerGameObjects handlerGameObjects) {
@@ -23,7 +24,7 @@ public class Distance extends Warrior {
     }
 
     @Override
-    public Node heuristic() {
+    public Point heuristic() {
         return null;
     }
 

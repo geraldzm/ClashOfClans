@@ -3,7 +3,6 @@ package com.game.model;
 
 import com.game.model.Handles.HandlerGameObjects;
 import com.game.model.Interfaces.IMoveable;
-import com.game.utils.Node;
 
 import java.awt.*;
 
@@ -15,9 +14,9 @@ public abstract class Warrior extends Fighter implements IMoveable{
     protected int health;
     private int troops;
     private int appearanceLevel;
-    protected final int frames = 30;//cada 30 frames se mueve o intenta atacar
+    protected final int frames = 10;//cada 30 frames se mueve o intenta atacar
     protected int framesTimer=0;
-    protected Node currentPath;
+    protected Point nextMove;
 
     public Warrior(double x, double y, int width, int height, ID id, Team team, GameBoard gameBoard, HandlerGameObjects handlerGameObjects) {
         super(x, y, width, height, id, team, gameBoard, handlerGameObjects);
@@ -55,6 +54,13 @@ public abstract class Warrior extends Fighter implements IMoveable{
 
     public abstract void die();
 
-    public abstract Node heuristic();
+    public abstract Point heuristic();
 
+    // retorna random -1,0,1
+    public int getMovement(){
+        double a = random.nextInt(100);
+        if(a < 100/3) return -1;
+        if(a >= 100/3 && a < (200/3)) return 1;
+        return 0;
+    }
 }
