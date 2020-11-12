@@ -50,9 +50,14 @@ public abstract class Warrior extends Fighter implements IMoveable{
         return health <=0;
    }
 
-    public abstract void hit(int damage);
+    public void hit(int damage) {
+        reduceHealth(damage);
+    }
 
-    public abstract void die();
+    public void die() {
+        gameBoard.removeCharacter(this);
+        handlerGameObjects.removeObject(this);
+    }
 
     public abstract Point heuristic();
 
@@ -63,4 +68,44 @@ public abstract class Warrior extends Fighter implements IMoveable{
         if(a >= 100/3 && a < (200/3)) return 1;
         return 0;
     }
+
+
+    @Override
+    public void render(Graphics g) {
+        super.render(g);
+        displayHealthBar(g);
+    }
+
+    @Override
+    public void tick() {
+
+        if(framesTimer == frames){
+
+            if(isSomeoneInRange())attack();
+            else move();
+
+            framesTimer = 0;
+        }else{
+            framesTimer++;
+        }
+    }
+
+    @Override
+    public void move() {
+        int tries = 8;
+
+        while (tries-- >0) {
+            int x = getMovement();
+            int y = getMovement();
+            nextMove = new Point(x + location.x, y + location.y);
+
+            if (!gameBoard.isPositionOccupied(nextMove)) {
+                gameBoard.moveCharacter(getLocation(), nextMove);
+                setLocation(nextMove);
+                return;
+            }
+        }
+    }
+
+
 }

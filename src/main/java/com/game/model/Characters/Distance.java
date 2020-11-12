@@ -1,26 +1,18 @@
 package com.game.model.Characters;
 
-import com.game.model.GameBoard;
+import com.game.model.*;
 import com.game.model.Handles.HandlerGameObjects;
-import com.game.model.ID;
-import com.game.model.Team;
-import com.game.model.Warrior;
 
 import java.awt.*;
+import java.util.Date;
 
 public class Distance extends Warrior {
-    public Distance(int x, int y, int width, int height, ID id, Team team, GameBoard gameBoard, HandlerGameObjects handlerGameObjects) {
-        super(x, y, width, height, id, team, gameBoard, handlerGameObjects);
-    }
-
-    @Override
-    public void hit(int damage) {
-        reduceHealth(damage);
-    }
-
-    @Override
-    public void die() {
-
+    public Distance(int x, int y, String imgPath, Team team, GameBoard gameBoard, HandlerGameObjects handlerGameObjects) {
+        super(x, y, 40, 40, ID.ARCHER, team, gameBoard, handlerGameObjects);
+        range = 3;
+        strokePerTime = 2;
+        setImage(Tools.getIcon.apply(imgPath)
+                .getScaledInstance(40,40, Image.SCALE_SMOOTH));
     }
 
     @Override
@@ -34,12 +26,14 @@ public class Distance extends Warrior {
     }
 
     @Override
-    public void tick() {
+    public void attack(){ // esta mae tira flechas, luego
+        if(target == null) System.out.println("wtf");
+        if (new Date().getTime() - timer.getTime() >= cooldown){
+            target.hit(strokePerTime);
+            // System.out.println("de: " +getLocation());
 
+            timer = new Date();
+        }
     }
 
-    @Override
-    public void move() {
-
-    }
 }

@@ -26,37 +26,7 @@ public class ContactWarrior extends Warrior{
     public void upgrade() {
         System.out.println("Incrementando ataque a 10000");
     }
-    
-    @Override
-    public void tick() {
 
-        if(framesTimer == frames){
-
-            if(isSomeoneInRange())attack();
-            else move();
-
-            framesTimer = 0;
-        }else{
-            framesTimer++;
-        }
-    }
-
-    @Override
-    public void move() {
-        int tries = 8;
-
-        while (tries-- >0) {
-            int x = getMovement();
-            int y = getMovement();
-            nextMove = new Point(x + location.x, y + location.y);
-
-            if (!gameBoard.isPositionOccupied(nextMove)) {
-                gameBoard.moveCharacter(getLocation(), nextMove);
-                setLocation(nextMove);
-                return;
-            }
-        }
-    }
 
 
     @Override

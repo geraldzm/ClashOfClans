@@ -2,6 +2,7 @@ package com.game.model;
 
 import com.game.controllers.Mouse;
 import com.game.model.Characters.ContactWarrior;
+import com.game.model.Characters.Distance;
 import com.game.model.Characters.Wall;
 import com.game.model.Handles.HandlerGameObjects;
 import com.game.model.Interfaces.Clickable;
@@ -35,30 +36,22 @@ public class Game extends Canvas implements Runnable, Clickable {
         this.addMouseListener(mouse);
 
 
-        characters.add(new ContactWarrior(0,0, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(1,0, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(0,1, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(1,1, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(2,0, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(2,1, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
+      /*  for (int y = 0; y < 2; y++)
+            for (int x = 0; x < 9; x++)
+                characters.add(new ContactWarrior(x,y, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
 
-        characters.add(new Wall(9,12));
-        characters.add(new Wall(9,11));
-        characters.add(new Wall(9,10));
-        characters.add(new Wall(9,9));
-        characters.add(new Wall(9,8));
-        characters.add(new Wall(9,7));
-        characters.add(new Wall(9,6));
-        characters.add(new Wall(9,5));
-        characters.add(new Wall(9,4));
-        characters.add(new Wall(9,2));
+
+
+        for (int y = 0; y < 2; y++)
+            for (int x = 10; x < 19; x++)
+                characters.add(new ContactWarrior(x,y, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
+
+*/
+        characters.add(new Distance(0,0, "Archer.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        characters.add(new ContactWarrior(1,1, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
 
         characters.add(new ContactWarrior(19,19, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(19,18, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(18,19, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(18,18, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(17,18, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(17,19, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
+        characters.add(new Distance(19,18, "Archer.png", Team.ENEMY, gameBoard, handlerGameObjects));
 
 
         gameBoard.addCharacteres(characters);
