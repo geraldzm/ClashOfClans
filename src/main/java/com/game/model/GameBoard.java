@@ -1,5 +1,6 @@
 package com.game.model;
 
+import static com.game.model.Fighter.random;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -127,24 +128,20 @@ public class GameBoard {
      * */
     synchronized public boolean moveCharacter(Point from, Point to){
         if(isPositionOccupied(to)) return false;
-       if(objectsInGame[from.y][from.x] == null){
-           System.out.println("Se va a pasar "+ objectsInGame[from.y][from.x]);
-           System.out.println("Se va a pasar "+ from.y+ " " +from.x);
-           System.out.println("Se va a pasar a "+objectsInGame[to.y][to.x]);
-           System.out.println("Se va a pasar a "+ to.y+ " " +to.x);
-           System.out.println(" ");
-           return false;
-       }
-       if(objectsInGame[to.y][to.x] != null){
-           System.out.println("se sobre escribio "+objectsInGame[to.y][to.x]);
-           System.out.println(" ");
-       }
-        objectsInGame[to.y][to.x] = objectsInGame[from.y][from.x];
-        objectsInGame[from.y][from.x] = null;
+        
+        if(objectsInGame[from.y][from.x] == null){
+            return false;
+        }
+        if(objectsInGame[to.y][to.x] != null){
+            System.out.println(" ");
+        }
+         objectsInGame[to.y][to.x] = objectsInGame[from.y][from.x];
+         objectsInGame[from.y][from.x] = null;
 
-        hittableObjects[to.y][to.x] = hittableObjects[from.y][from.x];
-        hittableObjects[from.y][from.x] = null;
-        return true;
+         hittableObjects[to.y][to.x] = hittableObjects[from.y][from.x];
+         hittableObjects[from.y][from.x] = null;
+
+         return true;
     }
 
     public int getWidth() {
@@ -185,5 +182,72 @@ public class GameBoard {
 
     public void setEnemies(ArrayList<Warrior> enemies) {
         this.enemies = enemies;
+    }
+
+    // Nota: Para mas eficiencia corro ambas listas simultaneamente
+    public ArrayList<Warrior> getWarriors(){
+        ArrayList<Warrior> list = new ArrayList<>();
+        int length = enemies.size() > friends.size() ? enemies.size() : friends.size();
+        
+        for (int i = 0; i < length; i++){
+            
+            if (i < enemies.size()){
+                list.add(enemies.get(i));
+            }
+            
+            if (i < friends.size()){
+                list.add(friends.get(i));
+            }
+        }
+        
+        return list;
+    }
+
+    public ArrayList<Warrior> getWarriorsById(ID id){
+        ArrayList<Warrior> list = new ArrayList<>();
+        int length = enemies.size() > friends.size() ? enemies.size() : friends.size();
+        
+        for (int i = 0; i < length; i++){
+            if (i < enemies.size()&& enemies.get(i).getId() == id){
+                list.add(enemies.get(i));
+            }
+            
+            if (i < friends.size() && friends.get(i).getId() == id){
+                list.add(friends.get(i));
+            }
+        }
+        
+        return list;
+    }
+    
+    public ArrayList<Warrior> getWarriorsNotById(ID id){
+        ArrayList<Warrior> list = new ArrayList<>();
+        int length = enemies.size() > friends.size() ? enemies.size() : friends.size();
+        
+        for (int i = 0; i < length; i++){
+            if (i < enemies.size() && enemies.get(i).getId() != id){
+                list.add(enemies.get(i));
+            }
+            
+            if (i < friends.size() && friends.get(i).getId() != id){
+                list.add(friends.get(i));
+            }
+        }
+        
+        return list;
+    }
+    
+
+    // retorna un random de la lista, si esta vacia entonces null
+    public Warrior getRandom(Team team){
+        ArrayList<Warrior> warriors = switch (team) {
+            case FRIEND -> getEnemies();
+            case ENEMY -> getFriends();
+            default -> random.nextInt(100) >= 50 ? getEnemies() : getFriends();
+        };
+        
+        if(warriors.isEmpty()) return null; // no hay nadie
+        
+        return warriors.get(random.nextInt(warriors.size())); // sacamos un enemigo random
     }
 }

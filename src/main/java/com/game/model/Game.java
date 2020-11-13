@@ -1,11 +1,14 @@
 package com.game.model;
 
 import com.game.controllers.Mouse;
-import com.game.model.Characters.Air;
+import com.game.model.Characters.AirDefense;
+import com.game.model.Characters.AirWarrior;
 import com.game.model.Characters.Beast;
+import com.game.model.Characters.Bomb;
 import com.game.model.Characters.ContactWarrior;
 import com.game.model.Characters.Distance;
 import com.game.model.Characters.Heroe;
+import com.game.model.Characters.LandDefense;
 import com.game.model.Characters.Wall;
 import com.game.model.Handles.HandlerGameObjects;
 import com.game.model.Interfaces.Clickable;
@@ -44,46 +47,78 @@ public class Game extends Canvas implements Runnable, Clickable {
 
         Mouse mouse = new Mouse(this);
         this.addMouseListener(mouse);
-
-        characters.add(new Distance(0,0, "Archer.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(12,0, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
         
-        characters.add(new Distance(6,1, "Archer.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new Distance(6,2, "Archer.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new Distance(6,3, "Archer.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new Distance(6,4, "Archer.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        // XD Me encanta
         
-        characters.add(new Beast(6,6, "PEKKA.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        characters.add(new Wall(6, 0));
+        characters.add(new Wall(6, 1));
+        characters.add(new Wall(6, 2));
+        characters.add(new Wall(6, 3));
+        characters.add(new Wall(6, 4));
+        characters.add(new Wall(6, 5));
+        characters.add(new Wall(7, 5));
+        characters.add(new Wall(7, 6));
+        characters.add(new Wall(8, 6));
+        characters.add(new Wall(8, 7));
+        characters.add(new Wall(8, 8));
+        characters.add(new Wall(8, 9));
+        characters.add(new Wall(8, 10));
         
-        characters.add(new Beast(6,6, "PEKKA.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new Air(8,6, "Dragon.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new Air(8,7, "Dragon.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new Heroe(8,12, "BarbKing.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new Heroe(8,13, "BarbKing.png", Team.ENEMY, gameBoard, handlerGameObjects));
+        // Defensas
+        characters.add(new Defense(10, 13, "Archer_Tower.png", gameBoard, handlerGameObjects));
+        characters.add(new Defense(12, 12, "Archer_Tower.png", gameBoard, handlerGameObjects));
+        characters.add(new Defense(14, 11, "Archer_Tower.png", gameBoard, handlerGameObjects));
+        characters.add(new Defense(16, 10, "Archer_Tower.png", gameBoard, handlerGameObjects));
         
-        characters.add(new Wall(9,12));
-        characters.add(new Wall(9,11));
-        characters.add(new Wall(9,10));
-        characters.add(new Wall(9,9));
-        characters.add(new Wall(9,8));
-        characters.add(new Wall(9,7));
-        characters.add(new Wall(9,6));
-        characters.add(new Wall(9,5));
-        characters.add(new Wall(9,4));
-        characters.add(new Wall(9,2));
+        characters.add(new LandDefense(10, 15, "Cannon.png", gameBoard, handlerGameObjects));
+        characters.add(new LandDefense(18, 10, "Cannon.png", gameBoard, handlerGameObjects));
         
-        characters.add(new Distance(12,1, "Archer.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        characters.add(new Distance(12,2, "Archer.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        characters.add(new Distance(12,3, "Archer.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        characters.add(new Distance(12,4, "Archer.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        characters.add(new Distance(12,5, "Archer.png", Team.ENEMY, gameBoard, handlerGameObjects));
+        characters.add(new LandDefense(13, 14, "Mortar.png", gameBoard, handlerGameObjects));
+        characters.add(new LandDefense(16, 14, "Mortar.png", gameBoard, handlerGameObjects));
+        characters.add(new LandDefense(16, 12, "Mortar.png", gameBoard, handlerGameObjects));
         
-        characters.add(new Beast(12,6, "PEKKA.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        characters.add(new Beast(12,7, "PEKKA.png", Team.ENEMY, gameBoard, handlerGameObjects));
-
+        characters.add(new AirDefense(5, 14, "Air_Defense.png", gameBoard, handlerGameObjects));
+        characters.add(new AirDefense(18, 8, "Air_Defense.png", gameBoard, handlerGameObjects));
         
-        characters.add(new ContactWarrior(0,19, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
-
+        characters.add(new Bomb(4, 1, "Bomb.png", gameBoard, handlerGameObjects));
+        characters.add(new Bomb(9, 5, "Bomb.png", gameBoard, handlerGameObjects));
+        
+        // Enemigos
+        characters.add(new ContactWarrior(9, 3, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
+        characters.add(new ContactWarrior(11, 5, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
+        characters.add(new ContactWarrior(13, 7, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
+        
+        characters.add(new Distance(12, 0, "Archer.png", Team.ENEMY, gameBoard, handlerGameObjects));
+        characters.add(new Distance(12, 2, "Archer.png", Team.ENEMY, gameBoard, handlerGameObjects));
+        characters.add(new Distance(13, 4, "Archer.png", Team.ENEMY, gameBoard, handlerGameObjects));
+        characters.add(new Distance(15, 6, "Archer.png", Team.ENEMY, gameBoard, handlerGameObjects));
+        
+        characters.add(new AirWarrior("Dragon.png", Team.ENEMY, gameBoard, handlerGameObjects));
+        characters.add(new AirWarrior("Dragon.png", Team.ENEMY, gameBoard, handlerGameObjects));
+        
+        characters.add(new Beast(18, 3, "PEKKA.png", Team.ENEMY, gameBoard, handlerGameObjects));
+        characters.add(new Beast(17, 1, "PEKKA.png", Team.ENEMY, gameBoard, handlerGameObjects));
+        
+        // Equipo del jugador
+        characters.add(new ContactWarrior(3, 5, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        characters.add(new ContactWarrior(4, 6, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        characters.add(new ContactWarrior(6, 8, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        characters.add(new ContactWarrior(7, 10, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        
+        characters.add(new Distance(0, 4, "Archer.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        characters.add(new Distance(2, 6, "Archer.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        characters.add(new Distance(4, 8, "Archer.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        characters.add(new Distance(6, 10, "Archer.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        characters.add(new Distance(6, 12, "Archer.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        
+        characters.add(new AirWarrior("Dragon.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        characters.add(new AirWarrior("Dragon.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        characters.add(new AirWarrior("Dragon.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        
+        characters.add(new Beast(1, 8, "PEKKA.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        characters.add(new Beast(2, 10, "PEKKA.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        characters.add(new Beast(1, 12, "PEKKA.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        
         gameBoard.addCharacteres(characters);
         handlerGameObjects.addObjectsList(characters);
 

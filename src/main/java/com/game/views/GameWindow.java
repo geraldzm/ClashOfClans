@@ -22,7 +22,6 @@ public class GameWindow extends javax.swing.JFrame {
         menuDebug = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 600));
 
         menuBar.setBackground(new java.awt.Color(0, 0, 0));
 

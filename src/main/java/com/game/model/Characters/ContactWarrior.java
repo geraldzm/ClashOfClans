@@ -4,6 +4,7 @@ import com.game.model.*;
 import com.game.model.Handles.HandlerGameObjects;
 
 import java.awt.*;
+import java.util.Date;
 
 public class ContactWarrior extends Warrior{
 
@@ -11,8 +12,10 @@ public class ContactWarrior extends Warrior{
     
     public ContactWarrior(int x, int y, String imgPath, Team team, GameBoard gameBoard, HandlerGameObjects handlerGameObjects) {
         super(x, y, 40, 40, ID.CONTACT, team, gameBoard, handlerGameObjects);
+        // Esto deberia pasar a los parametros (el rango no)
         range = 1;
         strokePerTime = 2;
+        
         setImage(Tools.getIcon.apply(imgPath)
                 .getScaledInstance(40,40, Image.SCALE_SMOOTH));
     }
@@ -38,12 +41,23 @@ public class ContactWarrior extends Warrior{
     }
 
     private static void makeSound(){
-        Tools.playSound(warriorSound);
+        Tools.playSound(warriorSound);        
+    }
+    
+    @Override
+    public void attack(){
+        if(target == null) System.out.println("wtf");
+        if (new Date().getTime() - timer.getTime() >= cooldown){
+            target.hit(strokePerTime);
+           // System.out.println("de: " +getLocation());
+
+            timer = new Date();
+            makeSound();
+        }
     }
 
     @Override
     public void hit(int damage) { // la razon de esta redundancia de metodos es que si se quiere poner recistencia de ataque por ejemplo, eso se har[ia aqui en hit
-        makeSound();
         reduceHealth(damage);
     }
 

@@ -2,7 +2,6 @@ package com.game.model;
 
 import com.game.model.Handles.HandlerGameObjects;
 
-import javax.imageio.plugins.tiff.TIFFImageReadParam;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -60,7 +59,6 @@ public abstract class Fighter extends Character {
         if(target == null) System.out.println("wtf");
         if (new Date().getTime() - timer.getTime() >= cooldown){
             target.hit(strokePerTime);
-           // System.out.println("de: " +getLocation());
 
             timer = new Date();
         }
@@ -86,13 +84,6 @@ public abstract class Fighter extends Character {
         target = null; // no hab[ia nadie en el rango
         return false;
     }
-
-    // retorna un random de la lista, si esta vacia entonces null
-    private Warrior getRandom(ArrayList<Warrior> warriors){
-        if(warriors.isEmpty()) return null; // no hay nadie
-        return warriors.get(random.nextInt(warriors.size())); // sacamos un enemigo random
-    }
-
 
     /**
      * <h1>Si esta en rango para atacar</h1>
