@@ -9,7 +9,7 @@ import java.util.Date;
 public class Distance extends Warrior {
 
     public Distance(int x, int y, String imgPath, Team team, GameBoard gameBoard, HandlerGameObjects handlerGameObjects) {
-        super(x, y, 40, 40, ID.ARCHER, team, gameBoard, handlerGameObjects);
+        super(x, y, 40, 40, ID.DISTANCE, team, gameBoard, handlerGameObjects);
         range = 3;
         strokePerTime = 2;
         setImage(Tools.getIcon.apply(imgPath)

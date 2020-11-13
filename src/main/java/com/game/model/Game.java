@@ -1,9 +1,11 @@
 package com.game.model;
 
 import com.game.controllers.Mouse;
+import com.game.model.Characters.Air;
 import com.game.model.Characters.Beast;
 import com.game.model.Characters.ContactWarrior;
 import com.game.model.Characters.Distance;
+import com.game.model.Characters.Heroe;
 import com.game.model.Characters.Wall;
 import com.game.model.Handles.HandlerGameObjects;
 import com.game.model.Interfaces.Clickable;
@@ -24,7 +26,7 @@ public class Game extends Canvas implements Runnable, Clickable {
     private GameBoard gameBoard;
     
     private String bgSound = "combat_music.wav";
-    private Date sinceBGSoundPlayed;
+    private Date sinceBGSPlayed;
     
     protected ImageIcon background = new ImageIcon(
             Tools.getIcon.apply("coc_bg.png")
@@ -33,7 +35,7 @@ public class Game extends Canvas implements Runnable, Clickable {
 
 
     public Game(){// defalut game configuration, para pruebas
-        sinceBGSoundPlayed = new Date();
+        sinceBGSPlayed = new Date();
         Tools.playSound(bgSound);
         
         ArrayList<Character> characters = new ArrayList<>();
@@ -52,6 +54,12 @@ public class Game extends Canvas implements Runnable, Clickable {
         characters.add(new Distance(6,4, "Archer.png", Team.FRIEND, gameBoard, handlerGameObjects));
         
         characters.add(new Beast(6,6, "PEKKA.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        
+        characters.add(new Beast(6,6, "PEKKA.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        characters.add(new Air(8,6, "Dragon.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        characters.add(new Air(8,7, "Dragon.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        characters.add(new Heroe(8,12, "BarbKing.png", Team.FRIEND, gameBoard, handlerGameObjects));
+        characters.add(new Heroe(8,13, "BarbKing.png", Team.ENEMY, gameBoard, handlerGameObjects));
         
         characters.add(new Wall(9,12));
         characters.add(new Wall(9,11));
@@ -141,9 +149,9 @@ public class Game extends Canvas implements Runnable, Clickable {
     }
     
     private void playBGSound(){
-        if (sinceBGSoundPlayed.getTime() - new Date().getTime() >= 175000){
+        if (sinceBGSPlayed.getTime() - new Date().getTime() >= 175000){
             Tools.playSound(bgSound);
-            sinceBGSoundPlayed = new Date();
+            sinceBGSPlayed = new Date();
         }
             
     }
