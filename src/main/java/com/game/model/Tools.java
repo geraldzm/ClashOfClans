@@ -2,13 +2,14 @@ package com.game.model;
 
 import java.awt.Image;
 import javax.imageio.ImageIO;
+import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -37,16 +38,23 @@ public class Tools {
     
     // Reproduce un sonido
     public static synchronized void playSound(final String url) {
+
         new Thread(() -> {
-            try {
+            try (AudioInputStream inputStream = AudioSystem.getAudioInputStream(
+                    new File("src/main/java/com/game/audio/" + url))){
                 Clip clip = AudioSystem.getClip();
-                AudioInputStream inputStream = AudioSystem.getAudioInputStream(
-                        new File("src/main/java/com/game/audio/" + url));
+
                 clip.open(inputStream);
-                clip.start(); 
+                FloatControl gainControl =
+                        (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                gainControl.setValue(-30.0f);
+                clip.start();
             } catch (Exception e) {
                 System.err.println("Audio no existe: " + e.getMessage());
+               // System.out.println(url);
             }
         }).start();
      }
+
+
 }

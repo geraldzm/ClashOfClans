@@ -14,8 +14,7 @@ public class ContactWarrior extends Warrior{
         super(x, y, 40, 40, ID.CONTACT, team, gameBoard, handlerGameObjects);
         // Esto deberia pasar a los parametros (el rango no)
         range = 1;
-        strokePerTime = 2;
-        
+        strokePerTime = 5;
         setImage(Tools.getIcon.apply(imgPath)
                 .getScaledInstance(40,40, Image.SCALE_SMOOTH));
     }
@@ -41,7 +40,7 @@ public class ContactWarrior extends Warrior{
     }
 
     private static void makeSound(){
-        Tools.playSound(warriorSound);        
+        Tools.playSound(warriorSound);
     }
     
     @Override
@@ -54,6 +53,7 @@ public class ContactWarrior extends Warrior{
             timer = new Date();
             makeSound();
         }
+       // Tools.playSound(warriorSound);
     }
 
     @Override

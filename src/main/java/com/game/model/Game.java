@@ -18,7 +18,8 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Game extends Canvas implements Runnable, Clickable {
 
@@ -29,25 +30,50 @@ public class Game extends Canvas implements Runnable, Clickable {
     private GameBoard gameBoard;
     
     private String bgSound = "combat_music.wav";
-    private Date sinceBGSPlayed;
-    
+    private Timer timerBackground; // reproduce el audio
+
     protected ImageIcon background = new ImageIcon(
             Tools.getIcon.apply("coc_bg.png")
                     .getScaledInstance(800,800, Image.SCALE_SMOOTH)
     );
 
+    /**
+     * <h1>Configuración de la partida</h1>
+     * @param level nivel que se va a jugar
+     * @param characters los personajes seleccionados por el usuario
+     * @param allCharacters Todos los personajes que el usuario ha creado
+     * */
+    public Game(int level, ArrayList<Character> characters, ArrayList<Character> allCharacters){
+        ArrayList<Character> charactersAll = new ArrayList<>();
+        gameBoard = new GameBoard(20,20);
+        handlerGameObjects = new HandlerGameObjects();
 
+        charactersAll.addAll(characters);
+        charactersAll.addAll(generateEnemies(level, allCharacters)); // se agregan los enemigos segun el nivel
+
+        gameBoard.addCharacteres(characters);
+        handlerGameObjects.addObjectsList(characters);
+
+        timerBackground = new Timer();
+        timerBackground.schedule(new TimerTask() { // el backgroun comienza en 3 segundos
+            @Override
+            public void run() {
+                Tools.playSound(bgSound);
+            }
+        }, 3000, 175000);
+    }
+
+
+// Pruebas
     public Game(){// defalut game configuration, para pruebas
-        sinceBGSPlayed = new Date();
-        Tools.playSound(bgSound);
-        
+
         ArrayList<Character> characters = new ArrayList<>();
         gameBoard = new GameBoard(20,20);
         handlerGameObjects = new HandlerGameObjects();
 
         Mouse mouse = new Mouse(this);
         this.addMouseListener(mouse);
-        
+
         // XD Me encanta
         
         characters.add(new Wall(6, 0));
@@ -118,20 +144,17 @@ public class Game extends Canvas implements Runnable, Clickable {
         characters.add(new Beast(1, 8, "PEKKA.png", Team.FRIEND, gameBoard, handlerGameObjects));
         characters.add(new Beast(2, 10, "PEKKA.png", Team.FRIEND, gameBoard, handlerGameObjects));
         characters.add(new Beast(1, 12, "PEKKA.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        
+
         gameBoard.addCharacteres(characters);
         handlerGameObjects.addObjectsList(characters);
 
-    }
-
-    /**
-     * <h1>Configuración del juego</h1>
-     * <p>Con este constructor configuramos el juego</p>
-     * @param level dependiendo de esto se configura una cantidad de enemigos
-     * @param friends los jugadores seleccionados por el usuario
-     * */
-    public Game(int level, HandlerGameObjects friends){// defalut game configuration
-        
+        timerBackground = new Timer();
+        timerBackground.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Tools.playSound(bgSound);
+            }
+        }, 3000, 175000);
     }
 
     public synchronized void start(){
@@ -178,17 +201,8 @@ public class Game extends Canvas implements Runnable, Clickable {
                 timer += 1000;
                 frames = 0;
             }
-            playBGSound();
         }
         stop();
-    }
-    
-    private void playBGSound(){
-        if (sinceBGSPlayed.getTime() - new Date().getTime() >= 175000){
-            Tools.playSound(bgSound);
-            sinceBGSPlayed = new Date();
-        }
-            
     }
 
     private void render() {
@@ -241,5 +255,10 @@ public class Game extends Canvas implements Runnable, Clickable {
     public void clickReleased(MouseEvent e) {
         System.out.println("Pausa");
         this.pause();
+    }
+
+    private ArrayList<Character> generateEnemies(int level, ArrayList<Character> allCharacters) {
+
+        return null;
     }
 }
