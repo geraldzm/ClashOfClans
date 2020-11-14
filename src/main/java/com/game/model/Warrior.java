@@ -12,6 +12,7 @@ import java.awt.*;
 public abstract class Warrior extends Fighter implements IMoveable{
 
     protected int health;
+    protected int maxHealth;
     private int troops;
     private int appearanceLevel;
     protected final int frames = 10;//cada 30 frames se mueve o intenta atacar
@@ -20,12 +21,14 @@ public abstract class Warrior extends Fighter implements IMoveable{
 
     public Warrior(double x, double y, int width, int height, ID id, Team team, GameBoard gameBoard, HandlerGameObjects handlerGameObjects) {
         super(x, y, width, height, id, team, gameBoard, handlerGameObjects);
-        health = 100;
+        health = 300;
+        maxHealth = health;
     }
 
     public Warrior(int x, int y, int width, int height, ID id, Team team, GameBoard gameBoard, HandlerGameObjects handlerGameObjects) {
         super(x, y, width, height, id, team, gameBoard, handlerGameObjects);
-        health = 100;
+        health = 300;
+        maxHealth = health;
     }
 
 
@@ -34,7 +37,7 @@ public abstract class Warrior extends Fighter implements IMoveable{
 
         g.setColor(getTeam() == Team.FRIEND ? Color.cyan: Color.RED);
         // maximo de la barrra es 35
-        int width = health*35/100;
+        int width = health*35/maxHealth;
         g.fillRoundRect((int)(x+2), (int)y, width, 5, 1,1);
    }
 
