@@ -162,7 +162,12 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPlayMouseClicked
 
     private void btnConfigMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConfigMouseClicked
-        new UserWindow().setVisible(true);
+        try {
+            // Mae, aqui mejor solo meter unos JOptionPane y ia :c
+            new UserWindow().setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         this.dispose();
     }//GEN-LAST:event_btnConfigMouseClicked

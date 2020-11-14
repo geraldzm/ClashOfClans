@@ -9,6 +9,7 @@ public class TroopsWindow extends javax.swing.JFrame {
 
     public TroopsWindow() throws IOException {
         initComponents();
+        header.setIcon(new Tools().getComponentIcon("res/header.png", header.getWidth(), header.getHeight()));
         background.setIcon(new Tools().getComponentIcon("res/bg_troop.png", background.getWidth(), background.getHeight()));
         btnPlay.setIcon(new Tools().getComponentIcon("res/play_button.png", btnPlay.getWidth(), btnPlay.getHeight()));
         btnBack.setIcon(new Tools().getComponentIcon("res/back_button.png", btnBack.getWidth(), btnBack.getHeight()));
@@ -24,8 +25,10 @@ public class TroopsWindow extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         btnPlay = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        background = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        header = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        background = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(247, 247, 247));
@@ -48,17 +51,20 @@ public class TroopsWindow extends javax.swing.JFrame {
         getContentPane().add(btnBack);
         btnBack.setBounds(640, 190, 120, 60);
         getContentPane().add(troopsContainer);
-        troopsContainer.setBounds(280, 30, 260, 300);
+        troopsContainer.setBounds(280, 50, 260, 300);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Tropas (current/max)");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(30, 230, 180, 25);
+        jLabel1.setBounds(30, 180, 210, 25);
 
+        jComboBox1.setForeground(new java.awt.Color(0, 0, 0));
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         getContentPane().add(jComboBox1);
-        jComboBox1.setBounds(30, 140, 180, 30);
+        jComboBox1.setBounds(30, 90, 180, 30);
 
         btnPlay.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnPlay.setPreferredSize(new java.awt.Dimension(200, 100));
@@ -76,17 +82,31 @@ public class TroopsWindow extends javax.swing.JFrame {
         getContentPane().add(btnPlay);
         btnPlay.setBounds(640, 270, 120, 60);
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel2.setText("Seleccionar tropa");
+        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setText("Tropas");
+        jLabel2.setToolTipText("");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(30, 100, 180, 25);
-        getContentPane().add(background);
-        background.setBounds(0, 0, 800, 400);
+        jLabel2.setBounds(370, 0, 60, 25);
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Jugador Nivel: ");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(30, 190, 180, 25);
+        jLabel3.setBounds(30, 140, 180, 25);
+        getContentPane().add(header);
+        header.setBounds(0, 0, 800, 40);
+
+        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Seleccionar tropa");
+        getContentPane().add(jLabel4);
+        jLabel4.setBounds(30, 50, 180, 25);
+        getContentPane().add(background);
+        background.setBounds(0, 0, 800, 400);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -142,10 +162,12 @@ public class TroopsWindow extends javax.swing.JFrame {
     private javax.swing.JLabel background;
     private javax.swing.JLabel btnBack;
     private javax.swing.JLabel btnPlay;
+    private javax.swing.JLabel header;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane troopsContainer;
     // End of variables declaration//GEN-END:variables
 }
