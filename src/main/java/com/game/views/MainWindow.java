@@ -34,7 +34,6 @@ public class MainWindow extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 500));
-        setPreferredSize(new java.awt.Dimension(800, 500));
         setSize(new java.awt.Dimension(800, 500));
         getContentPane().setLayout(null);
         getContentPane().add(Logo);
@@ -54,6 +53,9 @@ public class MainWindow extends javax.swing.JFrame {
 
         btnConfig.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnConfig.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnConfigMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnConfigMouseEntered(evt);
             }
@@ -158,6 +160,12 @@ public class MainWindow extends javax.swing.JFrame {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnPlayMouseClicked
+
+    private void btnConfigMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConfigMouseClicked
+        new UserWindow().setVisible(true);
+        
+        this.dispose();
+    }//GEN-LAST:event_btnConfigMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
