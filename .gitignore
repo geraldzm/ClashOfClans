@@ -1,5 +1,11 @@
+#IDEA
+.idea/
+*.iml
+target/
+
 # Compiled class file
 *.class
+*.netbeans_automatic_build
 
 # Log file
 *.log
@@ -21,3 +27,8 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# Multimedia
+*.ogg
+*.mp3
+*.wav
