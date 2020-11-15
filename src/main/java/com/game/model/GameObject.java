@@ -6,16 +6,31 @@ import com.game.model.Interfaces.ITick;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
 
 /**
 * <h1>Clase papá de todos los objetos que estarán en pantalla</h1>
 * */
-public abstract class GameObject implements ITick, IRenderable {
+public abstract class GameObject implements ITick, IRenderable, Serializable {
 
     protected ID id;
     protected double velX, velY;
     protected ImageIcon img;
     protected Rectangle2D hitBox;
+
+    public GameObject(){}
+
+    /**
+     * <h1>para clonar</h1>
+     * */
+    public GameObject(GameObject gameObject){
+        this.id = gameObject.id;
+        this.velX = gameObject.velX;
+        this.velY = gameObject.velY;
+        this.img = new ImageIcon(gameObject.img.getImage());
+        this.hitBox = new Rectangle2D.Double(gameObject.hitBox.getX(), gameObject.hitBox.getY(), gameObject.hitBox.getWidth(), gameObject.hitBox.getHeight());
+
+    }
 
     /**
      * @param x en pixeles
@@ -51,6 +66,11 @@ public abstract class GameObject implements ITick, IRenderable {
 
     public void setImage(Image img){
         this.img.setImage(img);
+    }
+
+    public void setImageByPath(String imgPath){
+        setImage(Tools.getIcon.apply(imgPath)
+                .getScaledInstance((int)hitBox.getWidth(),(int)hitBox.getHeight(), Image.SCALE_SMOOTH));
     }
 
     public double getX() {

@@ -1,15 +1,7 @@
 package com.game.model;
 
 import com.game.controllers.Mouse;
-import com.game.model.Characters.AirDefense;
-import com.game.model.Characters.AirWarrior;
-import com.game.model.Characters.Beast;
-import com.game.model.Characters.Bomb;
-import com.game.model.Characters.ContactWarrior;
-import com.game.model.Characters.Distance;
-import com.game.model.Characters.Heroe;
-import com.game.model.Characters.LandDefense;
-import com.game.model.Characters.Wall;
+import com.game.model.Characters.*;
 import com.game.model.Handles.HandlerGameObjects;
 import com.game.model.Interfaces.Clickable;
 
@@ -17,9 +9,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferStrategy;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class Game extends Canvas implements Runnable, Clickable {
 
@@ -43,16 +34,23 @@ public class Game extends Canvas implements Runnable, Clickable {
      * @param characters los personajes seleccionados por el usuario
      * @param allCharacters Todos los personajes que el usuario ha creado
      * */
-    public Game(int level, ArrayList<Character> characters, ArrayList<Character> allCharacters){
-        ArrayList<Character> charactersAll = new ArrayList<>();
+    public Game(int level, ArrayList<Warrior> characters, ArrayList<Warrior> allCharacters){
+
         gameBoard = new GameBoard(20,20);
         handlerGameObjects = new HandlerGameObjects();
 
-        charactersAll.addAll(characters);
-        charactersAll.addAll(generateEnemies(level, allCharacters)); // se agregan los enemigos segun el nivel
+        Mouse mouse = new Mouse(this);
+        this.addMouseListener(mouse);
 
-        gameBoard.addCharacteres(characters);
-        handlerGameObjects.addObjectsList(characters);
+        addUserCharacterToBoard(gameBoard, characters); // les agrega una posicion random
+        generateEnemies(gameBoard, handlerGameObjects, level, allCharacters); // generamos los enemigos segun el nivel
+
+       // gameBoard.addCharacteres(characterEnemies); // agregamos los enemigos al board
+
+        characters.forEach(w -> {w.setGameBoard(gameBoard); w.setHandlerGameObjects(handlerGameObjects);});
+
+        handlerGameObjects.addObjectsList(characters); // agregamos todos los objetos
+
 
         timerBackground = new Timer();
         timerBackground.schedule(new TimerTask() { // el backgroun comienza en 3 segundos
@@ -63,98 +61,47 @@ public class Game extends Canvas implements Runnable, Clickable {
         }, 3000, 175000);
     }
 
+    private void addUserCharacterToBoard(GameBoard gameBoard, ArrayList<Warrior> characters) {
 
-// Pruebas
+        Random r = new Random();
+
+        characters.forEach(warrior -> {
+            Point p;
+            do{
+                p = new Point(r.nextInt(20), r.nextInt(20));
+            }while (gameBoard.isPositionOccupied(p));
+
+            if(warrior.getId() != ID.AIR){
+                warrior.setLocation(p);
+            }
+        });
+
+        System.out.println("Los que vamos a agrega:");
+        System.out.println(characters);
+        gameBoard.addCharacteres(characters);
+    }
+
+    // Pruebas
     public Game(){// defalut game configuration, para pruebas
 
-        ArrayList<Character> characters = new ArrayList<>();
-        gameBoard = new GameBoard(20,20);
-        handlerGameObjects = new HandlerGameObjects();
+       User user = new User("Gerald", "12345"); // creamos un user y guardamos info
 
-        Mouse mouse = new Mouse(this);
-        this.addMouseListener(mouse);
+       ArrayList<Warrior> warriors = new ArrayList<>();
 
-        // XD Me encanta
-        
-        characters.add(new Wall(6, 0));
-        characters.add(new Wall(6, 1));
-        characters.add(new Wall(6, 2));
-        characters.add(new Wall(6, 3));
-        characters.add(new Wall(6, 4));
-        characters.add(new Wall(6, 5));
-        characters.add(new Wall(7, 5));
-        characters.add(new Wall(7, 6));
-        characters.add(new Wall(8, 6));
-        characters.add(new Wall(8, 7));
-        characters.add(new Wall(8, 8));
-        characters.add(new Wall(8, 9));
-        characters.add(new Wall(8, 10));
-        
-        // Defensas
-        characters.add(new Defense(10, 13, "Archer_Tower.png", gameBoard, handlerGameObjects));
-        characters.add(new Defense(12, 12, "Archer_Tower.png", gameBoard, handlerGameObjects));
-        characters.add(new Defense(14, 11, "Archer_Tower.png", gameBoard, handlerGameObjects));
-        characters.add(new Defense(16, 10, "Archer_Tower.png", gameBoard, handlerGameObjects));
-        
-        characters.add(new LandDefense(10, 15, "Cannon.png", gameBoard, handlerGameObjects));
-        characters.add(new LandDefense(18, 10, "Cannon.png", gameBoard, handlerGameObjects));
-        
-        characters.add(new LandDefense(13, 14, "Mortar.png", gameBoard, handlerGameObjects));
-        characters.add(new LandDefense(16, 14, "Mortar.png", gameBoard, handlerGameObjects));
-        characters.add(new LandDefense(16, 12, "Mortar.png", gameBoard, handlerGameObjects));
-        
-        characters.add(new AirDefense(5, 14, "Air_Defense.png", gameBoard, handlerGameObjects));
-        characters.add(new AirDefense(18, 8, "Air_Defense.png", gameBoard, handlerGameObjects));
-        
-        characters.add(new Bomb(4, 1, "Bomb.png", gameBoard, handlerGameObjects));
-        characters.add(new Bomb(9, 5, "Bomb.png", gameBoard, handlerGameObjects));
-        
-        // Enemigos
-        characters.add(new ContactWarrior(9, 3, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(11, 5, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(13, 7, "Barbarian.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        
-        characters.add(new Distance(12, 0, "Archer.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        characters.add(new Distance(12, 2, "Archer.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        characters.add(new Distance(13, 4, "Archer.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        characters.add(new Distance(15, 6, "Archer.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        
-        characters.add(new AirWarrior("Dragon.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        characters.add(new AirWarrior("Dragon.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        
-        characters.add(new Beast(18, 3, "PEKKA.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        characters.add(new Beast(17, 1, "PEKKA.png", Team.ENEMY, gameBoard, handlerGameObjects));
-        
-        // Equipo del jugador
-        characters.add(new ContactWarrior(3, 5, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(4, 6, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(6, 8, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new ContactWarrior(7, 10, "Barbarian.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        
-        characters.add(new Distance(0, 4, "Archer.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new Distance(2, 6, "Archer.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new Distance(4, 8, "Archer.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new Distance(6, 10, "Archer.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new Distance(6, 12, "Archer.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        
-        characters.add(new AirWarrior("Dragon.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new AirWarrior("Dragon.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new AirWarrior("Dragon.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        
-        characters.add(new Beast(1, 8, "PEKKA.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new Beast(2, 10, "PEKKA.png", Team.FRIEND, gameBoard, handlerGameObjects));
-        characters.add(new Beast(1, 12, "PEKKA.png", Team.FRIEND, gameBoard, handlerGameObjects));
+       warriors.add(new ContactWarrior(100, 2, 1, 1, 3, 30,
+                        new ImageIcon[]{new ImageIcon(Tools.getIcon.apply("Barbarian.png")
+                                .getScaledInstance(40, 40, Image.SCALE_SMOOTH))}));
 
-        gameBoard.addCharacteres(characters);
-        handlerGameObjects.addObjectsList(characters);
+       warriors.add(new Distance(100, 3, 1, 3, 3, 40,
+                        new ImageIcon[]{new ImageIcon(Tools.getIcon.apply("Archer.png")
+                                .getScaledInstance(40, 40, Image.SCALE_SMOOTH))}));
 
-        timerBackground = new Timer();
-        timerBackground.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                Tools.playSound(bgSound);
-            }
-        }, 3000, 175000);
+       warriors.add(new Heroe(200, 3, 1, 1, 6, 40,
+                new ImageIcon[]{new ImageIcon(Tools.getIcon.apply("BarbKing.png")
+                        .getScaledInstance(40, 40, Image.SCALE_SMOOTH))}));
+
+       user.setAllCharacters(warriors);
+       Tools.storeSerializableObject(user, "/home/gerald/develop/poo/ClashOfClans/src/main/java/com/game/Games/user1.game");// guardamos 2 desgraciados
     }
 
     public synchronized void start(){
@@ -229,6 +176,83 @@ public class Game extends Canvas implements Runnable, Clickable {
         pause = !pause;
     }
 
+
+    @Override
+    public void clickReleased(MouseEvent e) {
+        System.out.println("Pausa");
+        this.pause();
+    }
+
+    private void generateEnemies(GameBoard gameBoard, HandlerGameObjects handlerGameObjects, int level, ArrayList<Warrior> allCharacters) {
+        Point p;
+        // defensas
+        for (int i = 0; i < 5; i++) { // 5 muros
+            p = gameBoard.getEmptyRandomPosition();
+            Wall wall = new Wall(p.x, p.y);
+            gameBoard.addCharacter(wall);
+            handlerGameObjects.addObject(wall);
+        }
+
+        //  2 de cada uno
+        for (int j = 0; j < 2; j++) {  // AirDefense
+            p = gameBoard.getEmptyRandomPosition();
+            AirDefense airDefense = new AirDefense(p.x, p.y, level, gameBoard, handlerGameObjects);
+            gameBoard.addCharacter(airDefense);
+            handlerGameObjects.addObject(airDefense);
+        }
+
+        //  2 de cada uno
+        for (int j = 0; j < 2; j++) {  // cannon
+            p = gameBoard.getEmptyRandomPosition();
+            Cannon cannon = new Cannon(p.x, p.y, level, gameBoard, handlerGameObjects);
+            gameBoard.addCharacter(cannon);
+            handlerGameObjects.addObject(cannon);
+        }
+
+        //  2 de cada uno
+        for (int j = 0; j < 2; j++) {  // tower
+            p = gameBoard.getEmptyRandomPosition();
+            Tower tower = new Tower(p.x, p.y, level, gameBoard, handlerGameObjects);
+            gameBoard.addCharacter(tower);
+            handlerGameObjects.addObject(tower);
+        }
+
+        //  2 de cada uno
+        for (int j = 0; j < 2; j++) {  // Mortar
+            p = gameBoard.getEmptyRandomPosition();
+            Mortar mortar = new Mortar(p.x, p.y, level, gameBoard, handlerGameObjects);
+            gameBoard.addCharacter(mortar);
+            handlerGameObjects.addObject(mortar);
+        }
+
+        //  2 de cada uno
+        for (int j = 0; j < 5; j++) {  // Bomb
+            p = gameBoard.getEmptyRandomPosition();
+            Bomb bomb = new Bomb(p.x, p.y, level, gameBoard, handlerGameObjects);
+            gameBoard.addCharacter(bomb);
+            handlerGameObjects.addObject(bomb);
+        }
+
+        for (int i = 0; i < allCharacters.size(); i++) {
+            //7 de cada uno
+            for (int j = 0; j < 7; j++) {
+                Warrior w = allCharacters.get(i).clone(allCharacters.get(i));
+                p = gameBoard.getEmptyRandomPosition();
+                w.setLocation(p);
+                w.setTeam(Team.ENEMY);
+                w.setGameBoard(gameBoard);
+                w.setHandlerGameObjects(handlerGameObjects);
+                handlerGameObjects.addObject(w);
+                gameBoard.addCharacter(w);
+
+            }
+        }
+
+        // end defensas
+    }
+
+
+
     @Override
     public void clicked(MouseEvent e) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -249,16 +273,5 @@ public class Game extends Canvas implements Runnable, Clickable {
         }
 
         System.out.println(stringBuilder.toString());
-    }
-
-    @Override
-    public void clickReleased(MouseEvent e) {
-        System.out.println("Pausa");
-        this.pause();
-    }
-
-    private ArrayList<Character> generateEnemies(int level, ArrayList<Character> allCharacters) {
-
-        return null;
     }
 }

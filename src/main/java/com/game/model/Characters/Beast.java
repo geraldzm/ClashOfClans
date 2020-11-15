@@ -5,14 +5,26 @@ import com.game.model.Handles.HandlerGameObjects;
 import com.game.model.ID;
 import com.game.model.Team;
 
+import javax.swing.*;
+
 public class Beast extends Distance {
-    public Beast(int x, int y, String imgPath, Team team, GameBoard gameBoard, HandlerGameObjects handlerGameObjects) {
-        super(x, y, ID.BEAST, imgPath, team, gameBoard, handlerGameObjects);
-        strokePerTime = 3; // para pruebas
+
+    /**
+     * <h1>Constructor para que el usuario cree sus personajes</h1>
+     * @param images debe haber al menos 1 imagen, la primera imagen es por defecto
+     * */
+    public Beast(int maxHealth, int troops, int appearanceLevel, int range, int strokePerTime, int speed, ImageIcon[] images) {
+        super(maxHealth, troops, appearanceLevel, range, strokePerTime, speed, images);
+        setId(ID.BEAST);
     }
 
     @Override
-    public void upgrade() {
+    public void upgrade(int level) {
         System.out.println("El no va a digievolucionar :C   ");
+    }
+
+    @Override
+    public void levelUp() {
+
     }
 }
