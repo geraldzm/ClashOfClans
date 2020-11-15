@@ -1,36 +1,40 @@
 package com.game.model;
 
-
 import com.game.model.Handles.HandlerGameObjects;
 import com.game.model.Interfaces.IMoveable;
 
+import javax.swing.*;
 import java.awt.*;
+import java.util.Date;
 
 /**
  * <h1>Todos los personajes que van a estar en un bando</h1>
  * */
-public abstract class Warrior extends Fighter implements IMoveable{
+public abstract class Warrior extends Fighter implements IMoveable {
 
-    protected int health;
-    protected int maxHealth;
-    private int troops;
-    private int appearanceLevel;
-    protected final int frames = 10;//cada 30 frames se mueve o intenta atacar
-    protected int framesTimer=0;
+    private int health;
+    private int maxHealth;
+    protected int troops;
     protected Point nextMove;
 
-    public Warrior(double x, double y, int width, int height, ID id, Team team, GameBoard gameBoard, HandlerGameObjects handlerGameObjects) {
-        super(x, y, width, height, id, team, gameBoard, handlerGameObjects);
-        health = 300;
-        maxHealth = health;
+    /**
+     * <h1>Constructor para que el usuario cree sus personajes</h1>
+     * @param images debe haber al menos 1 imagen, la primera imagen es por defecto
+     * */
+    public Warrior(ID id, int maxHealth, int troops, int appearanceLevel, int range, int strokePerTime, int speed, ImageIcon[] images) {
+        super(id, Team.FRIEND, range, strokePerTime, 1, appearanceLevel, speed, images);
+        setHealth(maxHealth);
+        this.troops = troops;
     }
 
-    public Warrior(int x, int y, int width, int height, ID id, Team team, GameBoard gameBoard, HandlerGameObjects handlerGameObjects) {
-        super(x, y, width, height, id, team, gameBoard, handlerGameObjects);
-        health = 300;
-        maxHealth = health;
+    /**
+     * <h1>para clonar</h1>
+     * */
+    public Warrior(Warrior warrior, GameBoard gameBoard, HandlerGameObjects handlerGameObjects) {
+        super(warrior, gameBoard, handlerGameObjects);
+        setHealth(warrior.maxHealth);
+        this.troops = warrior.troops;
     }
-
 
    protected void displayHealthBar(Graphics g){
         double x = hitBox.getX(), y = hitBox.getY();
@@ -72,7 +76,6 @@ public abstract class Warrior extends Fighter implements IMoveable{
         return 0;
     }
 
-
     @Override
     public void render(Graphics g) {
         super.render(g);
@@ -81,9 +84,7 @@ public abstract class Warrior extends Fighter implements IMoveable{
 
     @Override
     public void tick() {
-
         if(framesTimer == frames){
-
             if(isSomeoneInRange())attack();
             else move();
 
@@ -110,5 +111,44 @@ public abstract class Warrior extends Fighter implements IMoveable{
         }
     }
 
+    public void setHealth(int health) {
+        this.health = health;
+        maxHealth = health;
+    }
 
+    public int getTroops() {
+        return troops;
+    }
+
+    public void setTroops(int troops) {
+        this.troops = troops;
+    }
+
+    public abstract Warrior clone(Warrior w);
+
+    @Override
+    public String toString() {
+        return "Warrior{" +
+                "health=" + health +
+                ", maxHealth=" + maxHealth +
+                ", troops=" + troops +
+                ", nextMove=" + nextMove +
+                ", range=" + range +
+                ", strokePerTime=" + strokePerTime +
+                ", cooldown=" + cooldown +
+                ", timer=" + timer +
+                ", appearanceLevel=" + appearanceLevel +
+                ", frames=" + frames +
+                ", framesTimer=" + framesTimer +
+                ", target=" + target +
+                ", gameBoard=" + gameBoard +
+                ", handlerGameObjects=" + handlerGameObjects +
+                ", location=" + location +
+                ", id=" + id +
+                ", velX=" + velX +
+                ", velY=" + velY +
+                ", img=" + img +
+                ", hitBox=" + hitBox +
+                '}';
+    }
 }

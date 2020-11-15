@@ -1,36 +1,33 @@
 package com.game.model.Characters;
 
-import com.game.model.Defense;
-import com.game.model.GameBoard;
+import com.game.model.*;
 import com.game.model.Handles.HandlerGameObjects;
-import com.game.model.ID;
-import com.game.model.Warrior;
+
 import java.util.ArrayList;
 
-public class AirDefense extends Defense {
+public class AirDefense extends Fighter {
     
-    public AirDefense(int x, int y, String imgPath, GameBoard gameBoard, HandlerGameObjects handlerGameObjects) {
-        super(x, y, imgPath, gameBoard, handlerGameObjects);
+    public AirDefense(int x, int y, int level, GameBoard gameBoard, HandlerGameObjects handlerGameObjects) {
+        super(x, y, "Defensa aérea", ID.DEFENSE, Team.DEFENSE, 8, 2, level, 1, "Air_Defense.png", gameBoard, handlerGameObjects);
+        setTargetCriteria(this::apply);
     }
-    
+
     @Override
-    public boolean isSomeoneInRange() {
-        boolean isTargetOk = target != null && !target.isDead();
-        
-        if(isTargetOk && isInRange(target.getLocation())) return true;
-            
-        ArrayList<Warrior> warriors = gameBoard.getWarriorsById(ID.AIR);
+    public void upgrade(int level) {
 
-        if(warriors == null || warriors.isEmpty())return false;
+    }
 
-        for (int i = 0; i < warriors.size(); i++) { // buscamos el mas cercano
-            if(isInRange(warriors.get(i).getLocation())){
-                target = warriors.get(i);
-                return true;
-            }
-        }
-        
-        target = null; // no hab[ia nadie en el rango
-        return false;
+    @Override
+    public void levelUp() {
+
+    }
+
+    @Override
+    public void makeSound() {
+
+    }
+
+    private Boolean apply(Warrior warrior) {
+        return warrior.getId() == ID.AIR && isInRange(warrior.getLocation());
     }
 }

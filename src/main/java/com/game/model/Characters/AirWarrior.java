@@ -6,21 +6,32 @@ import com.game.model.ID;
 import com.game.model.Team;
 import com.game.model.Tools;
 import com.game.model.Warrior;
+
+import javax.swing.*;
 import java.awt.Image;
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.Date;
+
 
 public class AirWarrior extends Warrior {
     
     private static String attackSound = "dragon_deploy_01.wav";
-    private boolean moved = false;
-    
-    public AirWarrior(String imgPath, Team team, GameBoard gameBoard, HandlerGameObjects handlerGameObjects) {
-        super(0, 0, 40, 40, ID.AIR, team, gameBoard, handlerGameObjects);
-        range = 5;
-        strokePerTime = 4;
-        setImage(Tools.getIcon.apply(imgPath)
-                .getScaledInstance(40,40, Image.SCALE_SMOOTH));
+    private boolean deployed = false;
+
+    /**
+     * <h1>Constructor para que el usuario cree sus personajes</h1>
+     * @param images debe haber al menos 1 imagen, la primera imagen es por defecto
+     * */
+    public AirWarrior(int maxHealth, int troops, int appearanceLevel, int range, int strokePerTime, int speed, ImageIcon[] images) {
+        super(ID.AIR, maxHealth, troops, appearanceLevel, range, strokePerTime, speed, images);
+    }
+
+    /**
+     * <h1>para clonar</h1>
+     * */
+    public AirWarrior(Warrior airWarrior, GameBoard gameBoard, HandlerGameObjects handlerGameObjects) {
+        super(airWarrior, gameBoard, handlerGameObjects);
     }
 
     @Override
@@ -29,23 +40,25 @@ public class AirWarrior extends Warrior {
     }
 
     @Override
-    public void upgrade() {
+    public void upgrade(int level) {
         
     }
+
+    @Override
+    public void levelUp() {}
 
     @Override
     public void tick() {
         // Los air warrior deben aparecer al lado de su primer objetivo segun las especificaciones
         // Also makes sense porque no se mueven y si solo quedan dos dragones pues F nadie gana
-        if (!moved){
+        if (!deployed){
+            deployed = true;
             move();
-            moved = true;
+            return;
         }
         
         if(framesTimer == frames){
-
             if(isSomeoneInRange()) attack();
-
             framesTimer = 0;
         }else{
             framesTimer++;
@@ -54,33 +67,41 @@ public class AirWarrior extends Warrior {
     
     @Override
     public void move(){
-        Warrior warrior = gameBoard.getRandom(getTeam());
-        
-        if (warrior == null) return;
-        
+        ArrayList<Warrior> warriors = gameBoard.getTeam(getTeam());
+
+        if(warriors == null || warriors.isEmpty()) return; // no hay nadie
+
+        Warrior warrior = warriors.get(random.nextInt(warriors.size())); // sacamos un enemigo random
+
         Point pos;
         
         for (int i = -1; i <= 1; i++){
             for (int j = -1; j <= 1; j++){
                 pos = new Point(warrior.getLocation().x + i, warrior.getLocation().y + j);
-
                 if (!gameBoard.isPositionOccupied(pos)){
-                    gameBoard.moveCharacter(getLocation(), pos);
                     setLocation(pos);
-                    break;
+                    gameBoard.addCharacter(this);
+                    return;
                 }
             }
-        } 
+        }
+
+        deployed = false; // no se pudo colocar
     }
 
     @Override
-    public void attack(){ 
-        // La animacion de la bola de fuego
-        if (new Date().getTime() - timer.getTime() >= cooldown){
-            target.hit(strokePerTime);
+    public Warrior clone(Warrior w) {
+        return new AirWarrior(w, w.getGameBoard(), w.getHandlerGameObjects());
+    }
 
-            timer = new Date();
-            Tools.playSound(attackSound);
-        }
+    @Override
+    public void attack(){
+        super.attack();
+        // La animacion de la bola de fuego
+    }
+
+    @Override
+    public void makeSound() {
+        Tools.playSound(attackSound);
     }
 }

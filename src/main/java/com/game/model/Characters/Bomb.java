@@ -5,29 +5,42 @@
  */
 package com.game.model.Characters;
 
-import com.game.model.GameBoard;
+import com.game.model.*;
 import com.game.model.Handles.HandlerGameObjects;
+
+import java.lang.annotation.Target;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
  *
  * @author andro
  */
-public class Bomb extends LandDefense{
-    
-    public Bomb(int x, int y, String imgPath, GameBoard gameBoard, HandlerGameObjects handlerGameObjects) {
-        super(x, y, imgPath, gameBoard, handlerGameObjects);
-        
-        strokePerTime = 30;
-        range = 1;
+public class Bomb extends Fighter {
+
+    private ArrayList<Warrior> targets;
+
+    public Bomb(int x, int y, int level, GameBoard gameBoard, HandlerGameObjects handlerGameObjects) {
+        super(x, y, "Bomba", ID.DEFENSE, Team.DEFENSE, 1, 50, level, 1, "Bomb.png", gameBoard, handlerGameObjects);
+        targets = new ArrayList<>();
     }
-    
+
+    @Override
+    public void upgrade(int level) {
+
+    }
+
+    @Override
+    public void levelUp() {
+
+    }
+
     // Le hago override pues la bomba cuando explota, muere
     @Override
     public void attack(){
         if (new Date().getTime() - timer.getTime() >= cooldown){
-            target.hit(strokePerTime);
-
+            //explotion
+            for (int i = 0; i < targets.size(); i++)targets.get(i).hit(strokePerTime);
             die();
         }
     }
@@ -35,5 +48,32 @@ public class Bomb extends LandDefense{
     public void die() {
         gameBoard.removeCharacter(this);
         handlerGameObjects.removeObject(this);
+    }
+
+
+    @Override
+    public boolean isSomeoneInRange() {
+
+        if(targets != null && !targets.isEmpty()) return true;
+
+        boolean rs = false;
+
+        ArrayList<Warrior> warriors = gameBoard.getTeam(getTeam());
+
+        if(warriors == null || warriors.isEmpty())return false;
+
+        for (int i = 0; i < warriors.size(); i++){
+            if(getTargetCriteria().apply(warriors.get(i))){
+                targets.add(warriors.get(i));
+                rs = true;
+            }
+        }
+
+        return rs;
+    }
+
+    @Override
+    public void makeSound() {
+
     }
 }

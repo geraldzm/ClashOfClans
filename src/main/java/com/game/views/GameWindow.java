@@ -1,12 +1,37 @@
 package com.game.views;
 
+import com.game.model.Characters.AirWarrior;
+import com.game.model.Characters.ContactWarrior;
+import com.game.model.Characters.Distance;
 import com.game.model.Game;
+import com.game.model.Tools;
+import com.game.model.User;
+import com.game.model.Warrior;
+
 import java.awt.BorderLayout;
+import java.util.ArrayList;
 
 public class GameWindow extends javax.swing.JFrame {
 
     public GameWindow() {
-        Game game = new Game();
+
+        User user = Tools.readSerializableObject("/home/gerald/develop/poo/ClashOfClans/src/main/java/com/game/Games/user1.game");
+        System.out.println(user);
+
+        ArrayList<Warrior> characters = new ArrayList<>();
+
+        for (int j = 0; j < 7; j++){
+            for (int i = 0; i < user.getAllCharacters().size(); i++){
+
+                characters.add(user.getAllCharacters().get(i).clone(user.getAllCharacters().get(i)));
+
+            }
+        }
+
+
+        Game game = new Game(1, characters, user.getAllCharacters());
+
+
         add(game, BorderLayout.CENTER); // de momento, luego se le pasan las configs al game por el constructor
         initComponents();
         game.start();

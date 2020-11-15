@@ -3,6 +3,8 @@ package com.game.model;
 import static com.game.model.Fighter.random;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
 
 /**
  * <h1>Tablero de juego</h1>
@@ -93,7 +95,7 @@ public class GameBoard {
 
     }
 
-    synchronized public void addCharacteres(ArrayList<Character> characteres){
+    synchronized public <T extends Character> void addCharacteres(ArrayList<T> characteres){
         System.out.println("Se agregan: " + characteres.size());
         for (int i = 0; i < characteres.size(); i++)
             addCharacter(characteres.get(i));
@@ -236,18 +238,27 @@ public class GameBoard {
         
         return list;
     }
-    
 
-    // retorna un random de la lista, si esta vacia entonces null
-    public Warrior getRandom(Team team){
-        ArrayList<Warrior> warriors = switch (team) {
-            case FRIEND -> getEnemies();
-            case ENEMY -> getFriends();
-            default -> random.nextInt(100) >= 50 ? getEnemies() : getFriends();
-        };
-        
-        if(warriors.isEmpty()) return null; // no hay nadie
-        
-        return warriors.get(random.nextInt(warriors.size())); // sacamos un enemigo random
+    public ArrayList<Warrior> getTeam(Team team){
+        ArrayList<Warrior> warriors;
+        switch (team) {
+            case FRIEND -> warriors = getEnemies();
+            case ENEMY -> warriors = getFriends();
+            default -> {
+                warriors = new ArrayList<>();
+                warriors.addAll(getEnemies());
+                warriors.addAll(getFriends());
+            }
+        }
+        return warriors;
+    }
+
+    public Point getEmptyRandomPosition(){
+        Point p;
+        Random r = new Random();
+        do{
+            p = new Point(r.nextInt(20), r.nextInt(20));
+        }while (isPositionOccupied(p));
+        return p;
     }
 }

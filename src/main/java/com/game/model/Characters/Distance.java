@@ -3,26 +3,24 @@ package com.game.model.Characters;
 import com.game.model.*;
 import com.game.model.Handles.HandlerGameObjects;
 
+import javax.swing.*;
 import java.awt.*;
-import java.util.Date;
 
 public class Distance extends Warrior {
 
-    public Distance(int x, int y, String imgPath, Team team, GameBoard gameBoard, HandlerGameObjects handlerGameObjects) {
-        super(x, y, 40, 40, ID.DISTANCE, team, gameBoard, handlerGameObjects);
-        range = 3;
-        strokePerTime = 2;
-        setImage(Tools.getIcon.apply(imgPath)
-                .getScaledInstance(40,40, Image.SCALE_SMOOTH));
+    /**
+     * <h1>Constructor para que el usuario cree sus personajes</h1>
+     * @param images debe haber al menos 1 imagen, la primera imagen es por defecto
+     * */
+    public Distance(int maxHealth, int troops, int appearanceLevel, int range, int strokePerTime, int speed, ImageIcon[] images) {
+        super(ID.DISTANCE, maxHealth, troops, appearanceLevel, range, strokePerTime, speed, images);
     }
 
-    // Constructor para el beast
-    protected Distance(int x, int y, ID id, String imgPath, Team team, GameBoard gameBoard, HandlerGameObjects handlerGameObjects) {
-        super(x, y, 40, 40, id, team, gameBoard, handlerGameObjects);
-        range = 3;
-        strokePerTime = 2;
-        setImage(Tools.getIcon.apply(imgPath)
-                .getScaledInstance(40,40, Image.SCALE_SMOOTH));
+    /**
+     * <h1>para clonar</h1>
+     * */
+    public Distance(Warrior distance, GameBoard gameBoard, HandlerGameObjects handlerGameObjects) {
+        super(distance, gameBoard, handlerGameObjects);
     }
 
     @Override
@@ -31,18 +29,24 @@ public class Distance extends Warrior {
     }
 
     @Override
-    public void upgrade() {
+    public Warrior clone(Warrior w) {
+        return new Distance(w, w.getGameBoard(), w.getHandlerGameObjects());
+    }
+
+    @Override
+    public void upgrade(int level) {
 
     }
 
     @Override
-    public void attack(){ // esta mae tira flechas, luego
-        if(target == null) System.out.println("wtf");
-        if (new Date().getTime() - timer.getTime() >= cooldown){
-            target.hit(strokePerTime);
-            // System.out.println("de: " +getLocation());
+    public void levelUp() {
 
-            timer = new Date();
-        }
     }
+
+    @Override
+    public void makeSound() {
+
+    }
+
+
 }

@@ -5,10 +5,7 @@ import javax.imageio.ImageIO;
 import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import javax.sound.sampled.AudioInputStream;
@@ -38,8 +35,8 @@ public class Tools {
     
     // Reproduce un sonido
     public static synchronized void playSound(final String url) {
-
-        new Thread(() -> {
+        return;
+       /* new Thread(() -> {
             try (AudioInputStream inputStream = AudioSystem.getAudioInputStream(
                     new File("src/main/java/com/game/audio/" + url))){
                 Clip clip = AudioSystem.getClip();
@@ -53,8 +50,36 @@ public class Tools {
                 System.err.println("Audio no existe: " + e.getMessage());
                // System.out.println(url);
             }
-        }).start();
-     }
+        }).start();*/
+    }
 
+    public static boolean storeSerializableObject(User obj, String path){
+
+        try(OutputStream outputStream = new FileOutputStream(new File(path))){
+
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+
+            objectOutputStream.writeObject(obj);
+            return true;
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public static User readSerializableObject(String path){
+
+        try(InputStream inputStream = new FileInputStream(new File(path))){
+
+            ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+
+            return (User) objectInputStream.readObject();
+        } catch (ClassNotFoundException | IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
 }

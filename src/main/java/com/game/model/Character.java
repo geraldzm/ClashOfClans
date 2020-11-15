@@ -2,7 +2,6 @@ package com.game.model;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.function.Consumer;
 
 /**
  * <h1>Todos los personajes que tengan una posición en la matriz lógica</h1>
@@ -11,24 +10,39 @@ public abstract class Character extends GameObject{
 
     private String name;
     protected Point location; // en matriz lógica
-    private ImageIcon imges[]; //atributo apariencia
+    protected ImageIcon images[]; //atributo apariencia
     private Team team; // equipo al que pertenece
 
-    public Character(double x, double y, int width, int height, ID id, Team team) {
-        super(x, y, width, height, id);
+    public Character() {}
+
+    /**
+     * <h1>para clonar</h1>
+     * */
+    public Character(Character character) {
+        super(character);
+        this.name = character.name;
+        if(location!= null) this.location = new Point(character.location.x, character.location.y);
+        this.images = character.images.clone();
+        this.team = character.team;
+    }
+
+
+    /**
+     * <h1>Constructor para que el usuario cree sus personajes</h1>
+     * */
+    public Character(ID id, Team team) {
+        super(40, 40, id);
+        this.location = null;
         this.team = team;
     }
 
-    public Character(int width, int height, ID id) {
-        super(width, height, id);
-    }
-
     /**
+     * <h1>Solo lo debe de usar la defensa</h1>
      * @param x x en la matriz logica
      * @param y y en la matriz logica
      * */
-    public Character(int x, int y, int width, int height, ID id, Team team) {
-        super(x*40, y*40, width, height, id);
+    public Character(int x, int y, String name, ID id, Team team) {
+        super(x*40, y*40, 40, 40, id);
         this.location = new Point(x, y);
         this.team = team;
     }
@@ -51,12 +65,13 @@ public abstract class Character extends GameObject{
         this.name = name;
     }
 
-    public ImageIcon[] getImges() {
-        return imges;
+    public ImageIcon[] getImages() {
+        return images;
     }
 
-    public void setImges(ImageIcon[] imges) {
-        this.imges = imges;
+    public void setImages(ImageIcon[] images) {
+        this.images = images;
+        setImage(images[0].getImage());
     }
 
     public Team getTeam() {
