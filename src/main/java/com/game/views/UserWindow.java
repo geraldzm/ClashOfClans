@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 public class UserWindow extends javax.swing.JFrame {
@@ -31,13 +32,7 @@ public class UserWindow extends javax.swing.JFrame {
         
         this.user = user;
         
-        for (int i = 0; i < user.getAllCharacters().size(); i++){
-            cbAvailableTroops.addItem(user.getAllCharacters().get(i).getName());
-        }
-        
-        for (int i = 0; i < tipos.length; i++){
-            cbTipo.addItem(tipos[i]);
-        }
+        initComboBox();
         
         header.setIcon(Tools.getComponentIcon("res/header.png", header.getWidth(), header.getHeight()));
         background.setIcon(Tools.getComponentIcon("res/bg_troop.png", background.getWidth(), background.getHeight()));
@@ -47,11 +42,32 @@ public class UserWindow extends javax.swing.JFrame {
         btnBackup.setIcon(Tools.getComponentIcon("res/backup_button.png", btnBackup.getWidth(), btnBackup.getHeight()));
     }
 
+    private void initComboBox(){
+        for (int i = 0; i < user.getAllCharacters().size(); i++){
+            cbAvailableTroops.addItem(user.getAllCharacters().get(i).getName());
+        }
+        
+        // Se que no le gusta el foreach! pero en este caso no da problemas! no lo cambie...
+        for (String tipo : tipos) {
+            cbTipo.addItem(tipo);
+        }
+    }
+    
+    private void setLabelImage(JLabel label, String path){
+        try {
+            label.setIcon(Tools.getComponentIcon(path, label.getWidth(), label.getHeight()));
+        } catch (IOException ex) {
+            Logger.getLogger(UserWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         cbTipo = new javax.swing.JComboBox<>();
+        lbSelected1 = new javax.swing.JLabel();
+        lbSelected = new javax.swing.JLabel();
         btnBackup = new javax.swing.JLabel();
         btnSave = new javax.swing.JLabel();
         tfSpeed = new javax.swing.JTextField();
@@ -67,7 +83,6 @@ public class UserWindow extends javax.swing.JFrame {
         btnImagen2 = new javax.swing.JLabel();
         btnImagen = new javax.swing.JLabel();
         btnDelete = new javax.swing.JLabel();
-        lbSelected = new javax.swing.JLabel();
         title1 = new javax.swing.JLabel();
         cbAvailableTroops = new javax.swing.JComboBox<>();
         btnBack = new javax.swing.JLabel();
@@ -83,6 +98,17 @@ public class UserWindow extends javax.swing.JFrame {
 
         getContentPane().add(cbTipo);
         cbTipo.setBounds(290, 250, 330, 22);
+
+        lbSelected1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lbSelected1.setForeground(new java.awt.Color(255, 255, 255));
+        lbSelected1.setText("Tropa seleccionada: ");
+        getContentPane().add(lbSelected1);
+        lbSelected1.setBounds(30, 150, 180, 25);
+
+        lbSelected.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lbSelected.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(lbSelected);
+        lbSelected.setBounds(30, 180, 180, 40);
 
         btnBackup.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnBackup.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -239,18 +265,17 @@ public class UserWindow extends javax.swing.JFrame {
         getContentPane().add(btnDelete);
         btnDelete.setBounds(30, 350, 160, 70);
 
-        lbSelected.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lbSelected.setForeground(new java.awt.Color(255, 255, 255));
-        lbSelected.setText("Tropa seleccionada: ");
-        getContentPane().add(lbSelected);
-        lbSelected.setBounds(30, 150, 180, 25);
-
         title1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         title1.setForeground(new java.awt.Color(255, 255, 255));
         title1.setText("Tropas disponibles");
         getContentPane().add(title1);
         title1.setBounds(30, 60, 170, 25);
 
+        cbAvailableTroops.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbAvailableTroopsItemStateChanged(evt);
+            }
+        });
         getContentPane().add(cbAvailableTroops);
         cbAvailableTroops.setBounds(30, 100, 160, 22);
 
@@ -292,35 +317,19 @@ public class UserWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackMousePressed
 
     private void btnBackMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseEntered
-        try {
-            btnBack.setIcon(Tools.getComponentIcon("res/back_focus_button.png", btnBack.getWidth(), btnBack.getHeight()));
-        } catch (IOException ex) {
-            Logger.getLogger(UserWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        setLabelImage(btnBack, "res/back_focus_button.png");
     }//GEN-LAST:event_btnBackMouseEntered
 
     private void btnBackMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseExited
-        try {
-            btnBack.setIcon(Tools.getComponentIcon("res/back_button.png", btnBack.getWidth(), btnBack.getHeight()));
-        } catch (IOException ex) {
-            Logger.getLogger(UserWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        setLabelImage(btnBack, "res/back_button.png");
     }//GEN-LAST:event_btnBackMouseExited
 
     private void btnSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseEntered
-        try {
-            btnSave.setIcon(Tools.getComponentIcon("res/save_focus_button.png", btnSave.getWidth(), btnSave.getHeight()));
-        } catch (IOException ex) {
-            Logger.getLogger(UserWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        setLabelImage(btnSave, "res/save_focus_button.png");
     }//GEN-LAST:event_btnSaveMouseEntered
 
     private void btnSaveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseExited
-        try {
-            btnSave.setIcon(Tools.getComponentIcon("res/save_button.png", btnSave.getWidth(), btnSave.getHeight()));
-        } catch (IOException ex) {
-            Logger.getLogger(UserWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        setLabelImage(btnSave, "res/save_button.png");
     }//GEN-LAST:event_btnSaveMouseExited
 
     private void btnSaveMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMousePressed
@@ -328,19 +337,11 @@ public class UserWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSaveMousePressed
 
     private void btnBackupMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackupMouseEntered
-        try {
-            btnBackup.setIcon(Tools.getComponentIcon("res/backup_focus_button.png", btnBackup.getWidth(), btnBackup.getHeight()));
-        } catch (IOException ex) {
-            Logger.getLogger(UserWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        setLabelImage(btnBackup, "res/backup_focus_button.png");
     }//GEN-LAST:event_btnBackupMouseEntered
 
     private void btnBackupMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackupMouseExited
-        try {
-            btnBackup.setIcon(Tools.getComponentIcon("res/backup_button.png", btnBackup.getWidth(), btnBackup.getHeight()));
-        } catch (IOException ex) {
-            Logger.getLogger(UserWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        setLabelImage(btnBackup, "res/backup_button.png");
     }//GEN-LAST:event_btnBackupMouseExited
 
     private void btnBackupMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackupMousePressed
@@ -377,22 +378,14 @@ public class UserWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackupMouseClicked
 
     private void btnDeleteMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseEntered
-        try {
-            btnDelete.setIcon(Tools.getComponentIcon("res/delete_focus_button.png", btnDelete.getWidth(), btnDelete.getHeight()));
-        } catch (IOException ex) {
-            Logger.getLogger(UserWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        setLabelImage(btnDelete, "res/delete_focus_button.png");
     }//GEN-LAST:event_btnDeleteMouseEntered
 
     private void btnDeleteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseExited
-        try {
-            btnDelete.setIcon(Tools.getComponentIcon("res/delete_button.png", btnDelete.getWidth(), btnDelete.getHeight()));
-        } catch (IOException ex) {
-            Logger.getLogger(UserWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        setLabelImage(btnDelete, "res/delete_button.png");
     }//GEN-LAST:event_btnDeleteMouseExited
-
-    private void btnSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseClicked
+    
+    private Warrior getWarrior(ID id){
         int level = Integer.parseInt(tfAparicion.getText());                                     
         int attack = Integer.parseInt(tfAtaque.getText());                                
         int troops = Integer.parseInt(tfCampos.getText());                             
@@ -401,34 +394,22 @@ public class UserWindow extends javax.swing.JFrame {
         
         String name = tfNombre.getText();
         
-        Warrior toAdd = null;
-        int index = cbTipo.getSelectedIndex();
-        
-        if (index == -1) return;
-         
-        ID id = ids[index];
-        
-        for (int i = 0; i < images.length; i++){
-            if (images[i] == null){
-                JOptionPane.showMessageDialog(rootPane, "La imagen #"+i+" no ha sido seleccionada");
-                return;
-            }
-        }
+        Warrior warrior = null;
         
         switch (id) {
             case AIR:
-                toAdd = new AirWarrior(health, name, troops, level, 4, attack, speed, images);
+                warrior = new AirWarrior(health, name, troops, level, 4, attack, speed, images);
                 break;
             case BEAST:
-                toAdd = new Beast(health, name, troops, level, 3, attack, speed, images);
+                warrior = new Beast(health, name, troops, level, 3, attack, speed, images);
             case CONTACT:
-                toAdd = new ContactWarrior(health, name, troops, level, 1, attack, speed, images);
+                warrior = new ContactWarrior(health, name, troops, level, 1, attack, speed, images);
                 break;
             case DISTANCE:
-                toAdd = new Distance(health, name, troops, level, 3, attack, speed, images);
+                warrior = new Distance(health, name, troops, level, 3, attack, speed, images);
                 break;
             case HERO:
-                toAdd = new Heroe(health, name, troops, level, 1, attack, speed, images);
+                warrior = new Heroe(health, name, troops, level, 1, attack, speed, images);
                 break;
             default:
                 System.out.println("wtf no deberia llegar aqui...");
@@ -436,7 +417,26 @@ public class UserWindow extends javax.swing.JFrame {
                 break;
         }
         
-        if (user == null) return;
+        return warrior;
+    }
+    
+    private boolean areImagesEmpty(){
+        for (int i = 0; i < images.length; i++){
+            if (images[i] == null){
+                JOptionPane.showMessageDialog(rootPane, "La imagen #"+(i+1)+" no ha sido seleccionada");
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    private void btnSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseClicked
+        int index = cbTipo.getSelectedIndex();
+        
+        if (index == -1 || areImagesEmpty() || user == null) return;
+        
+        Warrior toAdd = getWarrior(ids[index]);
         
         user.getAllCharacters().add(toAdd);
         emptyFields();
@@ -496,6 +496,16 @@ public class UserWindow extends javax.swing.JFrame {
     private void tfSpeedKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfSpeedKeyReleased
         tfSpeed.setText(Tools.parseToNumber(tfSpeed.getText()));
     }//GEN-LAST:event_tfSpeedKeyReleased
+
+    private void cbAvailableTroopsItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbAvailableTroopsItemStateChanged
+        int selected = cbAvailableTroops.getSelectedIndex();
+        String troop = "";
+        
+        if (selected != -1)
+            troop = user.getAllCharacters().get(selected).getName();
+        
+        lbSelected.setText(troop);
+    }//GEN-LAST:event_cbAvailableTroopsItemStateChanged
     
     private void setImage(javax.swing.JLabel label, int index){
         FileDialog fd = new FileDialog(new JFrame());
@@ -526,6 +536,7 @@ public class UserWindow extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbTipo;
     private javax.swing.JLabel header;
     private javax.swing.JLabel lbSelected;
+    private javax.swing.JLabel lbSelected1;
     private javax.swing.JTextField tfAparicion;
     private javax.swing.JTextField tfAtaque;
     private javax.swing.JTextField tfCampos;

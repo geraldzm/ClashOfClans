@@ -8,6 +8,7 @@ public class User implements Serializable {
     private String name;
     private String password;
     private int level;
+    private int troops;
     private ArrayList<Warrior> characters; // el nivel de sus caracteres
     private ArrayList<Warrior> allCharacters;
 
@@ -47,7 +48,15 @@ public class User implements Serializable {
     public String getName(){
         return name;
     }
+    
+    public int getLevel(){
+        return level;
+    }
 
+    public int getTroops() {
+        return troops;
+    }
+    
     public boolean login(String pass){
         return password.equals(pass);
     }

@@ -1,31 +1,65 @@
 package com.game.views;
 
 import com.game.model.Tools;
+import com.game.model.User;
+import com.game.model.Warrior;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
+import javax.swing.table.DefaultTableModel;
 
 public class TroopsWindow extends javax.swing.JFrame {
-
-    public TroopsWindow() throws IOException {
+    
+    private User user;
+    private ArrayList<Warrior> warriors;
+    private DefaultTableModel tbModel;
+    
+    public TroopsWindow(User user) throws IOException {
         initComponents();
+        
         header.setIcon(new Tools().getComponentIcon("res/header.png", header.getWidth(), header.getHeight()));
         background.setIcon(new Tools().getComponentIcon("res/bg_troop.png", background.getWidth(), background.getHeight()));
         btnPlay.setIcon(new Tools().getComponentIcon("res/play_button.png", btnPlay.getWidth(), btnPlay.getHeight()));
         btnBack.setIcon(new Tools().getComponentIcon("res/back_button.png", btnBack.getWidth(), btnBack.getHeight()));
+        btnAdd.setIcon(new Tools().getComponentIcon("res/add_button.png", btnAdd.getWidth(), btnAdd.getHeight()));
+
+        this.user = user;
+        
+        cbTroops.removeAllItems();
+        tbModel = (DefaultTableModel) troops.getModel();
+        
+        for (int i = 0; i < user.getAllCharacters().size(); i++){
+            cbTroops.addItem(user.getAllCharacters().get(i).getName());
+        }
+        
+        lbUserLevel.setText("Jugador Nivel: " + user.getLevel());
+        lbCantidadTrops.setText("Tropas (0/" + user.getTroops() + ")");
     }
 
+    private void setLabelImage(JLabel label, String path){
+        try {
+            label.setIcon(Tools.getComponentIcon(path, label.getWidth(), label.getHeight()));
+        } catch (IOException ex) {
+            Logger.getLogger(UserWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnAdd = new javax.swing.JLabel();
+        btnDelete = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        troops = new javax.swing.JTable();
         btnBack = new javax.swing.JLabel();
-        troopsContainer = new javax.swing.JScrollPane();
-        jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        lbCantidadTrops = new javax.swing.JLabel();
+        cbTroops = new javax.swing.JComboBox<>();
         btnPlay = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        lbUserLevel = new javax.swing.JLabel();
         header = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         background = new javax.swing.JLabel();
@@ -35,6 +69,70 @@ public class TroopsWindow extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(800, 400));
         setSize(new java.awt.Dimension(800, 400));
         getContentPane().setLayout(null);
+
+        btnAdd.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAdd.setPreferredSize(new java.awt.Dimension(200, 100));
+        btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAddMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnAddMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnAddMouseExited(evt);
+            }
+        });
+        getContentPane().add(btnAdd);
+        btnAdd.setBounds(30, 270, 120, 60);
+
+        btnDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnDelete.setPreferredSize(new java.awt.Dimension(200, 100));
+        btnDelete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDeleteMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnDeleteMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnDeleteMouseExited(evt);
+            }
+        });
+        getContentPane().add(btnDelete);
+        btnDelete.setBounds(160, 270, 120, 60);
+
+        troops.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+            },
+            new String [] {
+                "Tropas", "Cantidad"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        troops.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(troops);
+        if (troops.getColumnModel().getColumnCount() > 0) {
+            troops.getColumnModel().getColumn(0).setResizable(false);
+            troops.getColumnModel().getColumn(1).setResizable(false);
+        }
+
+        getContentPane().add(jScrollPane1);
+        jScrollPane1.setBounds(290, 50, 250, 280);
 
         btnBack.setPreferredSize(new java.awt.Dimension(200, 100));
         btnBack.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -50,21 +148,19 @@ public class TroopsWindow extends javax.swing.JFrame {
         });
         getContentPane().add(btnBack);
         btnBack.setBounds(640, 190, 120, 60);
-        getContentPane().add(troopsContainer);
-        troopsContainer.setBounds(280, 50, 260, 300);
 
-        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Tropas (current/max)");
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(30, 180, 210, 25);
+        lbCantidadTrops.setBackground(new java.awt.Color(255, 255, 255));
+        lbCantidadTrops.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lbCantidadTrops.setForeground(new java.awt.Color(255, 255, 255));
+        lbCantidadTrops.setText("Tropas (current/max)");
+        getContentPane().add(lbCantidadTrops);
+        lbCantidadTrops.setBounds(30, 180, 210, 25);
 
-        jComboBox1.setForeground(new java.awt.Color(0, 0, 0));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        getContentPane().add(jComboBox1);
-        jComboBox1.setBounds(30, 90, 180, 30);
+        cbTroops.setForeground(new java.awt.Color(0, 0, 0));
+        cbTroops.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbTroops.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        getContentPane().add(cbTroops);
+        cbTroops.setBounds(30, 90, 180, 30);
 
         btnPlay.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnPlay.setPreferredSize(new java.awt.Dimension(200, 100));
@@ -90,12 +186,12 @@ public class TroopsWindow extends javax.swing.JFrame {
         getContentPane().add(jLabel2);
         jLabel2.setBounds(370, 0, 60, 25);
 
-        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Jugador Nivel: ");
-        getContentPane().add(jLabel3);
-        jLabel3.setBounds(30, 140, 180, 25);
+        lbUserLevel.setBackground(new java.awt.Color(255, 255, 255));
+        lbUserLevel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lbUserLevel.setForeground(new java.awt.Color(255, 255, 255));
+        lbUserLevel.setText("Jugador Nivel: ");
+        getContentPane().add(lbUserLevel);
+        lbUserLevel.setBounds(30, 140, 180, 25);
         getContentPane().add(header);
         header.setBounds(0, 0, 800, 40);
 
@@ -113,61 +209,112 @@ public class TroopsWindow extends javax.swing.JFrame {
 
     
     private void btnBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseClicked
-        new MainWindow().setVisible(true);
+        new MainWindow(user).setVisible(true);
         
         this.setVisible(false);
     }//GEN-LAST:event_btnBackMouseClicked
 
     private void btnPlayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlayMouseClicked
-        new GameWindow().setVisible(true);
+        new GameWindow(user).setVisible(true);
         
         this.setVisible(false);
     }//GEN-LAST:event_btnPlayMouseClicked
     
     // Animaciones
     private void btnPlayMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlayMouseEntered
-        try {
-            btnPlay.setIcon(new Tools().getComponentIcon("res/play_focus_button.png", btnPlay.getWidth(), btnPlay.getHeight()));
-        } catch (IOException ex) {
-            Logger.getLogger(TroopsWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        setLabelImage(btnPlay, "res/play_focus_button.png");
     }//GEN-LAST:event_btnPlayMouseEntered
 
     private void btnPlayMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlayMouseExited
-        try {
-            btnPlay.setIcon(new Tools().getComponentIcon("res/play_button.png", btnPlay.getWidth(), btnPlay.getHeight()));
-        } catch (IOException ex) {
-            Logger.getLogger(TroopsWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        setLabelImage(btnPlay, "res/play_button.png");
     }//GEN-LAST:event_btnPlayMouseExited
 
     private void btnBackMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseEntered
-        try {
-            btnBack.setIcon(new Tools().getComponentIcon("res/back_focus_button.png", btnBack.getWidth(), btnBack.getHeight()));
-        } catch (IOException ex) {
-            Logger.getLogger(TroopsWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        setLabelImage(btnBack, "res/back_focus_button.png");
     }//GEN-LAST:event_btnBackMouseEntered
 
     private void btnBackMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseExited
-        try {
-            btnBack.setIcon(new Tools().getComponentIcon("res/back_button.png", btnBack.getWidth(), btnBack.getHeight()));
-        } catch (IOException ex) {
-            Logger.getLogger(TroopsWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        setLabelImage(btnBack, "res/back_button.png");
     }//GEN-LAST:event_btnBackMouseExited
+
+    private void btnDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDeleteMouseClicked
+
+    private void btnDeleteMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDeleteMouseEntered
+
+    private void btnDeleteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDeleteMouseExited
+    
+    private int isWarriorInTheTable(String name, String data[]){
+        int positionInTable = -1;
+        
+        String currentName;
+        String currentAmount;
+        
+        var tableData = tbModel.getDataVector();
+        
+        for (int i = 0; i < tableData.size(); i++){
+            currentName = (String) tableData.get(i).get(0);
+            currentAmount = (String) tableData.get(i).get(1).toString();
+                    
+            if (currentName.equals(name)){
+                int amount = Integer.parseInt(currentAmount);
+                amount++;
+                data[1] = String.valueOf(amount);
+                positionInTable = i;
+            }
+        }
+        
+        return positionInTable;
+    }
+    
+    private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
+        int undefined = -1;
+        int selected = cbTroops.getSelectedIndex();
+        
+        if (selected != undefined){
+            String name = user.getAllCharacters().get(selected).getName();
+            String data[] = {name, String.valueOf(1)};
+            
+            int positionInTable = isWarriorInTheTable(name, data);
+            
+            if (positionInTable != undefined)
+                tbModel.removeRow(positionInTable);
+            
+            tbModel.addRow(data);
+            
+            // Aqui deberia agregarla la clonacion
+            // Falta lo de remover pero no puedo remover sin esto xD
+            warriors.add(user.getAllCharacters().get(selected).clone(user.getAllCharacters().get(selected)));
+        }
+    }//GEN-LAST:event_btnAddMouseClicked
+
+    private void btnAddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseEntered
+        setLabelImage(btnAdd, "res/add_focus_button.png");
+    }//GEN-LAST:event_btnAddMouseEntered
+
+    private void btnAddMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseExited
+        setLabelImage(btnAdd, "res/add_button.png");
+    }//GEN-LAST:event_btnAddMouseExited
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel background;
+    private javax.swing.JLabel btnAdd;
     private javax.swing.JLabel btnBack;
+    private javax.swing.JLabel btnDelete;
     private javax.swing.JLabel btnPlay;
+    private javax.swing.JComboBox<String> cbTroops;
     private javax.swing.JLabel header;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JScrollPane troopsContainer;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbCantidadTrops;
+    private javax.swing.JLabel lbUserLevel;
+    private javax.swing.JTable troops;
     // End of variables declaration//GEN-END:variables
 }

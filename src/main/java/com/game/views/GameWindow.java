@@ -1,7 +1,6 @@
 package com.game.views;
 
 import com.game.model.Game;
-import com.game.model.Tools;
 import com.game.model.User;
 import com.game.model.Warrior;
 
@@ -11,9 +10,10 @@ import java.util.ArrayList;
 public class GameWindow extends javax.swing.JFrame {
 
     private Game game;
+    private User user;
     
-    public GameWindow() {
-        User user = Tools.readSerializableObject("F:\\TEC\\II Semestre 2020\\POO\\Progras\\ClashOfClans\\src\\main\\java\\com\\game\\Games\\user1.game");
+    public GameWindow(User user) {
+        this.user = user;
         System.out.println(user);
 
         ArrayList<Warrior> characters = new ArrayList<>();

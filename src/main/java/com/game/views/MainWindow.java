@@ -8,12 +8,14 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 public class MainWindow extends javax.swing.JFrame {
     
     private User user;
     
+    // Constructor del main
     public MainWindow() {
         initComponents();
         
@@ -22,12 +24,21 @@ public class MainWindow extends javax.swing.JFrame {
         user = new User("Admin", "1234");
     }
     
+    // Constructor una vez hay usuario cargado
     public MainWindow(User user){
         initComponents();
         
         initImages();
         
         this.user = user;
+    }
+    
+    private void setLabelImage(JLabel label, String path){
+        try {
+            label.setIcon(Tools.getComponentIcon(path, label.getWidth(), label.getHeight()));
+        } catch (IOException ex) {
+            Logger.getLogger(UserWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     private void initImages(){
@@ -120,63 +131,33 @@ public class MainWindow extends javax.swing.JFrame {
 
     // Animaciones
     private void btnPlayMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlayMouseEntered
-        try {
-            btnPlay.setIcon(Tools.getComponentIcon("res/play_focus_button.png", btnPlay.getWidth(), btnPlay.getHeight()));
-
-        } catch (IOException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        setLabelImage(btnPlay, "res/play_focus_button.png");
      }//GEN-LAST:event_btnPlayMouseEntered
 
     private void btnPlayMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlayMouseExited
-        try {
-            btnPlay.setIcon(Tools.getComponentIcon("res/play_button.png", btnPlay.getWidth(), btnPlay.getHeight()));
-
-        } catch (IOException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        setLabelImage(btnPlay, "res/play_button.png");
     }//GEN-LAST:event_btnPlayMouseExited
 
     private void btnConfigMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConfigMouseEntered
-        try {
-            btnConfig.setIcon(Tools.getComponentIcon("res/config_focus_button.png", btnPlay.getWidth(), btnPlay.getHeight()));
-
-        } catch (IOException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        setLabelImage(btnConfig, "res/config_focus_button.png");
     }//GEN-LAST:event_btnConfigMouseEntered
 
     private void btnConfigMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConfigMouseExited
-        try {
-            btnConfig.setIcon(Tools.getComponentIcon("res/config_button.png", btnPlay.getWidth(), btnPlay.getHeight()));
-
-        } catch (IOException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        setLabelImage(btnConfig, "res/config_button.png");
     }//GEN-LAST:event_btnConfigMouseExited
 
     private void btnLoadMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadMouseEntered
-        try {
-            btnLoad.setIcon(Tools.getComponentIcon("res/load_focus_button.png", btnPlay.getWidth(), btnPlay.getHeight()));
-
-        } catch (IOException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        setLabelImage(btnLoad, "res/load_focus_button.png");
     }//GEN-LAST:event_btnLoadMouseEntered
 
     private void btnLoadMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadMouseExited
-        try {
-            btnLoad.setIcon(Tools.getComponentIcon("res/load_button.png", btnPlay.getWidth(), btnPlay.getHeight()));
-
-        } catch (IOException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        setLabelImage(btnLoad, "res/load_button.png");
     }//GEN-LAST:event_btnLoadMouseExited
     
     // Eventos
     private void btnPlayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlayMouseClicked
         try {
-            new TroopsWindow().setVisible(true);
+            new TroopsWindow(user).setVisible(true);
             
             this.setVisible(false);
         } catch (IOException ex) {
