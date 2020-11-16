@@ -61,8 +61,8 @@ public abstract class Fighter extends Character {
     /**
      * <h1>Constructor para que el usuario cree sus personajes</h1>
      * */
-    public Fighter(ID id, Team team, int range, int strokePerTime, int level, int appearanceLevel,  int speed, ImageIcon[] images) {
-        super(id, team);
+    public Fighter(ID id, Team team, String name, int range, int strokePerTime, int level, int appearanceLevel,  int speed, ImageIcon[] images) {
+        super(id, team, name);
         this.gameBoard = null;
         this.handlerGameObjects = null;
         this.range = range;

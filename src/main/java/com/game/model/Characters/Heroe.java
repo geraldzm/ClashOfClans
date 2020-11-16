@@ -13,8 +13,8 @@ public class Heroe extends ContactWarrior {
      * <h1>Constructor para que el usuario cree sus personajes</h1>
      * @param images debe haber al menos 1 imagen, la primera imagen es por defecto
      * */
-    public Heroe(int maxHealth, int troops, int appearanceLevel, int range, int strokePerTime, int speed, ImageIcon[] images) {
-        super(maxHealth, troops, appearanceLevel, range, strokePerTime, speed, images);
+    public Heroe(int maxHealth, String name, int troops, int appearanceLevel, int range, int strokePerTime, int speed, ImageIcon[] images) {
+        super(maxHealth, name, troops, appearanceLevel, range, strokePerTime, speed, images);
         setId(ID.HERO);
     }
 

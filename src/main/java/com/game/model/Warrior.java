@@ -5,7 +5,6 @@ import com.game.model.Interfaces.IMoveable;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Date;
 
 /**
  * <h1>Todos los personajes que van a estar en un bando</h1>
@@ -21,8 +20,8 @@ public abstract class Warrior extends Fighter implements IMoveable {
      * <h1>Constructor para que el usuario cree sus personajes</h1>
      * @param images debe haber al menos 1 imagen, la primera imagen es por defecto
      * */
-    public Warrior(ID id, int maxHealth, int troops, int appearanceLevel, int range, int strokePerTime, int speed, ImageIcon[] images) {
-        super(id, Team.FRIEND, range, strokePerTime, 1, appearanceLevel, speed, images);
+    public Warrior(ID id, String name, int maxHealth, int troops, int appearanceLevel, int range, int strokePerTime, int speed, ImageIcon[] images) {
+        super(id, Team.FRIEND, name, range, strokePerTime, 1, appearanceLevel, speed, images);
         setHealth(maxHealth);
         this.troops = troops;
     }

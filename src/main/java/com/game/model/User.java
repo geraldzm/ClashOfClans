@@ -42,7 +42,16 @@ public class User implements Serializable {
     public void setAllCharacters(ArrayList<Warrior> allCharacters) {
         this.allCharacters = allCharacters;
     }
+    
+    // Mae la verdad tengo mucha pereza xd
+    public String getName(){
+        return name;
+    }
 
+    public boolean login(String pass){
+        return password.equals(pass);
+    }
+    
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();

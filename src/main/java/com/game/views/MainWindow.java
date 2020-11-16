@@ -1,14 +1,36 @@
 package com.game.views;
 
 import com.game.model.Tools;
+import com.game.model.User;
+import java.awt.FileDialog;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class MainWindow extends javax.swing.JFrame {
-
+    
+    private User user;
+    
     public MainWindow() {
         initComponents();
+        
+        initImages();
+        
+        user = new User("Admin", "1234");
+    }
+    
+    public MainWindow(User user){
+        initComponents();
+        
+        initImages();
+        
+        this.user = user;
+    }
+    
+    private void initImages(){
         try {
             background.setIcon(Tools.getComponentIcon("res/bg.png", background.getWidth(), background.getHeight()));
             Logo.setIcon(Tools.getComponentIcon("res/logo.png", Logo.getWidth(), Logo.getHeight()));
@@ -19,9 +41,7 @@ public class MainWindow extends javax.swing.JFrame {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-
     }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -41,6 +61,9 @@ public class MainWindow extends javax.swing.JFrame {
 
         btnLoad.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnLoad.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLoadMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnLoadMouseEntered(evt);
             }
@@ -163,14 +186,36 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void btnConfigMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConfigMouseClicked
         try {
-            // Mae, aqui mejor solo meter unos JOptionPane y ia :c
-            new UserWindow().setVisible(true);
+            String pass = JOptionPane.showInputDialog("Usuario: "+user.getName()+ "\nDigite su contraseña:");
+            
+            if (user.login(pass)){
+                new UserWindow(user).setVisible(true);
+                
+                this.dispose();
+            }
         } catch (IOException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        this.dispose();
     }//GEN-LAST:event_btnConfigMouseClicked
+
+    private void btnLoadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadMouseClicked
+        FileDialog fd = new FileDialog(new JFrame());
+        fd.setVisible(true);
+        File[] f = fd.getFiles();
+        
+        if(f.length > 0){
+            User loading;
+            String path = fd.getFiles()[0].getAbsolutePath();
+            loading = Tools.readSerializableObject(path);
+            
+            if (loading != null){
+                JOptionPane.showMessageDialog(rootPane, "Usuario cargado!");
+                user = loading;
+            }else{
+                JOptionPane.showMessageDialog(rootPane, "El archivo esta corrupto!");
+            }
+        }
+    }//GEN-LAST:event_btnLoadMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

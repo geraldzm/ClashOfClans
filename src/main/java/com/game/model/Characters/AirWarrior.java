@@ -23,8 +23,8 @@ public class AirWarrior extends Warrior {
      * <h1>Constructor para que el usuario cree sus personajes</h1>
      * @param images debe haber al menos 1 imagen, la primera imagen es por defecto
      * */
-    public AirWarrior(int maxHealth, int troops, int appearanceLevel, int range, int strokePerTime, int speed, ImageIcon[] images) {
-        super(ID.AIR, maxHealth, troops, appearanceLevel, range, strokePerTime, speed, images);
+    public AirWarrior(int maxHealth, String name, int troops, int appearanceLevel, int range, int strokePerTime, int speed, ImageIcon[] images) {
+        super(ID.AIR, name, maxHealth, troops, appearanceLevel, range, strokePerTime, speed, images);
     }
 
     /**

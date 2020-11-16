@@ -23,8 +23,8 @@ public class ContactWarrior extends Warrior{
      * <h1>Constructor para que el usuario cree sus personajes</h1>
      * @param images debe haber al menos 1 imagen, la primera imagen es por defecto
      * */
-    public ContactWarrior(int maxHealth, int troops, int appearanceLevel, int range, int strokePerTime, int speed, ImageIcon[] images) {
-        super(ID.CONTACT, maxHealth, troops, appearanceLevel, range, strokePerTime, speed, images);
+    public ContactWarrior(int maxHealth, String name, int troops, int appearanceLevel, int range, int strokePerTime, int speed, ImageIcon[] images) {
+        super(ID.CONTACT, name, maxHealth, troops, appearanceLevel, range, strokePerTime, speed, images);
     }
 
     /**

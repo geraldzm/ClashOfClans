@@ -6,11 +6,9 @@ import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Tools {
 
@@ -36,7 +34,8 @@ public class Tools {
     // Reproduce un sonido
     public static synchronized void playSound(final String url) {
         return;
-       /* new Thread(() -> {
+       /* BRO WTF? WHY IS THIS STILL HERE? :))))))))))) 
+        new Thread(() -> {
             try (AudioInputStream inputStream = AudioSystem.getAudioInputStream(
                     new File("src/main/java/com/game/audio/" + url))){
                 Clip clip = AudioSystem.getClip();
@@ -53,6 +52,19 @@ public class Tools {
         }).start();*/
     }
 
+    public static String parseToNumber(String str){
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher mat = pattern.matcher(str);
+
+        StringBuilder result = new StringBuilder();
+        
+        while (mat.find()) {             
+            result.append(mat.group(0));
+        }   
+        
+        return result.toString();
+    }
+    
     public static boolean storeSerializableObject(User obj, String path){
 
         try(OutputStream outputStream = new FileOutputStream(new File(path))){

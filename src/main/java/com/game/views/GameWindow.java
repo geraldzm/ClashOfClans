@@ -1,8 +1,5 @@
 package com.game.views;
 
-import com.game.model.Characters.AirWarrior;
-import com.game.model.Characters.ContactWarrior;
-import com.game.model.Characters.Distance;
 import com.game.model.Game;
 import com.game.model.Tools;
 import com.game.model.User;
@@ -16,7 +13,7 @@ public class GameWindow extends javax.swing.JFrame {
     private Game game;
     
     public GameWindow() {
-        User user = Tools.readSerializableObject("/home/gerald/develop/poo/ClashOfClans/src/main/java/com/game/Games/user1.game");
+        User user = Tools.readSerializableObject("F:\\TEC\\II Semestre 2020\\POO\\Progras\\ClashOfClans\\src\\main\\java\\com\\game\\Games\\user1.game");
         System.out.println(user);
 
         ArrayList<Warrior> characters = new ArrayList<>();

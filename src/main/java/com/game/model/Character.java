@@ -30,10 +30,11 @@ public abstract class Character extends GameObject{
     /**
      * <h1>Constructor para que el usuario cree sus personajes</h1>
      * */
-    public Character(ID id, Team team) {
+    public Character(ID id, Team team, String name) {
         super(40, 40, id);
         this.location = null;
         this.team = team;
+        this.name = name;
     }
 
     /**

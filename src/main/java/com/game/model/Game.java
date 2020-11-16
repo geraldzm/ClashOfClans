@@ -80,30 +80,7 @@ public class Game extends Canvas implements Runnable, Clickable {
         System.out.println(characters);
         gameBoard.addCharacteres(characters);
     }
-
-    // Pruebas
-    public Game(){// defalut game configuration, para pruebas
-
-       User user = new User("Gerald", "12345"); // creamos un user y guardamos info
-
-       ArrayList<Warrior> warriors = new ArrayList<>();
-
-       warriors.add(new ContactWarrior(100, 2, 1, 1, 3, 30,
-                        new ImageIcon[]{new ImageIcon(Tools.getIcon.apply("Barbarian.png")
-                                .getScaledInstance(40, 40, Image.SCALE_SMOOTH))}));
-
-       warriors.add(new Distance(100, 3, 1, 3, 3, 40,
-                        new ImageIcon[]{new ImageIcon(Tools.getIcon.apply("Archer.png")
-                                .getScaledInstance(40, 40, Image.SCALE_SMOOTH))}));
-
-       warriors.add(new Heroe(200, 3, 1, 1, 6, 40,
-                new ImageIcon[]{new ImageIcon(Tools.getIcon.apply("BarbKing.png")
-                        .getScaledInstance(40, 40, Image.SCALE_SMOOTH))}));
-
-       user.setAllCharacters(warriors);
-       Tools.storeSerializableObject(user, "/home/gerald/develop/poo/ClashOfClans/src/main/java/com/game/Games/user1.game");// guardamos 2 desgraciados
-    }
-
+    
     public synchronized void start(){
         thread = new Thread(this);
         thread.start();
