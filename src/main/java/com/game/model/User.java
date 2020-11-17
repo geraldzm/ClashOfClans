@@ -21,6 +21,7 @@ public class User implements Serializable {
     public User(String name, String password) {
         this.name = name;
         this.password = password;
+        this.troops = 5;
         level = 1;
         characters  = new ArrayList<>();
         allCharacters = new ArrayList<>();
@@ -54,7 +55,7 @@ public class User implements Serializable {
     }
 
     public int getTroops() {
-        return troops;
+        return troops + (level-1) * 3;
     }
     
     public boolean login(String pass){

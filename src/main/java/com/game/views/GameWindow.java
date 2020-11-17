@@ -20,9 +20,7 @@ public class GameWindow extends javax.swing.JFrame {
 
         for (int j = 0; j < 7; j++){
             for (int i = 0; i < user.getAllCharacters().size(); i++){
-
                 characters.add(user.getAllCharacters().get(i).clone(user.getAllCharacters().get(i)));
-
             }
         }
 

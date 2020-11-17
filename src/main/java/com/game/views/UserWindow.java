@@ -18,6 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 public class UserWindow extends javax.swing.JFrame {
     
@@ -40,6 +41,13 @@ public class UserWindow extends javax.swing.JFrame {
         btnSave.setIcon(Tools.getComponentIcon("res/save_button.png", btnSave.getWidth(), btnSave.getHeight()));
         btnDelete.setIcon(Tools.getComponentIcon("res/delete_button.png", btnDelete.getWidth(), btnDelete.getHeight()));
         btnBackup.setIcon(Tools.getComponentIcon("res/backup_button.png", btnBackup.getWidth(), btnBackup.getHeight()));
+    
+        new TextPrompt("Nombre de la tropa...", tfNombre); 
+        new TextPrompt("Nivel de aparicion...", tfAparicion); 
+        new TextPrompt("Poder ataque...", tfAtaque); 
+        new TextPrompt("Campos de la tropa...", tfCampos); 
+        new TextPrompt("Velocidad de la tropa...", tfSpeed); 
+        new TextPrompt("Vida de la tropa...", tfVida); 
     }
 
     private void initComboBox(){
@@ -147,7 +155,6 @@ public class UserWindow extends javax.swing.JFrame {
         btnSave.setBounds(670, 250, 130, 60);
 
         tfSpeed.setBackground(new java.awt.Color(255, 255, 255));
-        tfSpeed.setText("Rapidez");
         tfSpeed.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 tfSpeedKeyReleased(evt);
@@ -157,13 +164,11 @@ public class UserWindow extends javax.swing.JFrame {
         tfSpeed.setBounds(290, 410, 330, 22);
 
         tfNombre.setBackground(new java.awt.Color(255, 255, 255));
-        tfNombre.setText("Nombre");
         tfNombre.setToolTipText("Nombre");
         getContentPane().add(tfNombre);
         tfNombre.setBounds(290, 290, 330, 22);
 
         tfVida.setBackground(new java.awt.Color(255, 255, 255));
-        tfVida.setText("Vida");
         tfVida.setToolTipText("");
         tfVida.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -174,7 +179,6 @@ public class UserWindow extends javax.swing.JFrame {
         tfVida.setBounds(290, 320, 330, 22);
 
         tfAtaque.setBackground(new java.awt.Color(255, 255, 255));
-        tfAtaque.setText("Ataque");
         tfAtaque.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 tfAtaqueKeyReleased(evt);
@@ -184,7 +188,6 @@ public class UserWindow extends javax.swing.JFrame {
         tfAtaque.setBounds(290, 350, 330, 22);
 
         tfCampos.setBackground(new java.awt.Color(255, 255, 255));
-        tfCampos.setText("Campos");
         tfCampos.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 tfCamposKeyReleased(evt);
@@ -194,7 +197,6 @@ public class UserWindow extends javax.swing.JFrame {
         tfCampos.setBounds(290, 380, 330, 22);
 
         tfAparicion.setBackground(new java.awt.Color(255, 255, 255));
-        tfAparicion.setText("Aparicion");
         tfAparicion.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 tfAparicionKeyReleased(evt);
@@ -431,10 +433,23 @@ public class UserWindow extends javax.swing.JFrame {
         return false;
     }
     
+    private boolean areTextFieldsEmpty(){
+        JTextField[] textFields = {tfAparicion, tfAtaque, tfCampos, tfNombre, tfSpeed, tfVida};
+        
+        for (JTextField textField : textFields) {
+            if (textField.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(rootPane, "Rellene todos los campos...");
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
     private void btnSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseClicked
         int index = cbTipo.getSelectedIndex();
         
-        if (index == -1 || areImagesEmpty() || user == null) return;
+        if (index == -1 || areImagesEmpty() || user == null || areTextFieldsEmpty()) return;
         
         Warrior toAdd = getWarrior(ids[index]);
         

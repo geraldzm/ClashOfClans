@@ -8,22 +8,31 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 public class TroopsWindow extends javax.swing.JFrame {
     
-    private User user;
-    private ArrayList<Warrior> warriors;
-    private DefaultTableModel tbModel;
+    private final User user;
+    private final ArrayList<Warrior> warriors;
+    private final DefaultTableModel tbModel;
+    private final int totalTroops;
+    private int currentTroops;
+    private int posInTable;
     
     public TroopsWindow(User user) throws IOException {
         initComponents();
+        
+        warriors = new ArrayList<>();
         
         header.setIcon(new Tools().getComponentIcon("res/header.png", header.getWidth(), header.getHeight()));
         background.setIcon(new Tools().getComponentIcon("res/bg_troop.png", background.getWidth(), background.getHeight()));
         btnPlay.setIcon(new Tools().getComponentIcon("res/play_button.png", btnPlay.getWidth(), btnPlay.getHeight()));
         btnBack.setIcon(new Tools().getComponentIcon("res/back_button.png", btnBack.getWidth(), btnBack.getHeight()));
         btnAdd.setIcon(new Tools().getComponentIcon("res/add_button.png", btnAdd.getWidth(), btnAdd.getHeight()));
+        btnDelete.setIcon(new Tools().getComponentIcon("res/delete_button.png", btnDelete.getWidth(), btnDelete.getHeight()));
 
         this.user = user;
         
@@ -34,8 +43,11 @@ public class TroopsWindow extends javax.swing.JFrame {
             cbTroops.addItem(user.getAllCharacters().get(i).getName());
         }
         
+        totalTroops = user.getTroops();
+        posInTable = -1;
+        
         lbUserLevel.setText("Jugador Nivel: " + user.getLevel());
-        lbCantidadTrops.setText("Tropas (0/" + user.getTroops() + ")");
+        setTroopsText();
     }
 
     private void setLabelImage(JLabel label, String path){
@@ -65,9 +77,11 @@ public class TroopsWindow extends javax.swing.JFrame {
         background = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setAutoRequestFocus(false);
         setBackground(new java.awt.Color(247, 247, 247));
-        setMinimumSize(new java.awt.Dimension(800, 400));
-        setSize(new java.awt.Dimension(800, 400));
+        setMinimumSize(new java.awt.Dimension(800, 455));
+        setResizable(false);
+        setSize(new java.awt.Dimension(800, 455));
         getContentPane().setLayout(null);
 
         btnAdd.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -84,7 +98,7 @@ public class TroopsWindow extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnAdd);
-        btnAdd.setBounds(30, 270, 120, 60);
+        btnAdd.setBounds(30, 350, 120, 60);
 
         btnDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnDelete.setPreferredSize(new java.awt.Dimension(200, 100));
@@ -100,7 +114,7 @@ public class TroopsWindow extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnDelete);
-        btnDelete.setBounds(160, 270, 120, 60);
+        btnDelete.setBounds(30, 270, 120, 60);
 
         troops.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -126,14 +140,11 @@ public class TroopsWindow extends javax.swing.JFrame {
         });
         troops.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(troops);
-        if (troops.getColumnModel().getColumnCount() > 0) {
-            troops.getColumnModel().getColumn(0).setResizable(false);
-            troops.getColumnModel().getColumn(1).setResizable(false);
-        }
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(290, 50, 250, 280);
+        jScrollPane1.setBounds(290, 50, 250, 360);
 
+        btnBack.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnBack.setPreferredSize(new java.awt.Dimension(200, 100));
         btnBack.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -147,7 +158,7 @@ public class TroopsWindow extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnBack);
-        btnBack.setBounds(640, 190, 120, 60);
+        btnBack.setBounds(640, 270, 120, 60);
 
         lbCantidadTrops.setBackground(new java.awt.Color(255, 255, 255));
         lbCantidadTrops.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -176,7 +187,7 @@ public class TroopsWindow extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnPlay);
-        btnPlay.setBounds(640, 270, 120, 60);
+        btnPlay.setBounds(640, 350, 120, 60);
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -202,7 +213,7 @@ public class TroopsWindow extends javax.swing.JFrame {
         getContentPane().add(jLabel4);
         jLabel4.setBounds(30, 50, 180, 25);
         getContentPane().add(background);
-        background.setBounds(0, 0, 800, 400);
+        background.setBounds(0, 0, 800, 450);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -215,9 +226,13 @@ public class TroopsWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackMouseClicked
 
     private void btnPlayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlayMouseClicked
-        new GameWindow(user).setVisible(true);
+        if (currentTroops != 0){
+            new GameWindow(user).setVisible(true);
         
-        this.setVisible(false);
+            this.setVisible(false);
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Por favor, agregue tropas para jugar!");
+        }
     }//GEN-LAST:event_btnPlayMouseClicked
     
     // Animaciones
@@ -237,17 +252,59 @@ public class TroopsWindow extends javax.swing.JFrame {
         setLabelImage(btnBack, "res/back_button.png");
     }//GEN-LAST:event_btnBackMouseExited
 
+    private int getWarrior(String name){
+        int pos = 0;
+        
+        for (int i = 0; i < warriors.size(); i++){
+            if (warriors.get(i).getName().equals(name)){
+                pos = i;
+                break;
+            }
+        }
+        
+        return pos;
+    }
+    
     private void btnDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseClicked
-        // TODO add your handling code here:
+        posInTable = troops.getSelectedRow();
+        
+        if (posInTable != -1){
+            int amountInTable = Integer.parseInt((String) tbModel.getValueAt(posInTable, 1));
+            String name = (String) tbModel.getValueAt(posInTable, 0);
+            
+            int selectedTroop = getWarrior(name);
+            int amount = warriors.get(selectedTroop).getTroops();
+            
+            currentTroops -= amount;
+            setTroopsText();
+            
+            tbModel.removeRow(posInTable);
+            warriors.remove(selectedTroop);
+            
+            amountInTable--;
+            
+            if (amountInTable != 0){
+                String data[] = {name, String.valueOf(amountInTable)};
+                
+                tbModel.addRow(data);
+            }
+            posInTable = -1;
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Selecciona una tropa de la tabla!");
+        }
     }//GEN-LAST:event_btnDeleteMouseClicked
 
     private void btnDeleteMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseEntered
-        // TODO add your handling code here:
+        setLabelImage(btnDelete, "res/delete_focus_button.png");
     }//GEN-LAST:event_btnDeleteMouseEntered
 
     private void btnDeleteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseExited
-        // TODO add your handling code here:
+        setLabelImage(btnDelete, "res/delete_button.png");
     }//GEN-LAST:event_btnDeleteMouseExited
+    
+    private void setTroopsText(){
+        lbCantidadTrops.setText("Tropas ("+currentTroops+"/" + totalTroops + ")");
+    }
     
     private int isWarriorInTheTable(String name, String data[]){
         int positionInTable = -1;
@@ -276,7 +333,11 @@ public class TroopsWindow extends javax.swing.JFrame {
         int undefined = -1;
         int selected = cbTroops.getSelectedIndex();
         
-        if (selected != undefined){
+        if (selected == undefined) return;
+        
+        int toAdd = user.getAllCharacters().get(selected).getTroops();
+        
+        if (currentTroops + toAdd <= totalTroops){
             String name = user.getAllCharacters().get(selected).getName();
             String data[] = {name, String.valueOf(1)};
             
@@ -287,9 +348,11 @@ public class TroopsWindow extends javax.swing.JFrame {
             
             tbModel.addRow(data);
             
-            // Aqui deberia agregarla la clonacion
-            // Falta lo de remover pero no puedo remover sin esto xD
             warriors.add(user.getAllCharacters().get(selected).clone(user.getAllCharacters().get(selected)));
+            currentTroops += toAdd;
+            setTroopsText();
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Limite de tropas alcanzado");
         }
     }//GEN-LAST:event_btnAddMouseClicked
 

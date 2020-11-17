@@ -47,8 +47,8 @@ public class MainWindow extends javax.swing.JFrame {
             Logo.setIcon(Tools.getComponentIcon("res/logo.png", Logo.getWidth(), Logo.getHeight()));
 
             btnPlay.setIcon(Tools.getComponentIcon("res/play_button.png", btnPlay.getWidth(), btnPlay.getHeight()));
-            btnLoad.setIcon(Tools.getComponentIcon("res/load_button.png", btnPlay.getWidth(), btnPlay.getHeight()));
-            btnConfig.setIcon(Tools.getComponentIcon("res/config_button.png", btnPlay.getWidth(), btnPlay.getHeight()));
+            btnLoad.setIcon(Tools.getComponentIcon("res/load_button.png", btnLoad.getWidth(), btnLoad.getHeight()));
+            btnConfig.setIcon(Tools.getComponentIcon("res/config_button.png", btnConfig.getWidth(), btnConfig.getHeight()));
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -98,7 +98,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnConfig);
-        btnConfig.setBounds(110, 280, 170, 80);
+        btnConfig.setBounds(130, 280, 150, 80);
 
         btnPlay.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnPlay.addFocusListener(new java.awt.event.FocusAdapter() {

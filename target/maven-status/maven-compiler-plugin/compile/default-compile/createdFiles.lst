@@ -1,4 +1,5 @@
 com\game\model\Interfaces\IRenderable.class
+com\game\views\UserWindow$14.class
 com\game\model\Characters\AirDefense.class
 com\game\model\Interfaces\ITick.class
 com\game\model\GameBoard$1.class
@@ -10,11 +11,13 @@ com\game\model\Interfaces\Clickable.class
 com\game\model\Interfaces\IMoveable.class
 com\game\views\UserWindow$10.class
 com\game\model\Game$1.class
+com\game\views\TextPrompt$Show.class
 com\game\model\Characters\Cannon.class
 com\game\views\MainWindow$2.class
 com\game\model\Character.class
 com\game\views\UserWindow$2.class
 com\game\views\UserWindow.class
+com\game\views\TroopsWindow$4.class
 com\game\views\UserWindow$3.class
 com\game\model\Characters\Mortar.class
 com\game\model\effects\Explosion.class
@@ -25,6 +28,7 @@ com\game\views\MainWindow$4.class
 com\game\controllers\Mouse.class
 com\game\model\Warrior.class
 com\game\model\User.class
+com\game\views\TroopsWindow$3.class
 com\game\views\TroopsWindow.class
 com\game\model\Handles\HandlerGameObjects.class
 com\game\model\Team.class
@@ -36,6 +40,7 @@ com\game\views\MainWindow$1.class
 com\game\Main.class
 com\game\views\UserWindow$4.class
 com\game\views\TroopsWindow$2.class
+com\game\views\TextPrompt.class
 com\game\model\Characters\Wall.class
 com\game\views\GameWindow.class
 com\game\model\Characters\Beast.class
@@ -54,5 +59,6 @@ com\game\model\GameBoard.class
 com\game\model\ID.class
 com\game\model\Tools.class
 com\game\views\MainWindow$3.class
+com\game\views\TroopsWindow$5.class
 com\game\views\MainWindow.class
 com\game\views\GameWindow$2.class
