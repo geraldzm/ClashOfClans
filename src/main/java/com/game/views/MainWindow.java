@@ -7,9 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 public class MainWindow extends javax.swing.JFrame {
     
@@ -22,6 +20,7 @@ public class MainWindow extends javax.swing.JFrame {
         initImages();
         
         user = new User("Admin", "1234");
+        setLocationRelativeTo(null);
     }
     
     // Constructor una vez hay usuario cargado
@@ -31,6 +30,7 @@ public class MainWindow extends javax.swing.JFrame {
         initImages();
         
         this.user = user;
+        setLocationRelativeTo(null);
     }
     
     private void setLabelImage(JLabel label, String path){
@@ -180,13 +180,11 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnConfigMouseClicked
 
     private void btnLoadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadMouseClicked
-        FileDialog fd = new FileDialog(new JFrame());
-        fd.setVisible(true);
-        File[] f = fd.getFiles();
-        
-        if(f.length > 0){
+        JFileChooser fc = new JFileChooser();
+
+        if(fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
             User loading;
-            String path = fd.getFiles()[0].getAbsolutePath();
+            String path = fc.getSelectedFile().getAbsolutePath();
             loading = Tools.readSerializableObject(path);
             
             if (loading != null){

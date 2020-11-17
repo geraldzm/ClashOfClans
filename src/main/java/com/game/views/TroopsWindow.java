@@ -48,6 +48,7 @@ public class TroopsWindow extends javax.swing.JFrame {
         
         lbUserLevel.setText("Jugador Nivel: " + user.getLevel());
         setTroopsText();
+        setLocationRelativeTo(null);
     }
 
     private void setLabelImage(JLabel label, String path){
@@ -226,9 +227,9 @@ public class TroopsWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackMouseClicked
 
     private void btnPlayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlayMouseClicked
-        if (currentTroops != 0){
+        if (currentTroops != 0){ // iniciamos el game
+            user.setToPlay(warriors);
             new GameWindow(user).setVisible(true);
-        
             this.setVisible(false);
         }else{
             JOptionPane.showMessageDialog(rootPane, "Por favor, agregue tropas para jugar!");

@@ -42,15 +42,8 @@ public class Game extends Canvas implements Runnable, Clickable {
         Mouse mouse = new Mouse(this);
         this.addMouseListener(mouse);
 
-        addUserCharacterToBoard(gameBoard, characters); // les agrega una posicion random
+        addUserPlayers(gameBoard, handlerGameObjects, characters); // les agrega una posicion random
         generateEnemies(gameBoard, handlerGameObjects, level, allCharacters); // generamos los enemigos segun el nivel
-
-       // gameBoard.addCharacteres(characterEnemies); // agregamos los enemigos al board
-
-        characters.forEach(w -> {w.setGameBoard(gameBoard); w.setHandlerGameObjects(handlerGameObjects);});
-
-        handlerGameObjects.addObjectsList(characters); // agregamos todos los objetos
-
 
         timerBackground = new Timer();
         timerBackground.schedule(new TimerTask() { // el backgroun comienza en 3 segundos
@@ -61,24 +54,16 @@ public class Game extends Canvas implements Runnable, Clickable {
         }, 3000, 175000);
     }
 
-    private void addUserCharacterToBoard(GameBoard gameBoard, ArrayList<Warrior> characters) {
-
-        Random r = new Random();
-
-        characters.forEach(warrior -> {
-            Point p;
-            do{
-                p = new Point(r.nextInt(20), r.nextInt(20));
-            }while (gameBoard.isPositionOccupied(p));
-
-            if(warrior.getId() != ID.AIR){
-                warrior.setLocation(p);
+    private void addUserPlayers(GameBoard gameBoard, HandlerGameObjects handlerGameObjects, ArrayList<Warrior> characters) {
+        characters.forEach(c -> {
+            if(c.getId() != ID.AIR){
+                c.setLocation(gameBoard.getEmptyRandomPosition());
+                gameBoard.addCharacter(c);
             }
+            handlerGameObjects.addObject(c);
+            c.setHandlerGameObjects(handlerGameObjects);
+            c.setGameBoard(gameBoard);
         });
-
-        System.out.println("Los que vamos a agrega:");
-        System.out.println(characters);
-        gameBoard.addCharacteres(characters);
     }
     
     public synchronized void start(){
@@ -211,17 +196,20 @@ public class Game extends Canvas implements Runnable, Clickable {
         }
 
         for (int i = 0; i < allCharacters.size(); i++) {
-            //7 de cada uno
-            for (int j = 0; j < 7; j++) {
+            if(allCharacters.get(i).appearanceLevel > level)continue;
+            for (int j = 0; j < level+1; j++) {
                 Warrior w = allCharacters.get(i).clone(allCharacters.get(i));
-                p = gameBoard.getEmptyRandomPosition();
-                w.setLocation(p);
+
                 w.setTeam(Team.ENEMY);
                 w.setGameBoard(gameBoard);
                 w.setHandlerGameObjects(handlerGameObjects);
                 handlerGameObjects.addObject(w);
-                gameBoard.addCharacter(w);
 
+                if(w.getId() != ID.AIR) {
+                    p = gameBoard.getEmptyRandomPosition();
+                    w.setLocation(p);
+                    gameBoard.addCharacter(w);
+                }
             }
         }
 

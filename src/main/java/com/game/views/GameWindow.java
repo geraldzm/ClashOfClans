@@ -14,24 +14,18 @@ public class GameWindow extends javax.swing.JFrame {
     
     public GameWindow(User user) {
         this.user = user;
-        System.out.println(user);
+        System.out.println(user.getToPlay());
+        System.out.println(user.getAllCharacters());
 
-        ArrayList<Warrior> characters = new ArrayList<>();
-
-        for (int j = 0; j < 7; j++){
-            for (int i = 0; i < user.getAllCharacters().size(); i++){
-                characters.add(user.getAllCharacters().get(i).clone(user.getAllCharacters().get(i)));
-            }
-        }
-
-
-        Game game = new Game(1, characters, user.getAllCharacters());
+        Game game = new Game(user.getLevel(), user.getToPlay(), user.getAllCharacters());
 
         add(game, BorderLayout.CENTER); // de momento, luego se le pasan las configs al game por el constructor
         initComponents();
         game.start();
+
         setSize(800, 855);
         setResizable(false);
+        setLocationRelativeTo(null);
     }
 
     @SuppressWarnings("unchecked")

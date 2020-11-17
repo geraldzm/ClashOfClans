@@ -10,15 +10,13 @@ import com.game.model.Tools;
 import com.game.model.User;
 import com.game.model.Warrior;
 import java.awt.FileDialog;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
+import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
 
 public class UserWindow extends javax.swing.JFrame {
     
@@ -47,7 +45,8 @@ public class UserWindow extends javax.swing.JFrame {
         new TextPrompt("Poder ataque...", tfAtaque); 
         new TextPrompt("Campos de la tropa...", tfCampos); 
         new TextPrompt("Velocidad de la tropa...", tfSpeed); 
-        new TextPrompt("Vida de la tropa...", tfVida); 
+        new TextPrompt("Vida de la tropa...", tfVida);
+        setLocationRelativeTo(null);
     }
 
     private void initComboBox(){
@@ -368,13 +367,12 @@ public class UserWindow extends javax.swing.JFrame {
 
     
     private void btnBackupMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackupMouseClicked
-        FileDialog fd = new FileDialog(new JFrame());
-        fd.setVisible(true);
-        File[] f = fd.getFiles();
-        
-        if(f.length > 0){
-            String path = fd.getFiles()[0].getAbsolutePath();
-            Tools.storeSerializableObject(user, path);
+
+        JFileChooser fc = new JFileChooser();
+        fc.setDialogTitle("Guardando el backup");
+
+        if(fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION){
+            Tools.storeSerializableObject(user, fc.getSelectedFile().getPath());
             JOptionPane.showMessageDialog(rootPane, "Backup guardado!");
         }
     }//GEN-LAST:event_btnBackupMouseClicked
@@ -523,14 +521,13 @@ public class UserWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_cbAvailableTroopsItemStateChanged
     
     private void setImage(javax.swing.JLabel label, int index){
-        FileDialog fd = new FileDialog(new JFrame());
-        fd.setVisible(true);
-        File[] f = fd.getFiles();
-        
-        if(f.length > 0){
-            String path = fd.getFiles()[0].getAbsolutePath();
+        JFileChooser fc = new JFileChooser();
+        fc.setDialogTitle("Seleccione la imagen");
+
+        if(fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
+            String path = fc.getSelectedFile().getPath();
             try {
-                images[index] = new ImageIcon(path);
+               images[index] = Tools.getComponentIcon(path, 40, 40); // cuando escala mata las animaciones de los gifs
                 label.setIcon(Tools.getComponentIcon(path, label.getWidth(), label.getHeight()));
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(rootPane, "El archivo no es una imagen...");

@@ -10,6 +10,7 @@ public class User implements Serializable {
     private int level;
     private int troops;
     private ArrayList<Warrior> characters; // el nivel de sus caracteres
+    private ArrayList<Warrior> toPlay; // con los que va a jugar
     private ArrayList<Warrior> allCharacters;
 
     // partida/veremos
@@ -61,7 +62,15 @@ public class User implements Serializable {
     public boolean login(String pass){
         return password.equals(pass);
     }
-    
+
+    public ArrayList<Warrior> getToPlay() {
+        return toPlay;
+    }
+
+    public void setToPlay(ArrayList<Warrior> toPlay) {
+        this.toPlay = toPlay;
+    }
+
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
