@@ -36,7 +36,7 @@ public class Game extends Canvas implements Runnable, Clickable {
      * */
     public Game(int level, ArrayList<Warrior> characters, ArrayList<Warrior> allCharacters){
 
-        gameBoard = new GameBoard(20,20);
+        gameBoard = new GameBoard(this,20,20);
         handlerGameObjects = new HandlerGameObjects();
 
         Mouse mouse = new Mouse(this);
@@ -216,6 +216,12 @@ public class Game extends Canvas implements Runnable, Clickable {
         // end defensas
     }
 
+    /**
+     * Llamamos este metodo si hay un winner
+     * */
+    public void winner(Team winner){
+        System.out.println("gana equipo: " + winner);
+    }
 
 
     @Override

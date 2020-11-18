@@ -61,6 +61,7 @@ public abstract class Warrior extends Fighter implements IMoveable {
     }
 
     public void die() {
+        setImage(images[2].getImage());
         gameBoard.removeCharacter(this);
         handlerGameObjects.removeObject(this);
     }
@@ -94,7 +95,14 @@ public abstract class Warrior extends Fighter implements IMoveable {
     }
 
     @Override
+    public void attack() {
+        super.attack();
+        setImage(images[1].getImage());
+    }
+
+    @Override
     public void move() {
+        setImage(images[0].getImage());
         int tries = 8;
 
         while (tries-- >0) {

@@ -13,6 +13,7 @@ import java.util.Random;
 public class GameBoard {
 
     private final int width, height;
+    private Game game;
     private Character[][] objectsInGame; // todos los objetos que tienen un campo en la matriz
     private Warrior[][] hittableObjects; // todos los objetos que pueden ser golpeados
     private ArrayList<Warrior> friends, enemies;
@@ -20,7 +21,8 @@ public class GameBoard {
     /**
      * Dimensiones de la matriz
      * */
-    public GameBoard(int width, int height) {
+    public GameBoard(Game game, int width, int height) {
+        this.game = game;
         this.width = width;
         this.height = height;
         objectsInGame = new Character[this.width][this.height];
@@ -117,6 +119,8 @@ public class GameBoard {
                 case FRIEND -> friends.remove(character);
             }
 
+            if(enemies.isEmpty()) game.winner(Team.FRIEND);
+            if(friends.isEmpty()) game.winner(Team.ENEMY);
         }
     }
 

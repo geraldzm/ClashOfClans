@@ -23,7 +23,7 @@ public class GameWindow extends javax.swing.JFrame {
         initComponents();
         game.start();
 
-        setSize(800, 855);
+        setSize(800, 860);
         setResizable(false);
         setLocationRelativeTo(null);
     }
@@ -74,8 +74,8 @@ public class GameWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        new MainWindow().setVisible(true);
-        
+        game.stop();
+        new MainWindow(user).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
