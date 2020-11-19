@@ -70,7 +70,7 @@ public abstract class Fighter extends Character {
         this.strokePerTime = strokePerTime;
         this.appearanceLevel = appearanceLevel;
         this.level = level;
-        upgrade(level);
+        //upgrade(level);
         this.setImages(images);
         setSeep(speed);
 

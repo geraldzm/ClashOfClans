@@ -1,7 +1,7 @@
 package com.game.views;
 
-import com.game.model.Game;
-import com.game.model.User;
+
+import com.game.model.*;
 
 import java.awt.*;
 
@@ -15,16 +15,17 @@ public class GameWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuDebug;
+
     public GameWindow(User user) {
         this.user = user;
         System.out.println(user.getToPlay());
         System.out.println(user.getAllCharacters());
 
-        Game game = new Game(user.getLevel(), user.getToPlay(), user.getAllCharacters());
+        this.game = new Game(this, user.getLevel(), user.getToPlay(), user.getAllCharacters());
 
-        add(game, BorderLayout.CENTER); // de momento, luego se le pasan las configs al game por el constructor
+        add(this.game, BorderLayout.CENTER); // de momento, luego se le pasan las configs al game por el constructor
         initComponents();
-        game.start();
+        this.game.start();
 
         setSize(800, 860);
         setResizable(false);
@@ -78,13 +79,30 @@ public class GameWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        //game.stop();
-        new MainWindow(user).setVisible(true);
-        this.dispose();
+        backToMenu();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         game.pause();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    /**
+     * <h1>Si alguien gana</h1>
+     * <p>Game llama a este metodo cuando alguien gana</p>
+     * */
+    public void weHaveAWinner(Team team){
+        if(team == Team.FRIEND){// el usuario gano, incrementamos los niveles de sus najes y su nivel
+            user.getCharacters().forEach(Fighter::levelUp);
+            user.levelUp();
+        }
+        backToMenu();
+    }
+
+    private void backToMenu(){
+        game.stopFromOutSide();
+        new MainWindow(user).setVisible(true);
+        this.dispose();
+    }
+
     // End of variables declaration//GEN-END:variables
 }

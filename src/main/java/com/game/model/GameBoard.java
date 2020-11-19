@@ -118,10 +118,12 @@ public class GameBoard {
                 case ENEMY -> enemies.remove(character);
                 case FRIEND -> friends.remove(character);
             }
-
-            if(enemies.isEmpty()) game.winner(Team.FRIEND);
-            if(friends.isEmpty()) game.winner(Team.ENEMY);
         }
+    }
+
+    public void checkWinner(){
+        if(enemies.isEmpty()) game.winner(Team.FRIEND);
+        if(friends.isEmpty()) game.winner(Team.ENEMY);
     }
 
     /**

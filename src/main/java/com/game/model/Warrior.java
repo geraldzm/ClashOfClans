@@ -42,6 +42,8 @@ public abstract class Warrior extends Fighter implements IMoveable {
         // maximo de la barrra es 35
         int width = health*35/maxHealth;
         g.fillRoundRect((int)(x+2), (int)y, width, 5, 1,1);
+        g.setColor(Color.BLACK);
+        g.drawString(""+health, (int)(x+2+4), (int)y+5);
    }
 
    public final void reduceHealth(int damage){

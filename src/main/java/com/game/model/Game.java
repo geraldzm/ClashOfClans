@@ -4,6 +4,7 @@ import com.game.controllers.Mouse;
 import com.game.model.Characters.*;
 import com.game.model.Handles.HandlerGameObjects;
 import com.game.model.Interfaces.Clickable;
+import com.game.views.GameWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferStrategy;
 import java.util.*;
 import java.util.Timer;
+import java.util.stream.Collectors;
 
 public class Game extends Canvas implements Runnable, Clickable {
 
@@ -19,7 +21,8 @@ public class Game extends Canvas implements Runnable, Clickable {
     private boolean running = false, pause = false;
     private HandlerGameObjects handlerGameObjects;
     private GameBoard gameBoard;
-    
+    private GameWindow gameWindow;
+
     private String bgSound = "combat_music.wav";
     private Timer timerBackground; // reproduce el audio
 
@@ -34,8 +37,8 @@ public class Game extends Canvas implements Runnable, Clickable {
      * @param characters los personajes seleccionados por el usuario
      * @param allCharacters Todos los personajes que el usuario ha creado
      * */
-    public Game(int level, ArrayList<Warrior> characters, ArrayList<Warrior> allCharacters){
-
+    public Game(GameWindow gameWindow, int level, ArrayList<Warrior> characters, ArrayList<Warrior> allCharacters){
+        this.gameWindow = gameWindow;
         gameBoard = new GameBoard(this,20,20);
         handlerGameObjects = new HandlerGameObjects();
 
@@ -74,11 +77,15 @@ public class Game extends Canvas implements Runnable, Clickable {
 
     public synchronized void stop(){
         try{
-            running = false;
             thread.join();
+            running = false;
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    public synchronized void stopFromOutSide(){
+        running = false;
     }
 
     @Override
@@ -131,7 +138,10 @@ public class Game extends Canvas implements Runnable, Clickable {
     }
 
     private void tick() {
-        if(!pause) handlerGameObjects.tick();
+        if(!pause){
+            handlerGameObjects.tick();
+            gameBoard.checkWinner();
+        }
     }
 
     public void pause(){
@@ -195,21 +205,25 @@ public class Game extends Canvas implements Runnable, Clickable {
             handlerGameObjects.addObject(bomb);
         }
 
-        for (int i = 0; i < allCharacters.size(); i++) {
-            if(allCharacters.get(i).appearanceLevel > level)continue;
-            for (int j = 0; j < level+1; j++) {
-                Warrior w = allCharacters.get(i).clone(allCharacters.get(i));
+        int enemiesTrops = 5+3*(level-1);
 
-                w.setTeam(Team.ENEMY);
-                w.setGameBoard(gameBoard);
-                w.setHandlerGameObjects(handlerGameObjects);
-                handlerGameObjects.addObject(w);
+        // ordenamos los personajes de de mayor campos de tropas a menor
+        for (Warrior w : allCharacters.stream().sorted(Comparator.comparingInt(Warrior::getTroops).reversed()).collect(Collectors.toList())) {
+            if (w.appearanceLevel > level) continue;
+            while(enemiesTrops - w.troops >= 0){ // metemos todas las que se puedan de esa tropa
+                Warrior wclone = w.clone(w);
 
-                if(w.getId() != ID.AIR) {
+                wclone.setTeam(Team.ENEMY);
+                wclone.setGameBoard(gameBoard);
+                wclone.setHandlerGameObjects(handlerGameObjects);
+                handlerGameObjects.addObject(wclone);
+
+                if (wclone.getId() != ID.AIR) {
                     p = gameBoard.getEmptyRandomPosition();
-                    w.setLocation(p);
-                    gameBoard.addCharacter(w);
+                    wclone.setLocation(p);
+                    gameBoard.addCharacter(wclone);
                 }
+                enemiesTrops -= w.troops;
             }
         }
 
@@ -221,6 +235,14 @@ public class Game extends Canvas implements Runnable, Clickable {
      * */
     public void winner(Team winner){
         System.out.println("gana equipo: " + winner);
+
+        /*if(winner == Team.FRIEND){ // si el usuario ganó
+            // mostrar animacion de que gano
+        }else{
+            // mostrar animacion de que perdio
+        }*/
+
+        gameWindow.weHaveAWinner(winner);
     }
 
 

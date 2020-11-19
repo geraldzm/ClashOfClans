@@ -71,7 +71,7 @@ public abstract class GameObject implements ITick, IRenderable, Serializable {
 
     public void setImageByPath(String imgPath){
         setImage(Tools.getIcon.apply(imgPath)
-                .getScaledInstance((int)hitBox.getWidth(),(int)hitBox.getHeight(), Image.SCALE_DEFAULT));
+                .getScaledInstance((int)hitBox.getWidth(),(int)hitBox.getHeight(), Image.SCALE_SMOOTH));
     }
 
     public double getX() {

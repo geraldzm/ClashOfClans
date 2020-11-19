@@ -27,7 +27,7 @@ public class Tools {
     public static ImageIcon getComponentIcon(String path, int width, int height) throws FileNotFoundException, IOException{
         BufferedImage bg = ImageIO.read(new FileInputStream(path));
 
-        Image dimg = bg.getScaledInstance(width, height, Image.SCALE_DEFAULT);
+        Image dimg = bg.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         return new ImageIcon(dimg);
     }
     
@@ -81,17 +81,16 @@ public class Tools {
     }
 
     public static User readSerializableObject(String path){
-
+        User rs = null;
         try(InputStream inputStream = new FileInputStream(new File(path))){
 
             ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
 
-            return (User) objectInputStream.readObject();
+            rs = (User) objectInputStream.readObject();
         } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
-
-        return null;
+        return rs;
     }
 
 }

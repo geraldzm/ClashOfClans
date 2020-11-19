@@ -36,7 +36,7 @@ public class ContactWarrior extends Warrior{
 
     @Override
     public void upgrade(int level) {
-        System.out.println("Incrementando ataque a 10000");
+        System.out.println("Incrementando ataque a 10000, con el nivel: " + level);
     }
 
     @Override

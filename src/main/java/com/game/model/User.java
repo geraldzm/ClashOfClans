@@ -55,6 +55,10 @@ public class User implements Serializable {
         return level;
     }
 
+    public void levelUp() {
+        this.level++;
+    }
+
     public int getTroops() {
         return troops + (level-1) * 3;
     }
