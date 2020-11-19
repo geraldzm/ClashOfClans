@@ -24,6 +24,7 @@ public abstract class Fighter extends Character {
     protected Date timer; // Fecha que usa para calcular la diferencia de milisegundos
 
     private int level; // nivel del personaje
+
     protected int appearanceLevel = 0; // nivel del personaje
 
     protected int frames = 30;//cada 30 frames se mueve o intenta atacar
@@ -186,4 +187,6 @@ public abstract class Fighter extends Character {
     public HandlerGameObjects getHandlerGameObjects() {
         return handlerGameObjects;
     }
+
+    public int getAppearanceLevel() { return appearanceLevel; }
 }

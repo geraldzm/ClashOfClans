@@ -2,46 +2,51 @@ package com.game.views;
 
 import com.game.model.Tools;
 import com.game.model.User;
-import java.awt.FileDialog;
-import java.io.File;
+
+import javax.swing.*;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.*;
 
 public class MainWindow extends javax.swing.JFrame {
-    
+
     private User user;
-    
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Logo;
+    private javax.swing.JLabel background;
+    private javax.swing.JLabel btnConfig;
+    private javax.swing.JLabel btnLoad;
+    private javax.swing.JLabel btnPlay;
+
     // Constructor del main
     public MainWindow() {
         initComponents();
-        
+
         initImages();
-        
+
         user = new User("Admin", "1234");
         setLocationRelativeTo(null);
     }
-    
+
     // Constructor una vez hay usuario cargado
-    public MainWindow(User user){
+    public MainWindow(User user) {
         initComponents();
-        
+
         initImages();
-        
+
         this.user = user;
         setLocationRelativeTo(null);
     }
-    
-    private void setLabelImage(JLabel label, String path){
+
+    private void setLabelImage(JLabel label, String path) {
         try {
             label.setIcon(Tools.getComponentIcon(path, label.getWidth(), label.getHeight()));
         } catch (IOException ex) {
             Logger.getLogger(UserWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private void initImages(){
+
+    private void initImages() {
         try {
             background.setIcon(Tools.getComponentIcon("res/bg.png", background.getWidth(), background.getHeight()));
             Logo.setIcon(Tools.getComponentIcon("res/logo.png", Logo.getWidth(), Logo.getHeight()));
@@ -53,6 +58,7 @@ public class MainWindow extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -68,6 +74,7 @@ public class MainWindow extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(800, 500));
         getContentPane().setLayout(null);
         getContentPane().add(Logo);
+        setResizable(false);
         Logo.setBounds(240, 40, 320, 180);
 
         btnLoad.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -75,9 +82,11 @@ public class MainWindow extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnLoadMouseClicked(evt);
             }
+
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnLoadMouseEntered(evt);
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnLoadMouseExited(evt);
             }
@@ -90,9 +99,11 @@ public class MainWindow extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnConfigMouseClicked(evt);
             }
+
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnConfigMouseEntered(evt);
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnConfigMouseExited(evt);
             }
@@ -110,9 +121,11 @@ public class MainWindow extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnPlayMouseClicked(evt);
             }
+
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnPlayMouseEntered(evt);
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnPlayMouseExited(evt);
             }
@@ -132,7 +145,7 @@ public class MainWindow extends javax.swing.JFrame {
     // Animaciones
     private void btnPlayMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlayMouseEntered
         setLabelImage(btnPlay, "res/play_focus_button.png");
-     }//GEN-LAST:event_btnPlayMouseEntered
+    }//GEN-LAST:event_btnPlayMouseEntered
 
     private void btnPlayMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlayMouseExited
         setLabelImage(btnPlay, "res/play_button.png");
@@ -153,12 +166,12 @@ public class MainWindow extends javax.swing.JFrame {
     private void btnLoadMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadMouseExited
         setLabelImage(btnLoad, "res/load_button.png");
     }//GEN-LAST:event_btnLoadMouseExited
-    
+
     // Eventos
     private void btnPlayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlayMouseClicked
         try {
             new TroopsWindow(user).setVisible(true);
-            
+
             this.setVisible(false);
         } catch (IOException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
@@ -167,11 +180,11 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void btnConfigMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConfigMouseClicked
         try {
-            String pass = JOptionPane.showInputDialog("Usuario: "+user.getName()+ "\nDigite su contraseña:");
-            
-            if (user.login(pass)){
+            String pass = JOptionPane.showInputDialog("Usuario: " + user.getName() + "\nDigite su contraseña:");
+
+            if (user.login(pass)) {
                 new UserWindow(user).setVisible(true);
-                
+
                 this.dispose();
             }
         } catch (IOException ex) {
@@ -182,26 +195,18 @@ public class MainWindow extends javax.swing.JFrame {
     private void btnLoadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadMouseClicked
         JFileChooser fc = new JFileChooser();
 
-        if(fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
+        if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             User loading;
             String path = fc.getSelectedFile().getAbsolutePath();
             loading = Tools.readSerializableObject(path);
-            
-            if (loading != null){
+
+            if (loading != null) {
                 JOptionPane.showMessageDialog(rootPane, "Usuario cargado!");
                 user = loading;
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(rootPane, "El archivo esta corrupto!");
             }
         }
     }//GEN-LAST:event_btnLoadMouseClicked
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel Logo;
-    private javax.swing.JLabel background;
-    private javax.swing.JLabel btnConfig;
-    private javax.swing.JLabel btnLoad;
-    private javax.swing.JLabel btnPlay;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,73 +1,91 @@
 package com.game.views;
 
-import com.game.model.Characters.AirWarrior;
-import com.game.model.Characters.Beast;
-import com.game.model.Characters.ContactWarrior;
-import com.game.model.Characters.Distance;
-import com.game.model.Characters.Heroe;
+import com.game.model.Characters.*;
 import com.game.model.ID;
 import com.game.model.Tools;
 import com.game.model.User;
 import com.game.model.Warrior;
-import java.awt.FileDialog;
-import java.awt.image.BufferedImage;
-import java.io.File;
+
+import javax.swing.*;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
 
 public class UserWindow extends javax.swing.JFrame {
-    
+
     private User user;
     private String[] tipos = {"Aereo", "Bestia", "Contacto", "Distancia", "Heroe"};
     private ID[] ids = {ID.AIR, ID.BEAST, ID.CONTACT, ID.DISTANCE, ID.HERO};
-    
+
     private ImageIcon[] images = new ImageIcon[3];
-    
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel background;
+    private javax.swing.JLabel btnBack;
+    private javax.swing.JLabel btnBackup;
+    private javax.swing.JLabel btnDelete;
+    private javax.swing.JLabel btnImagen;
+    private javax.swing.JLabel btnImagen2;
+    private javax.swing.JLabel btnImagen3;
+    private javax.swing.JLabel btnSave;
+    private javax.swing.JComboBox<String> cbAvailableTroops;
+    private javax.swing.JComboBox<String> cbTipo;
+    private javax.swing.JLabel header;
+    private javax.swing.JLabel lbSelected;
+    private javax.swing.JLabel lbSelected1;
+    private javax.swing.JTextField tfAparicion;
+    private javax.swing.JTextField tfAtaque;
+    private javax.swing.JTextField tfCampos;
+    private javax.swing.JTextField tfNombre;
+    private javax.swing.JTextField tfSpeed;
+    private javax.swing.JTextField tfVida;
+    private javax.swing.JLabel title;
+    private javax.swing.JLabel title1;
+    private javax.swing.JLabel title2;
+    private javax.swing.JLabel title3;
+    private javax.swing.JLabel title4;
+
     public UserWindow(User user) throws IOException {
         initComponents();
-        
+
         this.user = user;
-        
+
         initComboBox();
-        
+
         header.setIcon(Tools.getComponentIcon("res/header.png", header.getWidth(), header.getHeight()));
         background.setIcon(Tools.getComponentIcon("res/bg_troop.png", background.getWidth(), background.getHeight()));
         btnBack.setIcon(Tools.getComponentIcon("res/back_button.png", btnBack.getWidth(), btnBack.getHeight()));
         btnSave.setIcon(Tools.getComponentIcon("res/save_button.png", btnSave.getWidth(), btnSave.getHeight()));
         btnDelete.setIcon(Tools.getComponentIcon("res/delete_button.png", btnDelete.getWidth(), btnDelete.getHeight()));
         btnBackup.setIcon(Tools.getComponentIcon("res/backup_button.png", btnBackup.getWidth(), btnBackup.getHeight()));
-    
-        new TextPrompt("Nombre de la tropa...", tfNombre); 
-        new TextPrompt("Nivel de aparicion...", tfAparicion); 
-        new TextPrompt("Poder ataque...", tfAtaque); 
-        new TextPrompt("Campos de la tropa...", tfCampos); 
-        new TextPrompt("Velocidad de la tropa...", tfSpeed); 
+
+        new TextPrompt("Nombre de la tropa...", tfNombre);
+        new TextPrompt("Nivel de aparicion...", tfAparicion);
+        new TextPrompt("Poder ataque...", tfAtaque);
+        new TextPrompt("Campos de la tropa...", tfCampos);
+        new TextPrompt("Velocidad de la tropa...", tfSpeed);
         new TextPrompt("Vida de la tropa...", tfVida);
         setLocationRelativeTo(null);
     }
 
-    private void initComboBox(){
-        for (int i = 0; i < user.getAllCharacters().size(); i++){
+    private void initComboBox() {
+        for (int i = 0; i < user.getAllCharacters().size(); i++) {
             cbAvailableTroops.addItem(user.getAllCharacters().get(i).getName());
         }
-        
+
         // Se que no le gusta el foreach! pero en este caso no da problemas! no lo cambie...
         for (String tipo : tipos) {
             cbTipo.addItem(tipo);
         }
     }
-    
-    private void setLabelImage(JLabel label, String path){
+
+    private void setLabelImage(JLabel label, String path) {
         try {
             label.setIcon(Tools.getComponentIcon(path, label.getWidth(), label.getHeight()));
         } catch (IOException ex) {
             Logger.getLogger(UserWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -122,12 +140,15 @@ public class UserWindow extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnBackupMouseClicked(evt);
             }
+
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnBackupMouseEntered(evt);
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnBackupMouseExited(evt);
             }
+
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btnBackupMousePressed(evt);
             }
@@ -140,12 +161,15 @@ public class UserWindow extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnSaveMouseClicked(evt);
             }
+
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnSaveMouseEntered(evt);
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnSaveMouseExited(evt);
             }
+
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btnSaveMousePressed(evt);
             }
@@ -256,9 +280,11 @@ public class UserWindow extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnDeleteMouseClicked(evt);
             }
+
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnDeleteMouseEntered(evt);
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnDeleteMouseExited(evt);
             }
@@ -285,9 +311,11 @@ public class UserWindow extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnBackMouseEntered(evt);
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnBackMouseExited(evt);
             }
+
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btnBackMousePressed(evt);
             }
@@ -313,7 +341,7 @@ public class UserWindow extends javax.swing.JFrame {
 
     private void btnBackMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMousePressed
         new MainWindow(user).setVisible(true);
-        
+
         this.dispose();
     }//GEN-LAST:event_btnBackMousePressed
 
@@ -365,13 +393,12 @@ public class UserWindow extends javax.swing.JFrame {
         tfAparicion.setText(Tools.parseToNumber(tfAparicion.getText()));
     }//GEN-LAST:event_tfAparicionKeyReleased
 
-    
     private void btnBackupMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackupMouseClicked
 
         JFileChooser fc = new JFileChooser();
         fc.setDialogTitle("Guardando el backup");
 
-        if(fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION){
+        if (fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
             Tools.storeSerializableObject(user, fc.getSelectedFile().getPath());
             JOptionPane.showMessageDialog(rootPane, "Backup guardado!");
         }
@@ -384,18 +411,18 @@ public class UserWindow extends javax.swing.JFrame {
     private void btnDeleteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseExited
         setLabelImage(btnDelete, "res/delete_button.png");
     }//GEN-LAST:event_btnDeleteMouseExited
-    
-    private Warrior getWarrior(ID id){
-        int level = Integer.parseInt(tfAparicion.getText());                                     
-        int attack = Integer.parseInt(tfAtaque.getText());                                
-        int troops = Integer.parseInt(tfCampos.getText());                             
-        int health = Integer.parseInt(tfVida.getText()); 
+
+    private Warrior getWarrior(ID id) {
+        int level = Integer.parseInt(tfAparicion.getText());
+        int attack = Integer.parseInt(tfAtaque.getText());
+        int troops = Integer.parseInt(tfCampos.getText());
+        int health = Integer.parseInt(tfVida.getText());
         int speed = Integer.parseInt(tfSpeed.getText());
-        
+
         String name = tfNombre.getText();
-        
+
         Warrior warrior = null;
-        
+
         switch (id) {
             case AIR:
                 warrior = new AirWarrior(health, name, troops, level, 4, attack, speed, images);
@@ -416,82 +443,82 @@ public class UserWindow extends javax.swing.JFrame {
                 JOptionPane.showConfirmDialog(rootPane, "Seleccione un tripo de tropa valido");
                 break;
         }
-        
+
         return warrior;
     }
-    
-    private boolean areImagesEmpty(){
-        for (int i = 0; i < images.length; i++){
-            if (images[i] == null){
-                JOptionPane.showMessageDialog(rootPane, "La imagen #"+(i+1)+" no ha sido seleccionada");
+
+    private boolean areImagesEmpty() {
+        for (int i = 0; i < images.length; i++) {
+            if (images[i] == null) {
+                JOptionPane.showMessageDialog(rootPane, "La imagen #" + (i + 1) + " no ha sido seleccionada");
                 return true;
             }
         }
-        
+
         return false;
     }
-    
-    private boolean areTextFieldsEmpty(){
+
+    private boolean areTextFieldsEmpty() {
         JTextField[] textFields = {tfAparicion, tfAtaque, tfCampos, tfNombre, tfSpeed, tfVida};
-        
+
         for (JTextField textField : textFields) {
             if (textField.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(rootPane, "Rellene todos los campos...");
                 return true;
             }
         }
-        
+
         return false;
     }
-    
+
     private void btnSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseClicked
         int index = cbTipo.getSelectedIndex();
-        
+
         if (index == -1 || areImagesEmpty() || user == null || areTextFieldsEmpty()) return;
-        
+
         Warrior toAdd = getWarrior(ids[index]);
-        
+
         user.getAllCharacters().add(toAdd);
         emptyFields();
         JOptionPane.showMessageDialog(rootPane, "Agregado!");
     }//GEN-LAST:event_btnSaveMouseClicked
 
-    private void emptyFields(){
-        tfAparicion.setText("");                                     
+    private void emptyFields() {
+        tfAparicion.setText("");
         tfAtaque.setText("");
-        tfCampos.setText("");                             
-        tfVida.setText(""); 
+        tfCampos.setText("");
+        tfVida.setText("");
         tfSpeed.setText("");
         tfNombre.setText("");
-        
+
         images = new ImageIcon[3];
-        
+
         btnImagen.setIcon(null);
         btnImagen2.setIcon(null);
         btnImagen3.setIcon(null);
-            
+
         cbAvailableTroops.removeAllItems();
 
-        for (int i = 0; i < user.getAllCharacters().size(); i++){
+        for (int i = 0; i < user.getAllCharacters().size(); i++) {
             cbAvailableTroops.addItem(user.getAllCharacters().get(i).getName());
         }
     }
-    
+
     private void btnDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseClicked
         int selected = cbAvailableTroops.getSelectedIndex();
-        
-        if (selected != -1){
+
+        if (selected != -1) {
             user.getAllCharacters().remove(selected);
-            
+
             cbAvailableTroops.removeAllItems();
-        
-            for (int i = 0; i < user.getAllCharacters().size(); i++){
+
+            for (int i = 0; i < user.getAllCharacters().size(); i++) {
                 cbAvailableTroops.addItem(user.getAllCharacters().get(i).getName());
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(rootPane, "No hay ningun guerrero seleccionado...");
         }
-        
+
     }//GEN-LAST:event_btnDeleteMouseClicked
 
     private void btnImagenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnImagenMouseClicked
@@ -513,52 +540,26 @@ public class UserWindow extends javax.swing.JFrame {
     private void cbAvailableTroopsItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbAvailableTroopsItemStateChanged
         int selected = cbAvailableTroops.getSelectedIndex();
         String troop = "";
-        
+
         if (selected != -1)
             troop = user.getAllCharacters().get(selected).getName();
-        
+
         lbSelected.setText(troop);
     }//GEN-LAST:event_cbAvailableTroopsItemStateChanged
-    
-    private void setImage(javax.swing.JLabel label, int index){
+
+    private void setImage(javax.swing.JLabel label, int index) {
         JFileChooser fc = new JFileChooser();
         fc.setDialogTitle("Seleccione la imagen");
 
-        if(fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
+        if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             String path = fc.getSelectedFile().getPath();
             try {
-               images[index] = Tools.getComponentIcon(path, 40, 40); // cuando escala mata las animaciones de los gifs
+                images[index] = Tools.getComponentIcon(path, 40, 40); // cuando escala mata las animaciones de los gifs
                 label.setIcon(Tools.getComponentIcon(path, label.getWidth(), label.getHeight()));
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(rootPane, "El archivo no es una imagen...");
             }
         }
     }
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel background;
-    private javax.swing.JLabel btnBack;
-    private javax.swing.JLabel btnBackup;
-    private javax.swing.JLabel btnDelete;
-    private javax.swing.JLabel btnImagen;
-    private javax.swing.JLabel btnImagen2;
-    private javax.swing.JLabel btnImagen3;
-    private javax.swing.JLabel btnSave;
-    private javax.swing.JComboBox<String> cbAvailableTroops;
-    private javax.swing.JComboBox<String> cbTipo;
-    private javax.swing.JLabel header;
-    private javax.swing.JLabel lbSelected;
-    private javax.swing.JLabel lbSelected1;
-    private javax.swing.JTextField tfAparicion;
-    private javax.swing.JTextField tfAtaque;
-    private javax.swing.JTextField tfCampos;
-    private javax.swing.JTextField tfNombre;
-    private javax.swing.JTextField tfSpeed;
-    private javax.swing.JTextField tfVida;
-    private javax.swing.JLabel title;
-    private javax.swing.JLabel title1;
-    private javax.swing.JLabel title2;
-    private javax.swing.JLabel title3;
-    private javax.swing.JLabel title4;
     // End of variables declaration//GEN-END:variables
 }

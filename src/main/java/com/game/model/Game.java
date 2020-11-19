@@ -74,8 +74,8 @@ public class Game extends Canvas implements Runnable, Clickable {
 
     public synchronized void stop(){
         try{
-            thread.join();
             running = false;
+            thread.join();
         }catch(Exception e){
             e.printStackTrace();
         }

@@ -44,6 +44,7 @@ com\game\views\TextPrompt.class
 com\game\model\Characters\Wall.class
 com\game\views\GameWindow.class
 com\game\model\Characters\Beast.class
+com\game\Main$1.class
 com\game\model\Characters\Heroe.class
 com\game\model\Game.class
 com\game\views\UserWindow$12.class

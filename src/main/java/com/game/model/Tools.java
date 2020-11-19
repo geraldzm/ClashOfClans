@@ -27,7 +27,7 @@ public class Tools {
     public static ImageIcon getComponentIcon(String path, int width, int height) throws FileNotFoundException, IOException{
         BufferedImage bg = ImageIO.read(new FileInputStream(path));
 
-        Image dimg = bg.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        Image dimg = bg.getScaledInstance(width, height, Image.SCALE_DEFAULT);
         return new ImageIcon(dimg);
     }
     

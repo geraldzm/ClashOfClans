@@ -2,16 +2,19 @@ package com.game.views;
 
 import com.game.model.Game;
 import com.game.model.User;
-import com.game.model.Warrior;
 
-import java.awt.BorderLayout;
-import java.util.ArrayList;
+import java.awt.*;
 
 public class GameWindow extends javax.swing.JFrame {
 
     private Game game;
     private User user;
-    
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenu menuDebug;
     public GameWindow(User user) {
         this.user = user;
         System.out.println(user.getToPlay());
@@ -40,6 +43,7 @@ public class GameWindow extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setSize(new java.awt.Dimension(1080, 720));
+        setResizable(false);
 
         menuBar.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -74,7 +78,7 @@ public class GameWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        game.stop();
+        //game.stop();
         new MainWindow(user).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -82,13 +86,5 @@ public class GameWindow extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         game.pause();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuBar menuBar;
-    private javax.swing.JMenu menuDebug;
     // End of variables declaration//GEN-END:variables
 }

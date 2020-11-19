@@ -6,6 +6,7 @@ import com.game.model.Interfaces.ITick;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -70,7 +71,7 @@ public abstract class GameObject implements ITick, IRenderable, Serializable {
 
     public void setImageByPath(String imgPath){
         setImage(Tools.getIcon.apply(imgPath)
-                .getScaledInstance((int)hitBox.getWidth(),(int)hitBox.getHeight(), Image.SCALE_SMOOTH));
+                .getScaledInstance((int)hitBox.getWidth(),(int)hitBox.getHeight(), Image.SCALE_DEFAULT));
     }
 
     public double getX() {
