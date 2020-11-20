@@ -83,9 +83,9 @@ public class User implements Serializable {
     }
 
     public Warrior getWarriorByName(String name){
-        for (int i = 0; i < allCharacters.size(); i++){
-            if (name.equals(allCharacters.get(i).getName())){
-                return allCharacters.get(i);
+        for (Warrior character : characters) {
+            if (name.equals(character.getName())) {
+                return character;
             }
         }
 

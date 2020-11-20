@@ -423,12 +423,16 @@ public class UserWindow extends javax.swing.JFrame {
 
         Warrior warrior = null;
 
+        System.out.println(troops);
+        System.out.println(speed);
+
         switch (id) {
             case AIR:
                 warrior = new AirWarrior(health, name, troops, level, 4, attack, speed, images);
                 break;
             case BEAST:
                 warrior = new Beast(health, name, troops, level, 3, attack, speed, images);
+                break;
             case CONTACT:
                 warrior = new ContactWarrior(health, name, troops, level, 1, attack, speed, images);
                 break;
@@ -479,6 +483,7 @@ public class UserWindow extends javax.swing.JFrame {
         Warrior toAdd = getWarrior(ids[index]);
 
         user.getAllCharacters().add(toAdd);
+        user.getCharacters().add(toAdd);
         emptyFields();
         JOptionPane.showMessageDialog(rootPane, "Agregado!");
     }//GEN-LAST:event_btnSaveMouseClicked
