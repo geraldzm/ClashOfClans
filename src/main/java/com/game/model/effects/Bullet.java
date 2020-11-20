@@ -10,8 +10,8 @@ import java.awt.*;
 public abstract class Bullet extends GameObject {
 
 
-    private Warrior target;
-    private double velBullet = -2.5; // default
+    protected Warrior target;
+    protected double velBullet = -2.5; // default
     private int damage;
     private final HandlerGameObjects handlerGameObjects;
 
@@ -50,4 +50,7 @@ public abstract class Bullet extends GameObject {
         handlerGameObjects.removeObject(this); // nos eliminamos
     }
 
+    public Warrior getTarget() {
+        return target;
+    }
 }

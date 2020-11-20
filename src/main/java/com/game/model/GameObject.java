@@ -117,4 +117,8 @@ public abstract class GameObject implements ITick, IRenderable, Serializable {
     public void setVelY(double velY) {
         this.velY = velY;
     }
+
+    public ImageIcon getImg() {
+        return img;
+    }
 }
