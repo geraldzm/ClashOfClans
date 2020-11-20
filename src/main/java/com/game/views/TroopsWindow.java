@@ -39,12 +39,12 @@ public class TroopsWindow extends javax.swing.JFrame {
 
         warriors = new ArrayList<>();
 
-        header.setIcon(new Tools().getComponentIcon("res/header.png", header.getWidth(), header.getHeight()));
-        background.setIcon(new Tools().getComponentIcon("res/bg_troop.png", background.getWidth(), background.getHeight()));
-        btnPlay.setIcon(new Tools().getComponentIcon("res/play_button.png", btnPlay.getWidth(), btnPlay.getHeight()));
-        btnBack.setIcon(new Tools().getComponentIcon("res/back_button.png", btnBack.getWidth(), btnBack.getHeight()));
-        btnAdd.setIcon(new Tools().getComponentIcon("res/add_button.png", btnAdd.getWidth(), btnAdd.getHeight()));
-        btnDelete.setIcon(new Tools().getComponentIcon("res/delete_button.png", btnDelete.getWidth(), btnDelete.getHeight()));
+        header.setIcon(Tools.getComponentIcon("res/header.png", header.getWidth(), header.getHeight()));
+        background.setIcon(Tools.getComponentIcon("res/bg_troop.png", background.getWidth(), background.getHeight()));
+        btnPlay.setIcon(Tools.getComponentIcon("res/play_button.png", btnPlay.getWidth(), btnPlay.getHeight()));
+        btnBack.setIcon(Tools.getComponentIcon("res/back_button.png", btnBack.getWidth(), btnBack.getHeight()));
+        btnAdd.setIcon(Tools.getComponentIcon("res/add_button.png", btnAdd.getWidth(), btnAdd.getHeight()));
+        btnDelete.setIcon(Tools.getComponentIcon("res/delete_button.png", btnDelete.getWidth(), btnDelete.getHeight()));
 
         this.user = user;
 
@@ -52,11 +52,11 @@ public class TroopsWindow extends javax.swing.JFrame {
         tbModel = (DefaultTableModel) troops.getModel();
 
         // Combo box de la lista de personajes
-        for (int i = 0; i < user.getAllCharacters().size(); i++) {
-            System.out.println(user.getAllCharacters().get(i).getName() + ":");
-            System.out.println(user.getAllCharacters().get(i).getAppearanceLevel() + " <= " + user.getLevel());
-            if (user.getAllCharacters().get(i).getAppearanceLevel() <= user.getLevel())
-                cbTroops.addItem(user.getAllCharacters().get(i).getName());
+        for (int i = 0; i < user.getCharacters().size(); i++) {
+            int appearanceLevel = user.getCharacters().get(i).getAppearanceLevel();
+
+            if (appearanceLevel <= user.getLevel())
+                cbTroops.addItem(user.getCharacters().get(i).getName());
         }
 
         totalTroops = user.getTroops();
@@ -366,6 +366,8 @@ public class TroopsWindow extends javax.swing.JFrame {
         Warrior warrior = user.getWarriorByName(toFind);
 
         int toAdd = warrior.getTroops();
+
+        System.out.println(toAdd);
 
         if (currentTroops + toAdd <= totalTroops) {
             String name = warrior.getName();

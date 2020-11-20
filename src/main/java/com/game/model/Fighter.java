@@ -137,7 +137,7 @@ public abstract class Fighter extends Character {
 
         ArrayList<Warrior> warriors = gameBoard.getTeam(getTeam());
 
-        if(warriors == null || warriors.isEmpty())return false;
+        if(warriors == null || warriors.isEmpty()) return false;
 
 
         for (int i = 0; i < warriors.size(); i++) {// buscamos el mas cercano
