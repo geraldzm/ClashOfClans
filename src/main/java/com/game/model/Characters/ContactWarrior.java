@@ -7,17 +7,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Date;
 
+import static com.game.model.Tools.limit;
+
 public class ContactWarrior extends Warrior{
 
     private static String warriorSound = "barbarian_hit_stuff.wav";
-    
-    /*public ContactWarrior(int x, int y, String imgPath, Team team, GameBoard gameBoard, HandlerGameObjects handlerGameObjects) {
-        super(x, y, ID.CONTACT, team, gameBoard, handlerGameObjects);
-        range = 1;
-        strokePerTime = 5;
-        setImage(Tools.getIcon.apply(imgPath)
-                .getScaledInstance(40,40, Image.SCALE_SMOOTH));
-    }*/
 
     /**
      * <h1>Constructor para que el usuario cree sus personajes</h1>
@@ -36,12 +30,29 @@ public class ContactWarrior extends Warrior{
 
     @Override
     public void upgrade(int level) {
-        System.out.println("Incrementando ataque a 10000, con el nivel: " + level);
+        //nivel maximo = 5
+        //gana por nivel :
+        // 20 de vida
+        setHealth(limit(getHealth() + level*20, getHealth()*20*5, 1));
+        // 1 de golpe
+        this.strokePerTime =  limit(this.strokePerTime + level, this.strokePerTime+5, 1);
+
+        // 1 de rapidez
+        if(getSeep() <= 10 ) return;
+        setSeep(limit(getSeep() - level, 10000, 10));
     }
 
     @Override
     public void levelUp() {
         // cada vez que aumente de nivel
+        System.out.println("Se aumenta: " + getLevel());
+        if(getLevel() > 5) return;
+        setHealth(getHealth() + 20);
+        // 1 de golpe
+        this.strokePerTime++;
+        // 1 de rapidez
+        setSeep(getSeep() -1);
+        System.out.println(this);
     }
 
     @Override

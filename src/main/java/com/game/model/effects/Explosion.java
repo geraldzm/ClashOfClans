@@ -3,6 +3,7 @@ package com.game.model.effects;
 import com.game.model.GameObject;
 import com.game.model.Handles.HandlerGameObjects;
 import com.game.model.ID;
+import com.game.model.Tools;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -23,23 +24,20 @@ public class Explosion extends GameObject {
 
     private static BufferedImage bfImage;
     static {
-        try {
-            bfImage = ImageIO.read(new File("src/explotion/image/explo1/explotion.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        bfImage = Tools.getIcon.apply("explotion.png");
     }
 
-    public Explosion(float x, float y, ID id, HandlerGameObjects handlerGameObjects) {
-        super(x, y, 50,50, id);
+    public Explosion(double x, double y, ID id, HandlerGameObjects handlerGameObjects) {
+        super(x+20, y+20, 50,50, id);
         this.handlerGameObjects = handlerGameObjects;
         blowUp = true;
+        handlerGameObjects.addObject(this);
     }
 
     @Override
     public void render(Graphics g) {
         if(blowUp){
-           // g.drawImage(bfImage.getSubimage(subx, 0, squareW, squareH), (int)(x- squareW /2), (int)(y - squareH /2), null);
+            g.drawImage(bfImage.getSubimage(subx, 0, squareW, squareH), (int)(getX()- squareW /2), (int)(getY() - squareH /2), null);
             if (frame++ > 2) {
                 subx = index * squareW;
                 index++;

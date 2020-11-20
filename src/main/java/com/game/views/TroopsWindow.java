@@ -254,7 +254,8 @@ public class TroopsWindow extends javax.swing.JFrame {
             user.setToPlay(warriors);
             new GameWindow(user).setVisible(true);
             this.setVisible(false);
-        } else {
+            this.dispose();
+        }else {
             JOptionPane.showMessageDialog(rootPane, "Por favor, agregue tropas para jugar!");
         }
     }//GEN-LAST:event_btnPlayMouseClicked

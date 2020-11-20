@@ -12,6 +12,11 @@ import java.util.regex.Pattern;
 
 public class Tools {
 
+    public static int limit(int n, int max, int min){
+        if(n > max) return max;
+        if(n < min) return min;
+        return n;
+    }
     // para sacar las imagenes
     public static Function<String, BufferedImage> getIcon = s -> {
         try {

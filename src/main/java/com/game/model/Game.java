@@ -11,6 +11,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferStrategy;
 import java.util.*;
+import java.util.List;
 import java.util.Timer;
 import java.util.stream.Collectors;
 
@@ -205,30 +206,46 @@ public class Game extends Canvas implements Runnable, Clickable {
             handlerGameObjects.addObject(bomb);
         }
 
-        int enemiesTrops = 5+3*(level-1);
+        int enemiesTroops = 5+3*(level-1);
 
         // ordenamos los personajes de de mayor campos de tropas a menor
-        for (Warrior w : allCharacters.stream().sorted(Comparator.comparingInt(Warrior::getTroops).reversed()).collect(Collectors.toList())) {
+        List<Warrior> warriorList = allCharacters.stream().sorted(Comparator.comparingInt(Warrior::getTroops).reversed()).collect(Collectors.toList());
+
+        for (Warrior w : warriorList) {
             if (w.appearanceLevel > level) continue;
-            while(enemiesTrops - w.troops >= 0){ // metemos todas las que se puedan de esa tropa
-                Warrior wclone = w.clone(w);
-
-                wclone.setTeam(Team.ENEMY);
-                wclone.setGameBoard(gameBoard);
-                wclone.setHandlerGameObjects(handlerGameObjects);
-                handlerGameObjects.addObject(wclone);
-
-                if (wclone.getId() != ID.AIR) {
-                    p = gameBoard.getEmptyRandomPosition();
-                    wclone.setLocation(p);
-                    gameBoard.addCharacter(wclone);
-                }
-                enemiesTrops -= w.troops;
+            int max = 0; // agregamos un maximo de 2 enemigos de se tipo
+            while(enemiesTroops - w.troops >= 0){ // metemos todas las que se puedan de esa tropa
+                if(max++ == 2) break;
+                addEnemy(w);
+                enemiesTroops -= w.troops;
             }
         }
 
-        // end defensas
+        if(enemiesTroops > 0) // si nos quedan campos rellenamos
+            
+            for (Warrior w : warriorList) {
+                if (w.appearanceLevel > level) continue;
+                while(enemiesTroops - w.troops >= 0){ // metemos todas las que se puedan de esa tropa
+                    addEnemy(w);
+                    enemiesTroops -= w.troops;
+                }
+            }
     }
+
+    private void addEnemy(Warrior w){
+        Warrior wclone = w.clone(w);
+
+        wclone.setTeam(Team.ENEMY);
+        wclone.setGameBoard(gameBoard);
+        wclone.setHandlerGameObjects(handlerGameObjects);
+        handlerGameObjects.addObject(wclone);
+
+        if (wclone.getId() != ID.AIR) {
+            wclone.setLocation(gameBoard.getEmptyRandomPosition());
+            gameBoard.addCharacter(wclone);
+        }
+    }
+
 
     /**
      * Llamamos este metodo si hay un winner

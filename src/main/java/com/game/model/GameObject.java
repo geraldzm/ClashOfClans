@@ -90,6 +90,10 @@ public abstract class GameObject implements ITick, IRenderable, Serializable {
         hitBox.setRect(new Rectangle2D.Double(hitBox.getX(), y, hitBox.getWidth(), hitBox.getWidth()));
     }
 
+    public Rectangle2D getHitBox() {
+        return hitBox;
+    }
+
     public ID getId() {
         return id;
     }

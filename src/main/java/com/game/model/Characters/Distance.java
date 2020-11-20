@@ -2,6 +2,7 @@ package com.game.model.Characters;
 
 import com.game.model.*;
 import com.game.model.Handles.HandlerGameObjects;
+import com.game.model.effects.ArrowBullet;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,5 +49,8 @@ public class Distance extends Warrior {
 
     }
 
-
+    @Override
+    public void attackAnimation() {
+        new ArrowBullet(getX(), getY(), target, strokePerTime, handlerGameObjects);
+    }
 }

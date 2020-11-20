@@ -1,5 +1,5 @@
 package com.game.model;
 
 public enum ID {
-    DISTANCE, CONTACT, BEAST, WALL, AIR, HERO, DEFENSE; //ect
+    DISTANCE, CONTACT, BEAST, WALL, AIR, HERO, DEFENSE, EXPLOSION, BULLET;
 }

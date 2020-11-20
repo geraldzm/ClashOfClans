@@ -120,6 +120,9 @@ public abstract class Warrior extends Fighter implements IMoveable {
         }
     }
 
+    public int getHealth(){
+        return this.health;
+    }
     public void setHealth(int health) {
         this.health = health;
         maxHealth = health;
