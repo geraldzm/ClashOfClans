@@ -1,7 +1,10 @@
 package com.game.model;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class User implements Serializable {
 
@@ -41,6 +44,36 @@ public class User implements Serializable {
     public ArrayList<Warrior> getAllCharacters() {
         return allCharacters;
     }
+
+    /**
+     * Esto retorna lo que se debe mostrar en el combobox
+     *
+     * */
+    public List<String> getCharactersNames(int level){
+        new File("").exists();
+        return allCharacters.stream()
+                .filter(w -> w.getAppearanceLevel() <= level)
+                .map(Character::getName).collect(Collectors.toList());
+    }
+
+    /**
+     * Esto retorna esa cantidad de warriors clonados, null si el nombre no existe
+     *
+     * */
+    public ArrayList<Warrior> getClonedWarriros(String name, int amount){
+
+        Warrior warrior = allCharacters.stream()
+                .filter(w -> w.getName().equals(name))
+                .findAny().orElse(null);
+        if (warrior == null)return null;
+
+        ArrayList<Warrior> warriors = new ArrayList<>();
+        for (int i = 0; i < amount; i++)
+            warriors.add(warrior.clone(warrior));
+
+        return warriors;
+    }
+    
 
     public void setAllCharacters(ArrayList<Warrior> allCharacters) {
         this.allCharacters = allCharacters;
