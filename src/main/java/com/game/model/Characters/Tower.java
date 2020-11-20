@@ -7,6 +7,7 @@ package com.game.model.Characters;
 
 import com.game.model.*;
 import com.game.model.Handles.HandlerGameObjects;
+import com.game.model.effects.ArrowBullet;
 
 import java.util.ArrayList;
 
@@ -33,5 +34,10 @@ public class Tower extends Fighter {
     @Override
     public void makeSound() {
 
+    }
+
+    @Override
+    public void attackAnimation() {
+        new ArrowBullet(getX(), getY(), target, strokePerTime, handlerGameObjects);
     }
 }

@@ -6,6 +6,7 @@ import com.game.model.ID;
 import com.game.model.Team;
 import com.game.model.Tools;
 import com.game.model.Warrior;
+import com.game.model.effects.FireBallBullet;
 
 import javax.swing.*;
 import java.awt.Image;
@@ -95,9 +96,8 @@ public class AirWarrior extends Warrior {
     }
 
     @Override
-    public void attack(){
-        super.attack();
-        // La animacion de la bola de fuego
+    public void attackAnimation() {
+        new FireBallBullet(getX(), getY(), target, strokePerTime, handlerGameObjects);
     }
 
     @Override

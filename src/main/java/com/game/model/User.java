@@ -44,6 +44,13 @@ public class User implements Serializable {
 
     public void setAllCharacters(ArrayList<Warrior> allCharacters) {
         this.allCharacters = allCharacters;
+        this.characters.clear();
+        allCharacters.forEach(c -> this.characters.add(c.clone(c)));
+    }
+
+    public void addCreatedCharacter(Warrior warrior){
+        this.allCharacters.add(warrior);
+        this.characters.add(warrior.clone(warrior));
     }
     
     // Mae la verdad tengo mucha pereza xd

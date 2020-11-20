@@ -7,6 +7,7 @@ package com.game.model.Characters;
 
 import com.game.model.*;
 import com.game.model.Handles.HandlerGameObjects;
+import com.game.model.effects.Explosion;
 
 import java.lang.annotation.Target;
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class Bomb extends Fighter {
     public void attack(){
         if (new Date().getTime() - timer.getTime() >= cooldown){
             //explotion
+            new Explosion(getX(), getY(), ID.EXPLOSION, getHandlerGameObjects());
             for (int i = 0; i < targets.size(); i++)targets.get(i).hit(strokePerTime);
             die();
         }

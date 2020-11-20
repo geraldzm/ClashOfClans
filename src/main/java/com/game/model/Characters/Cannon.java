@@ -5,6 +5,8 @@ import com.game.model.GameBoard;
 import com.game.model.Handles.HandlerGameObjects;
 import com.game.model.ID;
 import com.game.model.Team;
+import com.game.model.effects.Bullet;
+import com.game.model.effects.CannonBullet;
 
 public class Cannon extends Fighter {
 
@@ -23,7 +25,15 @@ public class Cannon extends Fighter {
     }
 
     @Override
+    public void attackAnimation() {
+        new CannonBullet(getX(), getY(), target, strokePerTime, handlerGameObjects);
+    }
+
+    @Override
     public void makeSound() {
 
     }
+
+
+
 }

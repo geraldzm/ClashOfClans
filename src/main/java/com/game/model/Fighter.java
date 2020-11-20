@@ -70,7 +70,6 @@ public abstract class Fighter extends Character {
         this.strokePerTime = strokePerTime;
         this.appearanceLevel = appearanceLevel;
         this.level = level;
-        //upgrade(level);
         this.setImages(images);
         setSeep(speed);
 
@@ -100,6 +99,10 @@ public abstract class Fighter extends Character {
 
     public abstract void levelUp(); // Sube de nivel en base al nivel actual
 
+    public void attackAnimation(){
+        target.hit(strokePerTime);
+    }
+
     public void setGameBoard(GameBoard gameBoard) {
         this.gameBoard = gameBoard;
     }
@@ -126,7 +129,7 @@ public abstract class Fighter extends Character {
     public void attack(){
         if(target == null) System.out.println("wtf");
         if (new Date().getTime() - timer.getTime() >= cooldown){
-            target.hit(strokePerTime);
+            attackAnimation();
             timer = new Date();
             makeSound();
         }
@@ -178,6 +181,10 @@ public abstract class Fighter extends Character {
         this.frames = frames;
     }
 
+    public int getSeep() {
+        return frames;
+    }
+
     public abstract void makeSound();
 
     public GameBoard getGameBoard() {
@@ -189,4 +196,6 @@ public abstract class Fighter extends Character {
     }
 
     public int getAppearanceLevel() { return appearanceLevel; }
+
+
 }
