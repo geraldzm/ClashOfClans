@@ -31,6 +31,9 @@ public class ArrowBullet extends Bullet{
     public void render(Graphics g){
         if(img != null){
             g.drawImage(img.getImage(), (int)hitBox.getX(), (int)hitBox.getY(), null);
+            //hitbox
+            g.setColor(Color.RED);
+            g.drawRect( (int)hitBox.getX(), (int)hitBox.getY(),  (int)hitBox.getWidth(), (int)hitBox.getHeight());
         }
     }
 
@@ -42,6 +45,66 @@ public class ArrowBullet extends Bullet{
         AffineTransform tx = AffineTransform.getRotateInstance(rotation, 7.5, 15);
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
         setImage(op.filter(bfimg, null));
+    }
+
+    // (Math.PI*3)/2 Derecha
+    // Math.PI/2 Izquierda
+    // Math.PI Arriba
+    // 2 * Math.PI Abajo
+    private double angulo(double x1, double y1, double x2, double y2){
+        double ang = 0;
+
+        // Enemigo: Arriba a la izquierda
+        if (x1 > x2 && y1 > y2){
+            ang = Math.PI;
+            ang -= Math.atan(x1/y1);
+
+            // Enemigo: Abajo a la izquierda
+        } else if (x1 < x2 && y1 < y2){
+            ang = 2 * Math.PI;
+            ang -= Math.atan(x1/y1);
+
+            // Enemigo: Arriba a la derecha
+        } else if (x1 < x2 && y1 > y2){
+            ang = Math.PI;
+            ang += Math.atan(x1/y1);
+
+            // Enemigo: Abajo a la derecha
+        } else if (x1 > x2 && y1 < y2){
+            ang = 2 * Math.PI;
+            ang += Math.atan(x1/y1);
+        }
+
+        return ang;
+    }
+
+    @Override
+    public void run() {
+        while (alive){
+            synchronized (lock){
+                try {
+                    lock.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                double distance = Math.sqrt(Math.pow(hitBox.getX()-(target.getX()+20), 2) + Math.pow(hitBox.getY()-(target.getY()+20), 2));
+                if(distance == 0) return;
+                velX = (velBullet/distance)*(hitBox.getX()-(target.getX()+20));
+                velY = (velBullet/distance)*(hitBox.getY()-(target.getY()+20));
+                hitBox.setFrame(velX+getX(), velY+getY(), hitBox.getWidth(), hitBox.getHeight());
+
+                // Rotation information
+                double rotationRequired = angulo(velX, velY, target.getX(), target.getY());
+
+                if (getY() > target.getY()) rotationRequired += Math.PI;
+
+                if (rotationRequired == 0) return;
+
+                AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, 7.5, 15);
+                AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+                setImage(op.filter(bfimg, null));
+            }
+        }
     }
 
 }
