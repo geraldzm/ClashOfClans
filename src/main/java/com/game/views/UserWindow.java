@@ -423,9 +423,6 @@ public class UserWindow extends javax.swing.JFrame {
 
         Warrior warrior = null;
 
-        System.out.println(troops);
-        System.out.println(speed);
-
         switch (id) {
             case AIR:
                 warrior = new AirWarrior(health, name, troops, level, 4, attack, speed, images);
@@ -482,8 +479,8 @@ public class UserWindow extends javax.swing.JFrame {
 
         Warrior toAdd = getWarrior(ids[index]);
 
-        user.getAllCharacters().add(toAdd);
-        user.getCharacters().add(toAdd);
+        user.addCreatedCharacter(toAdd);
+
         emptyFields();
         JOptionPane.showMessageDialog(rootPane, "Agregado!");
     }//GEN-LAST:event_btnSaveMouseClicked

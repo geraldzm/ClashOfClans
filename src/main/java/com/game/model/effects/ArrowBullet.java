@@ -33,10 +33,41 @@ public class ArrowBullet extends Bullet{
         }
     }
 
+    // (Math.PI*3)/2 Derecha
+    // Math.PI/2 Izquierda
+    // Math.PI Arriba
+    // 2 * Math.PI Abajo
+    private double angulo(double x1, double y1, double x2, double y2){
+        double ang = 0;
+
+        // Enemigo: Arriba a la izquierda
+        if (x1 > x2 && y1 > y2){
+            ang = Math.PI;
+            ang -= Math.atan(x1/y1);
+
+        // Enemigo: Abajo a la izquierda
+        } else if (x1 < x2 && y1 < y2){
+            ang = 2 * Math.PI;
+            ang -= Math.atan(x1/y1);
+
+        // Enemigo: Arriba a la derecha
+        } else if (x1 < x2 && y1 > y2){
+            ang = Math.PI;
+            ang += Math.atan(x1/y1);
+
+        // Enemigo: Abajo a la derecha
+        } else if (x1 > x2 && y1 < y2){
+            ang = 2 * Math.PI;
+            ang += Math.atan(x1/y1);
+        }
+
+        return ang;
+    }
+
     @Override
     public void tick() {
-
         if(this.hitBox.intersects(target.getHitBox()) || target.isDead()) generateDamage();
+
         else{
             // nos movemos
             double distance = Math.sqrt(Math.pow(hitBox.getX()-(target.getX()+20), 2) + Math.pow(hitBox.getY()-(target.getY()+20), 2));
@@ -45,8 +76,11 @@ public class ArrowBullet extends Bullet{
             velY = (velBullet/distance)*(hitBox.getY()-(target.getY()+20));
             hitBox.setFrame(velX+getX(), velY+getY(), hitBox.getWidth(), hitBox.getHeight());
         }
+
        // Rotation information
-        double rotationRequired = Math.PI;//Math.toRadians (45);
+
+        double rotationRequired = angulo(getX() + velX, getY() + velY, target.getX(), target.getY()); //Math.toRadians (45);
+        System.out.println(velX + ", " + velY);
         double locationX = bfimg.getWidth() / 2;
         double locationY = bfimg.getHeight() / 2;
 

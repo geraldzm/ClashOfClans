@@ -251,6 +251,7 @@ public class TroopsWindow extends javax.swing.JFrame {
 
     private void btnPlayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlayMouseClicked
         if (currentTroops != 0) { // iniciamos el game
+            user.setAllCharacters(warriors);
             user.setToPlay(warriors);
             new GameWindow(user).setVisible(true);
             this.setVisible(false);
