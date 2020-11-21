@@ -1,5 +1,6 @@
 package com.game.model.effects;
 
+import com.game.Main;
 import com.game.model.Handles.HandlerGameObjects;
 import com.game.model.ID;
 import com.game.model.Tools;
@@ -9,20 +10,20 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.nio.Buffer;
 
 public class ArrowBullet extends Bullet{
 
     private BufferedImage bfimg;
+    private double rotation;
 
     public ArrowBullet(double x, double y, Warrior target, int damage, HandlerGameObjects handlerGameObjects) {
-        super(x, y, 10, 5, ID.BULLET, target, damage, handlerGameObjects);
-
+        super(x, y, 15, 30, ID.BULLET, target, damage, handlerGameObjects);
         int scaleX = 15;
         int scaleY = 30;
         Image image = Tools.getIcon.apply("Arrow_image.png").getScaledInstance(scaleX, scaleY, Image.SCALE_SMOOTH);
         bfimg = new BufferedImage(scaleX, scaleY, BufferedImage.TYPE_INT_ARGB);
         bfimg.getGraphics().drawImage(image, 0, 0 , null);
+        rotation = 0;
         setImage(bfimg);
     }
 
@@ -78,18 +79,15 @@ public class ArrowBullet extends Bullet{
         }
 
        // Rotation information
+        double rotationRequired = angulo(velX, velY, target.getX(), target.getY());
 
-        double rotationRequired = angulo(getX() + velX, getY() + velY, target.getX(), target.getY()); //Math.toRadians (45);
-        System.out.println(velX + ", " + velY);
-        double locationX = bfimg.getWidth() / 2;
-        double locationY = bfimg.getHeight() / 2;
+        if (getY() > target.getY()) rotationRequired += Math.PI;
 
-        AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
+        super.tick();
+        //rotation += 0.2;
+        //if (rotation >= Math.PI*2) rotation = 0;
+        AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, 7.5, 15);
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-
-        // Drawing the rotated image at the required drawing locations
-       // g2d.drawImage(op.filter(image, null), drawLocationX, drawLocationY, null);
-
         setImage(op.filter(bfimg, null));
     }
 
