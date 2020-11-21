@@ -83,6 +83,8 @@ public class ArrowBullet extends Bullet{
 
         if (getY() > target.getY()) rotationRequired += Math.PI;
 
+        if (rotationRequired == 0) return;
+
         super.tick();
         //rotation += 0.2;
         //if (rotation >= Math.PI*2) rotation = 0;
