@@ -22,7 +22,6 @@ public abstract class HandlerMaster<Type>{
 
     public  void removeObject(Type object) {
         objectsList.remove(object);
-        System.out.println("Nuevo tamano de lista: " + objectsList.size());
     }
 
     public ArrayList<Type> getList() {
