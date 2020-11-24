@@ -29,33 +29,6 @@ public class ContactWarrior extends Warrior{
     }
 
     @Override
-    public void upgrade(int level) {
-        //nivel maximo = 5
-        //gana por nivel :
-        // 20 de vida
-        setHealth(limit(getHealth() + level*20, getHealth()*20*5, 1));
-        // 1 de golpe
-        this.strokePerTime =  limit(this.strokePerTime + level, this.strokePerTime+5, 1);
-
-        // 1 de rapidez
-        if(getSeep() <= 10 ) return;
-        setSeep(limit(getSeep() - level, 10000, 10));
-    }
-
-    @Override
-    public void levelUp() {
-        // cada vez que aumente de nivel
-        System.out.println("Se aumenta: " + getLevel());
-        if(getLevel() > 5) return;
-        setHealth(getHealth() + 20);
-        // 1 de golpe
-        this.strokePerTime++;
-        // 1 de rapidez
-        setSeep(getSeep() -1);
-        System.out.println(this);
-    }
-
-    @Override
     public void makeSound() {
         Tools.playSound(warriorSound);
     }

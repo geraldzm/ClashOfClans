@@ -41,14 +41,6 @@ public class AirWarrior extends Warrior {
     }
 
     @Override
-    public void upgrade(int level) {
-        
-    }
-
-    @Override
-    public void levelUp() {}
-
-    @Override
     public void tick() {
         // Los air warrior deben aparecer al lado de su primer objetivo segun las especificaciones
         // Also makes sense porque no se mueven y si solo quedan dos dragones pues F nadie gana

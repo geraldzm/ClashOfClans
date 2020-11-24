@@ -20,11 +20,11 @@ public class Heroe extends ContactWarrior {
 
     @Override
     public void upgrade(int level) {
-        System.out.println("El no va a digievolucionar :C   ");
+        // El no va a digievolucionar :C
     }
 
     @Override
     public void levelUp() {
-
+        // El no va a digievolucionar :C
     }
 }

@@ -15,6 +15,7 @@ public abstract class Warrior extends Fighter implements IMoveable {
     private int maxHealth;
     protected int troops;
     protected Point nextMove;
+    protected int growthRate;
 
     /**
      * <h1>Constructor para que el usuario cree sus personajes</h1>
@@ -119,6 +120,42 @@ public abstract class Warrior extends Fighter implements IMoveable {
             }
         }
     }
+    // cuando vamos a jugar un nivel los personajes tienen stacks predeterminados
+    @Override
+    public void upgrade(int level){
+        if (level > 5 || level == 1) return;
+
+        double percentage = growth(level);
+
+        setHealth((int) (getHealth() + getHealth() * percentage));
+        strokePerTime = (int) (strokePerTime + strokePerTime * percentage);
+
+        // Aumenta el rango si el nivel es 3 o 5
+        // Luego quedan muy rotos xD
+        if (level % 2 != 0) range++;
+    }
+
+    // Sube de nivel en base al nivel actual
+    @Override
+    public void levelUp(){
+        if (getLevel() > 5 || getLevel() == 1) return;
+
+        double percentage = growth(getLevel()) + growthRate;
+
+        setHealth((int) (getHealth() + getHealth() * percentage));
+        strokePerTime = (int) (strokePerTime + strokePerTime * percentage);
+
+        // Aumenta el rango si el nivel es 3 o 5
+        // Luego quedan muy rotos xD
+        if (getLevel() % 2 != 0) range++;
+        setLevel(getLevel() + 1);
+    }
+
+    // Funcion que retorna el porcentaje que debe crecer basado en un x
+    private double growth(int x){
+        return Math.log(x) * (1/8);
+    }
+
 
     public int getHealth(){
         return this.health;
@@ -162,5 +199,12 @@ public abstract class Warrior extends Fighter implements IMoveable {
                 ", img=" + img +
                 ", hitBox=" + hitBox +
                 '}';
+    }
+
+    // Lo que quiero con esto es que crezca un X% mas rapido o mas lento si es negativo
+    // Asuma que se lo pasamos en porcentajes (0% - 100%)
+    public void setGrowthRate(int growthRate) {
+        growthRate /= 100;
+        this.growthRate = growthRate;
     }
 }

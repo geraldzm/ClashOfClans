@@ -52,11 +52,8 @@ public class TroopsWindow extends javax.swing.JFrame {
         tbModel = (DefaultTableModel) troops.getModel();
 
         // Combo box de la lista de personajes
-        for (int i = 0; i < user.getCharacters().size(); i++) {
-            int appearanceLevel = user.getCharacters().get(i).getAppearanceLevel();
-
-            if (appearanceLevel <= user.getLevel())
-                cbTroops.addItem(user.getCharacters().get(i).getName());
+        for (int i = 0; i < user.getCharactersNames(user.getLevel()).size(); i++) {
+            cbTroops.addItem(user.getCharactersNames(user.getLevel()).get(i));
         }
 
         totalTroops = user.getTroops();
@@ -251,7 +248,6 @@ public class TroopsWindow extends javax.swing.JFrame {
 
     private void btnPlayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlayMouseClicked
         if (currentTroops != 0) { // iniciamos el game
-            user.setAllCharacters(warriors);
             user.setToPlay(warriors);
             new GameWindow(user).setVisible(true);
             this.setVisible(false);
@@ -365,11 +361,9 @@ public class TroopsWindow extends javax.swing.JFrame {
 
         if (selected == undefined) return;
 
-        Warrior warrior = user.getWarriorByName(toFind);
+        Warrior warrior = user.getClonedWarriors(toFind, 1).get(0);
 
         int toAdd = warrior.getTroops();
-
-        System.out.println(toAdd);
 
         if (currentTroops + toAdd <= totalTroops) {
             String name = warrior.getName();
@@ -383,7 +377,7 @@ public class TroopsWindow extends javax.swing.JFrame {
 
             tbModel.addRow(data);
 
-            warriors.add(warrior.clone(warrior));
+            warriors.add(warrior);
             currentTroops += toAdd;
             setTroopsText();
         } else {

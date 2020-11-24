@@ -92,12 +92,12 @@ public abstract class Fighter extends Character {
         timer = new Date();
         upgrade(level);
         targetCriteria = warrior -> isInRange(warrior.getLocation());
-
     }
+    // cuando vamos a jugar un nivel los personajes tienen stacks predeterminados
+    public abstract void upgrade(int level);
 
-    public abstract void upgrade(int level); // cuando vamos a jugar un nivel los personajes tienen stacks predeterminados
-
-    public abstract void levelUp(); // Sube de nivel en base al nivel actual
+    // Sube de nivel en base al nivel actual
+    public abstract void levelUp();
 
     public void attackAnimation(){
         target.hit(strokePerTime);
@@ -196,6 +196,5 @@ public abstract class Fighter extends Character {
     }
 
     public int getAppearanceLevel() { return appearanceLevel; }
-
 
 }

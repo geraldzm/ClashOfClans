@@ -10,14 +10,13 @@ public class User implements Serializable {
 
     private String name;
     private String password;
+
     private int level;
     private int troops;
+
     private ArrayList<Warrior> characters; // el nivel de sus caracteres
     private ArrayList<Warrior> toPlay; // con los que va a jugar
     private ArrayList<Warrior> allCharacters;
-
-    // partida/veremos
-
 
     /**
      * <h1>Nuevo usuario</h1>
@@ -30,7 +29,6 @@ public class User implements Serializable {
         characters  = new ArrayList<>();
         allCharacters = new ArrayList<>();
     }
-
 
     //setters/getters
     public ArrayList<Warrior> getCharacters() {
@@ -60,33 +58,24 @@ public class User implements Serializable {
      * Esto retorna esa cantidad de warriors clonados, null si el nombre no existe
      *
      * */
-    public ArrayList<Warrior> getClonedWarriros(String name, int amount){
-
-        Warrior warrior = allCharacters.stream()
-                .filter(w -> w.getName().equals(name))
-                .findAny().orElse(null);
-        if (warrior == null)return null;
-
+    public ArrayList<Warrior> getClonedWarriors(String name, int amount){
+        Warrior warrior = getWarriorByName(name);
         ArrayList<Warrior> warriors = new ArrayList<>();
+
         for (int i = 0; i < amount; i++)
             warriors.add(warrior.clone(warrior));
 
         return warriors;
     }
-    
 
-    public void setAllCharacters(ArrayList<Warrior> allCharacters) {
-        this.allCharacters = allCharacters;
-        this.characters.clear();
-        allCharacters.forEach(c -> this.characters.add(c.clone(c)));
-    }
-
+    /*
+     *  Se usa al crear un character
+     * */
     public void addCreatedCharacter(Warrior warrior){
         this.allCharacters.add(warrior);
         this.characters.add(warrior.clone(warrior));
     }
-    
-    // Mae la verdad tengo mucha pereza xd
+
     public String getName(){
         return name;
     }

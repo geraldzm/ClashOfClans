@@ -36,4 +36,5 @@ public class AirDefense extends Fighter {
     public void attackAnimation() {
         new FireBallBullet(getX(), getY(), target, strokePerTime, handlerGameObjects);
     }
+
 }

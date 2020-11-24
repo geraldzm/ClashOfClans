@@ -35,16 +35,6 @@ public class Distance extends Warrior {
     }
 
     @Override
-    public void upgrade(int level) {
-
-    }
-
-    @Override
-    public void levelUp() {
-
-    }
-
-    @Override
     public void makeSound() {
 
     }
