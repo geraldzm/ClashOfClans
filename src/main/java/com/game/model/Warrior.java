@@ -151,15 +151,10 @@ public abstract class Warrior extends Fighter implements IMoveable {
         setLevel(getLevel() + 1);
     }
 
-    // Funcion que retorna el porcentaje que debe crecer basado en un x
-    private double growth(int x){
-        return Math.log(x) * (1/8);
-    }
-
-
     public int getHealth(){
         return this.health;
     }
+
     public void setHealth(int health) {
         this.health = health;
         maxHealth = health;

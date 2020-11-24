@@ -28,12 +28,18 @@ public class Bomb extends Fighter {
 
     @Override
     public void upgrade(int level) {
+        if (level > 5 || level == 1) return;
 
+        strokePerTime += 10;
+        range++;
     }
 
     @Override
     public void levelUp() {
+        if (getLevel() > 5 || getLevel() == 1) return;
 
+        strokePerTime += 10;
+        range++;
     }
 
     // Le hago override pues la bomba cuando explota, muere

@@ -197,4 +197,8 @@ public abstract class Fighter extends Character {
 
     public int getAppearanceLevel() { return appearanceLevel; }
 
+    // Funcion que retorna el porcentaje que debe crecer basado en un x
+    protected double growth(int x){
+        return Math.log(x) * (1/8);
+    }
 }

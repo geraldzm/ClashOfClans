@@ -16,12 +16,18 @@ public class Cannon extends Fighter {
 
     @Override
     public void upgrade(int level) {
+        if (level > 5 || level == 1) return;
 
+        strokePerTime++;
+        range++;
     }
 
     @Override
     public void levelUp() {
+        if (getLevel() > 5 || getLevel() == 1) return;
 
+        strokePerTime++;
+        range++;
     }
 
     @Override
