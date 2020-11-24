@@ -22,5 +22,4 @@ public class HandlerMouse extends HandlerMaster<Clickable> implements Clickable{
         for (int i = 0; i < getList().size(); i++)
             getList().get(i).clickReleased(e);
     }
-
 }

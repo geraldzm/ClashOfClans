@@ -6,5 +6,4 @@ public interface Clickable {
 
     public void clicked(MouseEvent e);
     public void clickReleased(MouseEvent e);
-
 }

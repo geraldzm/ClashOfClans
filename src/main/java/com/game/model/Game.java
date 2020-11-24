@@ -23,11 +23,29 @@ public class Game extends Canvas implements Runnable, Clickable {
     private HandlerGameObjects handlerGameObjects;
     private GameBoard gameBoard;
     private GameWindow gameWindow;
-
     private String bgSound = "combat_music.wav";
+    private Team winnerTeam;
+
+    private ImageIcon winnerImg = new ImageIcon(
+            Tools.getIcon.apply("winner.png")
+                    .getScaledInstance(400,100, Image.SCALE_SMOOTH)
+    );
+    private ImageIcon loserImg = new ImageIcon(
+            Tools.getIcon.apply("loser.png")
+                    .getScaledInstance(400,100, Image.SCALE_SMOOTH)
+    );
+    private ImageIcon backButton = new ImageIcon(
+            Tools.getIcon.apply("back_btn.png")
+                    .getScaledInstance(100,50, Image.SCALE_SMOOTH)
+    );
 
     protected ImageIcon background = new ImageIcon(
             Tools.getIcon.apply("coc_bg.png")
+                    .getScaledInstance(800,800, Image.SCALE_SMOOTH)
+    );
+
+    protected ImageIcon backgroundEnd = new ImageIcon(
+            Tools.getIcon.apply("coc_bg_ended.png")
                     .getScaledInstance(800,800, Image.SCALE_SMOOTH)
     );
 
@@ -124,7 +142,7 @@ public class Game extends Canvas implements Runnable, Clickable {
 
         g.drawImage(background.getImage(), 0, 0, null);
 
-        if(winner)renderWinner(g);
+        if(winner) renderWinner(g);
         else handlerGameObjects.render(g);
 
         g.dispose();
@@ -137,17 +155,6 @@ public class Game extends Canvas implements Runnable, Clickable {
             handlerGameObjects.tick();
             gameBoard.checkWinner();
         }
-    }
-
-    public void pause(){
-        pause = !pause;
-    }
-
-
-    @Override
-    public void clickReleased(MouseEvent e) {
-        System.out.println("Pausa");
-        this.pause();
     }
 
     private void generateEnemies(GameBoard gameBoard, HandlerGameObjects handlerGameObjects, int level, ArrayList<Warrior> allCharacters) {
@@ -247,45 +254,40 @@ public class Game extends Canvas implements Runnable, Clickable {
     public void winner(Team winner){
         this.winner = true;
         System.out.println("gana equipo: " + winner);
-        JOptionPane.showMessageDialog(this, "El equipo: " + winner+" ha ganado", "Ganador", JOptionPane.INFORMATION_MESSAGE);
 
-        if(winner == Team.FRIEND){ // si el usuario ganó
-            // mostrar animacion de que gano
-        }else{
-            // mostrar animacion de que perdio
-        }
+        winnerTeam = winner;
 
-        gameWindow.weHaveAWinner(winner); // llamamos esto para devolvernos a la pantalla principal
+        //gameWindow.weHaveAWinner(winner); // llamamos esto para devolvernos a la pantalla principal
     }
 
     public void renderWinner(Graphics g){ // se usa para renderizar la animacion del winner
+        ImageIcon img = (winnerTeam == Team.FRIEND) ? winnerImg : loserImg;
+        g.drawImage(backgroundEnd.getImage(), 0, 0, null);
+        g.drawImage(img.getImage(), 200, 400, null);
 
+        // Renderizado del boton
+        g.drawImage(backButton.getImage(), 350, 550, null);
     }
 
     public void tickWinner(){ // se usa para el winner
-
     }
 
+    public void pause(){
+        pause = !pause;
+    }
+
+    @Override
+    public void clickReleased(MouseEvent e) {
+        if (winner){
+            if (350 <= e.getX() && e.getX() <= 450)
+                if (550 <= e.getY() && e.getY() <= 600)
+                    gameWindow.weHaveAWinner(winnerTeam);
+        } else {
+            this.pause();
+        }
+    }
 
     @Override
     public void clicked(MouseEvent e) {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        for (int i = 0; i < gameBoard.getObjectsInGame().length; i++) {
-            for (int j = 0; j < gameBoard.getObjectsInGame()[i].length; j++) {
-
-                if(gameBoard.getObjectsInGame()[i][j] != null){
-                    if(gameBoard.getObjectsInGame()[i][j] instanceof Warrior){
-                        if(((Warrior)gameBoard.getObjectsInGame()[i][j]).getTeam()== Team.FRIEND)
-                            stringBuilder.append(" F ");
-                        else stringBuilder.append(" E ");
-                    }else stringBuilder.append(" * ");
-                }else
-                    stringBuilder.append(" _ ");
-            }
-            stringBuilder.append("\n");
-        }
-
-        System.out.println(stringBuilder.toString());
     }
 }
