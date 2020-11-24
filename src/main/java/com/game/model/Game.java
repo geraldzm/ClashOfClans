@@ -19,13 +19,12 @@ public class Game extends Canvas implements Runnable, Clickable {
 
     public static final int WIDTH = 840, HEIGHT = WIDTH / 12* 9;
     private Thread thread;
-    private boolean running = false, pause = false;
+    private boolean running = false, pause = false, winner = false;
     private HandlerGameObjects handlerGameObjects;
     private GameBoard gameBoard;
     private GameWindow gameWindow;
 
     private String bgSound = "combat_music.wav";
-    private Timer timerBackground; // reproduce el audio
 
     protected ImageIcon background = new ImageIcon(
             Tools.getIcon.apply("coc_bg.png")
@@ -49,13 +48,6 @@ public class Game extends Canvas implements Runnable, Clickable {
         addUserPlayers(gameBoard, handlerGameObjects, characters); // les agrega una posicion random
         generateEnemies(gameBoard, handlerGameObjects, level, allCharacters); // generamos los enemigos segun el nivel
 
-        timerBackground = new Timer();
-        timerBackground.schedule(new TimerTask() { // el backgroun comienza en 3 segundos
-            @Override
-            public void run() {
-                Tools.playSound(bgSound);
-            }
-        }, 3000, 175000);
     }
 
     private void addUserPlayers(GameBoard gameBoard, HandlerGameObjects handlerGameObjects, ArrayList<Warrior> characters) {
@@ -132,14 +124,16 @@ public class Game extends Canvas implements Runnable, Clickable {
 
         g.drawImage(background.getImage(), 0, 0, null);
 
-        handlerGameObjects.render(g);
+        if(winner)renderWinner(g);
+        else handlerGameObjects.render(g);
 
         g.dispose();
         bs.show();
     }
 
     private void tick() {
-        if(!pause){
+        if(winner)tickWinner();
+        else if(!pause){
             handlerGameObjects.tick();
             gameBoard.checkWinner();
         }
@@ -251,15 +245,25 @@ public class Game extends Canvas implements Runnable, Clickable {
      * Llamamos este metodo si hay un winner
      * */
     public void winner(Team winner){
+        this.winner = true;
         System.out.println("gana equipo: " + winner);
+        JOptionPane.showMessageDialog(this, "El equipo: " + winner+" ha ganado", "Ganador", JOptionPane.INFORMATION_MESSAGE);
 
-        /*if(winner == Team.FRIEND){ // si el usuario ganó
+        if(winner == Team.FRIEND){ // si el usuario ganó
             // mostrar animacion de que gano
         }else{
             // mostrar animacion de que perdio
-        }*/
+        }
 
-        gameWindow.weHaveAWinner(winner);
+        gameWindow.weHaveAWinner(winner); // llamamos esto para devolvernos a la pantalla principal
+    }
+
+    public void renderWinner(Graphics g){ // se usa para renderizar la animacion del winner
+
+    }
+
+    public void tickWinner(){ // se usa para el winner
+
     }
 
 
