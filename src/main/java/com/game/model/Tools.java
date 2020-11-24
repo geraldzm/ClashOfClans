@@ -35,27 +35,6 @@ public class Tools {
         Image dimg = bg.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         return new ImageIcon(dimg);
     }
-    
-    // Reproduce un sonido
-    public static synchronized void playSound(final String url) {
-        return;
-       /* BRO WTF? WHY IS THIS STILL HERE? :))))))))))) 
-        new Thread(() -> {
-            try (AudioInputStream inputStream = AudioSystem.getAudioInputStream(
-                    new File("src/main/java/com/game/audio/" + url))){
-                Clip clip = AudioSystem.getClip();
-
-                clip.open(inputStream);
-                FloatControl gainControl =
-                        (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                gainControl.setValue(-30.0f);
-                clip.start();
-            } catch (Exception e) {
-                System.err.println("Audio no existe: " + e.getMessage());
-               // System.out.println(url);
-            }
-        }).start();*/
-    }
 
     public static String parseToNumber(String str){
         Pattern pattern = Pattern.compile("\\d+");

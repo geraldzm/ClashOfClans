@@ -2,6 +2,7 @@ package com.game.model.Characters;
 
 import com.game.model.*;
 import com.game.model.Handles.HandlerGameObjects;
+import com.game.views.GameWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,7 +58,7 @@ public class ContactWarrior extends Warrior{
 
     @Override
     public void makeSound() {
-        Tools.playSound(warriorSound);
+        GameWindow.playSound();
     }
 
     @Override

@@ -101,7 +101,5 @@ public class AirWarrior extends Warrior {
     }
 
     @Override
-    public void makeSound() {
-        Tools.playSound(attackSound);
-    }
+    public void makeSound() {}
 }
