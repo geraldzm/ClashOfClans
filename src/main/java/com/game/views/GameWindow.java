@@ -3,12 +3,20 @@ package com.game.views;
 
 import com.game.model.*;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import java.awt.*;
+import java.io.File;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GameWindow extends javax.swing.JFrame {
 
     private Game game;
     private User user;
+    private static boolean sound = false;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
@@ -102,6 +110,30 @@ public class GameWindow extends javax.swing.JFrame {
         game.stopFromOutSide();
         new MainWindow(user).setVisible(true);
         this.dispose();
+    }
+
+    // play al sonido del barbaro, no vamos a necesitar ningun otro
+    public static void playSound(){
+        if(sound)return;
+        sound = true;
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                sound = false;
+            }
+        }, 1000);
+
+        try (AudioInputStream inputStream = AudioSystem.getAudioInputStream(
+                new File("src/main/java/com/game/audio/barbarian_hit_stuff.wav"))){
+            Clip clip = AudioSystem.getClip();
+            clip.open(inputStream);
+            FloatControl gainControl =
+                    (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(-30.0f);
+            clip.start();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     // End of variables declaration//GEN-END:variables
