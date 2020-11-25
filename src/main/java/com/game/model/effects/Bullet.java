@@ -113,6 +113,8 @@ public abstract class Bullet extends GameObject implements Runnable{
     public void impact(){
         if(impacting) return; // si ya esta impactando entonces no hacemos nada
         if(!alive) handlerGameObjects.removeObject(this); // nos eliminamos
+        if(!impacting && !alive) return;
+
 
         target.hit(damage); // hacemos el dano
         damagePosition = new Rectangle2D.Double(getX(), getY(), 10, 10); // para que se dibuje el dano en la posicion que impactamo

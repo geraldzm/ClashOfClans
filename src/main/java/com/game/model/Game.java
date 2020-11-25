@@ -25,6 +25,7 @@ public class Game extends Canvas implements Runnable, Clickable {
     private GameWindow gameWindow;
     private String bgSound = "combat_music.wav";
     private Team winnerTeam;
+    private int level; // nivel que estamos jugando
 
     private ImageIcon winnerImg = new ImageIcon(
             Tools.getIcon.apply("winner.png")
@@ -59,6 +60,7 @@ public class Game extends Canvas implements Runnable, Clickable {
         this.gameWindow = gameWindow;
         gameBoard = new GameBoard(this,20,20);
         handlerGameObjects = new HandlerGameObjects();
+        this.level = level;
 
         Mouse mouse = new Mouse(this);
         this.addMouseListener(mouse);
@@ -240,6 +242,7 @@ public class Game extends Canvas implements Runnable, Clickable {
         wclone.setGameBoard(gameBoard);
         wclone.setHandlerGameObjects(handlerGameObjects);
         handlerGameObjects.addObject(wclone);
+        wclone.upgrade(level);
 
         if (wclone.getId() != ID.AIR) {
             wclone.setLocation(gameBoard.getEmptyRandomPosition());

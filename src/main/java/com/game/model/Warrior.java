@@ -125,6 +125,9 @@ public abstract class Warrior extends Fighter implements IMoveable {
     public void upgrade(int level){
         if (level > 5 || level == 1) return;
 
+        System.out.println("\n-------");
+        System.out.println("Se va a aumentar: " + getName() + "Stacks actuales: Health" + getHealth() + " range: " + range + " stroke" + strokePerTime+ " speed: " + getSeep());
+
         double percentage = growth(level);
 
         setHealth((int) (getHealth() + getHealth() * percentage));
@@ -133,12 +136,18 @@ public abstract class Warrior extends Fighter implements IMoveable {
         // Aumenta el rango si el nivel es 3 o 5
         // Luego quedan muy rotos xD
         if (level % 2 != 0) range++;
+
+        System.out.println("resultado: " + getName() + "Stacks actuales: Health" + getHealth() + " range: " + range + " stroke" + strokePerTime+ " speed: " + getSeep());
+        System.out.println("-------\n");
     }
 
     // Sube de nivel en base al nivel actual
     @Override
     public void levelUp(){
         if (getLevel() > 5 || getLevel() == 1) return;
+
+        System.out.println("\n-------");
+        System.out.println("Se va a aumentar: " + getName() + "Stacks actuales: Health" + getHealth() + " range: " + range + " stroke" + strokePerTime+ " speed: " + getSeep());
 
         double percentage = growth(getLevel()) + growthRate;
 
@@ -149,6 +158,9 @@ public abstract class Warrior extends Fighter implements IMoveable {
         // Luego quedan muy rotos xD
         if (getLevel() % 2 != 0) range++;
         setLevel(getLevel() + 1);
+
+        System.out.println("resultado: " + getName() + "Stacks actuales: Health" + getHealth() + " range: " + range + " stroke" + strokePerTime+ " speed: " + getSeep());
+        System.out.println("-------\n");
     }
 
     public int getHealth(){
