@@ -24,12 +24,12 @@ public class GameWindow extends javax.swing.JFrame {
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuDebug;
 
-    public GameWindow(User user) {
+    public GameWindow(User user, int level) {
         this.user = user;
         System.out.println(user.getToPlay());
         System.out.println(user.getAllCharacters());
 
-        this.game = new Game(this, user.getLevel(), user.getToPlay(), user.getAllCharacters());
+        this.game = new Game(this, level, user.getToPlay(), user.getAllCharacters());
 
         add(this.game, BorderLayout.CENTER); // de momento, luego se le pasan las configs al game por el constructor
         initComponents();

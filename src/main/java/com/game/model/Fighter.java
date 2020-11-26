@@ -199,6 +199,6 @@ public abstract class Fighter extends Character {
 
     // Funcion que retorna el porcentaje que debe crecer basado en un x
     protected double growth(int x){
-        return Math.log(x) * (1/8);
+        return Math.log(x) / 3;
     }
 }

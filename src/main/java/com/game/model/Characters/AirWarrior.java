@@ -26,6 +26,8 @@ public class AirWarrior extends Warrior {
      * */
     public AirWarrior(int maxHealth, String name, int troops, int appearanceLevel, int range, int strokePerTime, int speed, ImageIcon[] images) {
         super(ID.AIR, name, maxHealth, troops, appearanceLevel, range, strokePerTime, speed, images);
+
+        setGrowthRate(5);
     }
 
     /**

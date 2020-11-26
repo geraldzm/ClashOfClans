@@ -26,9 +26,11 @@ public class TroopsWindow extends javax.swing.JFrame {
     private javax.swing.JLabel btnDelete;
     private javax.swing.JLabel btnPlay;
     private javax.swing.JComboBox<String> cbTroops;
+    private javax.swing.JComboBox<String> cbLevels;
     private javax.swing.JLabel header;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbCantidadTrops;
     private javax.swing.JLabel lbUserLevel;
@@ -54,6 +56,11 @@ public class TroopsWindow extends javax.swing.JFrame {
         // Combo box de la lista de personajes
         for (int i = 0; i < user.getCharactersNames(user.getLevel()).size(); i++) {
             cbTroops.addItem(user.getCharactersNames(user.getLevel()).get(i));
+        }
+
+        // Combo box de los niveles
+        for (int i = user.getLevel(); i > 0; i--) {
+            cbLevels.addItem(String.valueOf(i));
         }
 
         totalTroops = user.getTroops();
@@ -83,8 +90,10 @@ public class TroopsWindow extends javax.swing.JFrame {
         btnBack = new javax.swing.JLabel();
         lbCantidadTrops = new javax.swing.JLabel();
         cbTroops = new javax.swing.JComboBox<>();
+        cbLevels = new javax.swing.JComboBox<>();
         btnPlay = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         lbUserLevel = new javax.swing.JLabel();
         header = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -193,6 +202,12 @@ public class TroopsWindow extends javax.swing.JFrame {
         getContentPane().add(cbTroops);
         cbTroops.setBounds(30, 90, 180, 30);
 
+        cbLevels.setForeground(new java.awt.Color(0, 0, 0));
+        cbLevels.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{}));
+        cbLevels.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        getContentPane().add(cbLevels);
+        cbLevels.setBounds(550, 90, 180, 30);
+
         btnPlay.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnPlay.setPreferredSize(new java.awt.Dimension(200, 100));
         btnPlay.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -234,6 +249,14 @@ public class TroopsWindow extends javax.swing.JFrame {
         jLabel4.setText("Seleccionar tropa");
         getContentPane().add(jLabel4);
         jLabel4.setBounds(30, 50, 180, 25);
+
+        jLabel6.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Seleccionar nivel");
+        getContentPane().add(jLabel6);
+        jLabel6.setBounds(550, 50, 180, 25);
+
         getContentPane().add(background);
         background.setBounds(0, 0, 800, 450);
 
@@ -248,8 +271,10 @@ public class TroopsWindow extends javax.swing.JFrame {
 
     private void btnPlayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlayMouseClicked
         if (currentTroops != 0) { // iniciamos el game
+            int level = Integer.parseInt(cbLevels.getSelectedItem().toString());
+
             user.setToPlay(warriors);
-            new GameWindow(user).setVisible(true);
+            new GameWindow(user, level).setVisible(true);
             this.setVisible(false);
             this.dispose();
         }else {

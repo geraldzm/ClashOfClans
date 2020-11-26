@@ -22,6 +22,8 @@ public class Distance extends Warrior {
      * */
     public Distance(Warrior distance, GameBoard gameBoard, HandlerGameObjects handlerGameObjects) {
         super(distance, gameBoard, handlerGameObjects);
+
+        setGrowthRate(8);
     }
 
     @Override

@@ -20,6 +20,8 @@ public class ContactWarrior extends Warrior{
      * */
     public ContactWarrior(int maxHealth, String name, int troops, int appearanceLevel, int range, int strokePerTime, int speed, ImageIcon[] images) {
         super(ID.CONTACT, name, maxHealth, troops, appearanceLevel, range, strokePerTime, speed, images);
+
+        setGrowthRate(7);
     }
 
     /**
