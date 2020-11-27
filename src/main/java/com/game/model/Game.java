@@ -284,7 +284,7 @@ public class Game extends Canvas implements Runnable, Clickable {
         if (winner){
             if (350 <= e.getX() && e.getX() <= 450)
                 if (550 <= e.getY() && e.getY() <= 600)
-                    gameWindow.weHaveAWinner(winnerTeam);
+                    gameWindow.weHaveAWinner(winnerTeam, this.level);
         } else {
             this.pause();
         }

@@ -88,6 +88,13 @@ public class User implements Serializable {
         this.level++;
     }
 
+    public void deleteCharacter(String name){
+        System.out.println(name);
+        Warrior warrior = allCharacters.stream().filter(w -> w.getName().equals(name)).findFirst().get();
+        allCharacters.remove(warrior);
+        characters.remove(warrior);
+    }
+
     public int getTroops() {
         return troops + (level-1) * 3;
     }

@@ -123,10 +123,16 @@ public abstract class Warrior extends Fighter implements IMoveable {
     // cuando vamos a jugar un nivel los personajes tienen stacks predeterminados
     @Override
     public void upgrade(int level){
-        System.out.println("Level: " + level);
+        System.out.println("Level adfasdfasdf: " + level);
         System.out.println(getLevel());
-        if (level > 5) return;
 
+        if(level > 5) level = 5;
+
+        if(level > 1){
+            for (int i = 1; i < level; i++) levelUp();
+        }
+
+        /*
         //System.out.println("\n-------");
         //System.out.println("Se va a aumentar: " + getName() + "Stacks actuales: Health" + getHealth() + " range: " + range + " stroke" + strokePerTime+ " speed: " + getSeep());
 
@@ -140,19 +146,19 @@ public abstract class Warrior extends Fighter implements IMoveable {
         if (level % 2 != 0) range++;
 
         //System.out.println("resultado: " + getName() + "Stacks actuales: Health" + getHealth() + " range: " + range + " stroke" + strokePerTime+ " speed: " + getSeep());
-        //System.out.println("-------\n");
+        //System.out.println("-------\n");*/
     }
 
     // Sube de nivel en base al nivel actual
     @Override
     public void levelUp(){
-        System.out.println("Level: " + getLevel());
+        //System.out.println("Level: " + getLevel());
         if (getLevel() > 5) return;
 
-        System.out.println("\n-------");
+       /* System.out.println("\n-------");
         System.out.println("Level: " + getLevel());
         System.out.println("Se va a aumentar: " + getName() + "Stacks actuales: Health" + getHealth() + " range: " + range + " stroke" + strokePerTime+ " speed: " + getSeep());
-
+*/
         double percentage = growth(getLevel()) + growthRate;
 
         setHealth((int) (getHealth() + getHealth() * percentage));
@@ -163,8 +169,8 @@ public abstract class Warrior extends Fighter implements IMoveable {
         if (getLevel() % 2 != 0) range++;
         setLevel(getLevel() + 1);
 
-        System.out.println("resultado: " + getName() + "Stacks actuales: Health" + getHealth() + " range: " + range + " stroke" + strokePerTime+ " speed: " + getSeep());
-        System.out.println("-------\n");
+      /*  System.out.println("resultado: " + getName() + "Stacks actuales: Health" + getHealth() + " range: " + range + " stroke" + strokePerTime+ " speed: " + getSeep());
+        System.out.println("-------\n");*/
     }
 
     public int getHealth(){

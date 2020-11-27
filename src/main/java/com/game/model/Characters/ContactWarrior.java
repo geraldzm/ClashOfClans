@@ -43,6 +43,18 @@ public class ContactWarrior extends Warrior{
 
 
     @Override
+    public void upgrade(int level) {
+        super.upgrade(level);
+        range = 1;
+    }
+
+    @Override
+    public void levelUp() {
+        super.levelUp();
+        range = 1;
+    }
+
+    @Override
     public Point heuristic() {
         return null;
     }

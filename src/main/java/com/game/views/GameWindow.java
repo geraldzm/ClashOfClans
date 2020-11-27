@@ -7,7 +7,10 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -18,7 +21,7 @@ public class GameWindow extends javax.swing.JFrame {
     private User user;
     private static boolean sound = false;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuItem jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuBar menuBar;
@@ -38,6 +41,8 @@ public class GameWindow extends javax.swing.JFrame {
         setSize(800, 860);
         setResizable(false);
         setLocationRelativeTo(null);
+
+        jMenu1.addActionListener(actionEvent -> game.winner(Team.FRIEND));
     }
 
     @SuppressWarnings("unchecked")
@@ -48,7 +53,7 @@ public class GameWindow extends javax.swing.JFrame {
         menuDebug = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
+        jMenu1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setSize(new java.awt.Dimension(1080, 720));
@@ -98,9 +103,13 @@ public class GameWindow extends javax.swing.JFrame {
      * <h1>Si alguien gana</h1>
      * <p>Game llama a este metodo cuando alguien gana</p>
      * */
-    public void weHaveAWinner(Team team){
-        if(team == Team.FRIEND){// el usuario gano, incrementamos los niveles de sus najes y su nivel
-            user.getCharacters().forEach(Fighter::levelUp);
+    public void weHaveAWinner(Team team, int level){
+        System.out.println(level + "  " + user.getLevel());
+        if(team == Team.FRIEND && level >= user.getLevel()){// el usuario gano, incrementamos los niveles de sus najes y su nivel
+            System.out.println("entro");
+            user.getCharacters().forEach( w -> {
+                if(w.getAppearanceLevel() <= user.getLevel()) w.levelUp();
+            });
             user.levelUp();
         }
         backToMenu();
@@ -121,7 +130,7 @@ public class GameWindow extends javax.swing.JFrame {
             public void run() {
                 sound = false;
             }
-        }, 1000);
+        }, 3000);
 
         try (AudioInputStream inputStream = AudioSystem.getAudioInputStream(
                 new File("src/main/java/com/game/audio/barbarian_hit_stuff.wav"))){

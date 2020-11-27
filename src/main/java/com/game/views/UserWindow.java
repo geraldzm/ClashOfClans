@@ -479,10 +479,15 @@ public class UserWindow extends javax.swing.JFrame {
 
         Warrior toAdd = getWarrior(ids[index]);
 
-        user.addCreatedCharacter(toAdd);
+        if(user.getWarriorByName(toAdd.getName()) == null){
+            user.addCreatedCharacter(toAdd);
+            emptyFields();
+            JOptionPane.showMessageDialog(rootPane, "Agregado!");
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Ya existe un personaje con ese nombre!");
+        }
 
-        emptyFields();
-        JOptionPane.showMessageDialog(rootPane, "Agregado!");
+
     }//GEN-LAST:event_btnSaveMouseClicked
 
     private void emptyFields() {
@@ -510,7 +515,8 @@ public class UserWindow extends javax.swing.JFrame {
         int selected = cbAvailableTroops.getSelectedIndex();
 
         if (selected != -1) {
-            user.getAllCharacters().remove(selected);
+            //user.getAllCharacters().remove(selected);
+            user.deleteCharacter(cbAvailableTroops.getSelectedItem().toString());
 
             cbAvailableTroops.removeAllItems();
 
